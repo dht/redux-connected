@@ -1,7 +1,7 @@
 import { Adapter, ApiResponse } from '../../../types/types';
 import { ResponseBuilder } from '../../../sagas/_utils/ResponseBuilder';
 import { ApiRequest, ApiServerConfiguration } from '../../../types/types';
-import axios, { AxiosInstance, AxiosResponse } from 'axios';
+import { AxiosInstance, AxiosResponse } from 'axios';
 import { Json, NodeType } from 'redux-store-generator';
 import { itemsToObject } from '../../../sagas/_utils/object';
 
@@ -9,11 +9,7 @@ export class SocketsAdapter implements Adapter {
     private instance: AxiosInstance;
 
     constructor(configuration: ApiServerConfiguration) {
-        this.instance = axios.create({
-            baseURL: configuration.baseURL,
-            timeout: configuration.timeout,
-            headers: configuration.headers,
-        });
+        this.instance = configuration.axios;
     }
 
     GET(path: string, params?: Json) {

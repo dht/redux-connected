@@ -15,8 +15,6 @@ export {
     Sagas,
     SagaState,
     StoreOptions,
-    FsAdapterConfiguration,
-    FsDirectoryAdapterConfiguration,
     QueryParams,
 } from './types/types';
 
@@ -35,7 +33,6 @@ export {
 
 export { RestAdapter } from './adapters/client/rest/adapterRest';
 export { FirestoreAdapter } from './adapters/client/firestore/adapterFirestore';
-export { FsAdapter, FsDirectoryAdapter } from './adapters/server/fs/adapterFs';
-export { routeToAction } from './adapters/server/fs/routeToAction';
+export { FsAdapter } from './adapters/server/fs/adapterFs';
 
 export const structure = globals.structure;
