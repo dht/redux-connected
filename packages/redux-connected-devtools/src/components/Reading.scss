@@ -1,0 +1,140 @@
+@import './Prefix.scss';
+
+.#{$prefix}Rows-container {
+    .#{$prefix}Reading-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 5px 10px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+        .col {
+            &:first-child {
+                flex: 1;
+            }
+
+            .row {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+            }
+        }
+
+        .path {
+            font-size: 17px;
+            color: #232332;
+            max-width: 180px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .sequence {
+            border: 1px solid #999;
+            color: #444;
+            border-radius: 4px;
+            width: 20px;
+            text-align: center;
+            font-size: 11px;
+            margin-right: 5px;
+        }
+
+        .badge {
+            border: 1px solid #aaa;
+            padding: 0 3px;
+            background-color: #eee;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 11px;
+            margin-right: 5px;
+        }
+
+        .message {
+            color: #444;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 14px;
+            margin-right: 5px;
+        }
+
+        .description {
+            font-size: 12px;
+            color: rgba(0, 0, 0, 0.5);
+            max-width: 260px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+
+            &.short {
+                font-size: 11px;
+                max-width: 190px;
+            }
+        }
+
+        .type {
+            font-size: 13px;
+        }
+
+        .path {
+            color: #555;
+        }
+
+        .timeAgo {
+            font-size: 12px;
+            color: rgba(0, 0, 0, 0.8);
+            color: dodgerblue;
+        }
+
+        .timestamp {
+            font-size: 13px;
+            color: #555;
+            font-weight: 500;
+            font-family: monospace;
+            text-align: right;
+        }
+
+        .id {
+            font-size: 13px;
+            color: #333;
+            font-family: monospace;
+            text-align: right;
+        }
+
+        &.disabled {
+            .title {
+                color: rgba(0, 0, 0, 0.5);
+            }
+
+            .timestamp {
+                color: rgba(0, 0, 0, 0.3);
+            }
+
+            .description {
+                color: rgba(0, 0, 0, 0.3);
+            }
+        }
+    }
+
+    &.wide {
+        .#{$prefix}Reading-container {
+            .description {
+                max-width: 660px;
+
+                &.short {
+                    font-size: 11px;
+                    max-width: 190px;
+                }
+            }
+        }
+    }
+
+    &.selectable {
+        .#{$prefix}Reading-container {
+            cursor: pointer;
+
+            &:hover {
+                background-color: rgba(0, 0, 0, 0.05);
+            }
+        }
+    }
+}

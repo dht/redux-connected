@@ -1,0 +1,13 @@
+@import '../Prefix.scss';
+
+.#{$prefix}EmptyList-container {
+    min-height: 280px;
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    color: rgba(0, 0, 0, 0.5);
+    font-weight: 100;
+}

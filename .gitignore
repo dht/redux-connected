@@ -1,0 +1,12 @@
+node_modules
+lib/
+packages/redux-connected-server/data
+.DS_Store
+packages/redux-connected-extension
+packages/redux-connected-devtools/extension/static
+.vscode
+.firebase
+esm/
+packages/redux-connected-server/sockets/example
+packages/redux-connected-example/.env
+packages/redux-connected/src/__fixtures__/fs

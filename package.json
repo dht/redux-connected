@@ -1,0 +1,28 @@
+{
+    "name": "redux-connected-root",
+    "version": "1.0.0",
+    "main": "index.js",
+    "repository": "git@github.com:dht/redux-connected.git",
+    "license": "MIT",
+    "private": true,
+    "workspaces": {
+        "packages": [
+            "packages/*"
+        ],
+        "nohoist": [
+            "**/firebase",
+            "**/firebase/**",
+            "**/firebase-admin",
+            "**/firebase-admin/**",
+            "**/firebase-functions",
+            "**/firebase-functions/**"
+        ]
+    },
+    "scripts": {
+        "client": "yarn workspace client start",
+        "server": "yarn workspace server start",
+        "start": "concurrently --kill-others-on-fail \"yarn server\"  \"yarn client\"",
+        "clean": "node scripts/clean",
+        "link": "./scripts/link.sh"
+    }
+}

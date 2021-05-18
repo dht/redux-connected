@@ -1,0 +1,65 @@
+@import '../Prefix.scss';
+
+.#{$prefix}Visual-container {
+    padding: 10px 10px;
+    max-height: 350px;
+    overflow: auto;
+
+    &.wide {
+        max-height: 710px;
+    }
+
+    .request {
+        width: 20px;
+        height: 20px;
+        margin: 2px;
+        float: left;
+        border-radius: 3px;
+        font-size: 10px;
+        line-height: 20px;
+        text-align: center;
+        cursor: pointer;
+        background-color: gray;
+        border: 1px solid gray;
+
+        &.IDLE {
+            background-color: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(0, 0, 0, 0.2);
+        }
+
+        &.ON_QUEUE {
+            background-color: orange;
+            border: 1px solid orange;
+        }
+
+        &.PRE_RUN {
+            background-color: orange;
+            border: 1px solid orangered;
+        }
+
+        &.RUNNING {
+            background-color: plum;
+            border: 1px solid plum;
+        }
+
+        &.SUCCESS {
+            background-color: yellowgreen;
+            border: 1px solid yellowgreen;
+        }
+
+        &.ERROR {
+            background-color: lightcoral;
+            border: 1px solid lightcoral;
+        }
+
+        &:hover {
+            border: 1px solid gray;
+        }
+
+        &:active {
+            position: relative;
+            bottom: 1px;
+            right: 1px;
+        }
+    }
+}

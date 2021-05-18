@@ -1,0 +1,29 @@
+@import '../Prefix.scss';
+
+.#{$prefix}Details-container {
+    color: #333;
+
+    .Value-container {
+        margin-bottom: 6px;
+
+        label {
+            color: rgba(0, 0, 0, 0.5);
+            font-size: 13px;
+        }
+
+        .value {
+            font-size: 17px;
+
+            &.ellipsis {
+                max-width: 250px;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}

@@ -1,0 +1,52 @@
+@import '../Prefix.scss';
+
+.#{$prefix}Form-container {
+    color: #333;
+
+    .Field-container {
+        margin-bottom: 6px;
+
+        label {
+            color: rgba(0, 0, 0, 0.5);
+            font-size: 13px;
+        }
+
+        .value {
+            input {
+                font-size: 17px;
+                color: #333;
+                background-color: transparent;
+                border: none;
+                font-size: 15px;
+                padding: 10px 0 5px;
+                outline: none;
+                color: #333;
+                border-bottom: 1px solid #aaa;
+
+                &:focus {
+                    border-bottom: 1px solid #777;
+                }
+
+                &.full-width {
+                    width: 100%;
+                }
+            }
+
+            select {
+                font-size: 17px;
+                color: #333;
+                background-color: transparent;
+                border: none;
+                font-size: 15px;
+                padding: 5px 0 5px;
+                outline: none;
+                color: #333;
+                border-bottom: 1px solid #aaa;
+            }
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}

@@ -1,0 +1,75 @@
+import { call, take, put } from 'redux-saga/effects';
+import SagaTester from 'redux-saga-tester';
+import { Action } from 'redux-store-generator';
+
+const initialState = {
+    name: '',
+};
+
+const reducer = (state = initialState, action: Action) => {
+    if (action.type === 'FETCH_SUCCESS') {
+        return action.payload || state;
+    }
+    return state;
+};
+
+const middleware = (store: any) => (next: any) => (action: Action) =>
+    next({
+        ...action,
+        meta: {
+            silent: true,
+        },
+    });
+
+// options are passed to createSagaMiddleware
+const fetchApi = () => ({ name: 'john' });
+
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+function* listenAndFetch() {
+    yield take('FETCH');
+    const result = (yield call(fetchApi)) as any; // @ts-ignore
+    yield call(delay, 500);
+    yield put({
+        type: 'FETCH_SUCCESS',
+        payload: result,
+    });
+}
+
+describe('tester example full', () => {
+    it('Showcases the tester API', async () => {
+        const sagaTester = new SagaTester({
+            initialState,
+            reducers: { user: reducer },
+            middlewares: [middleware],
+        });
+        sagaTester.start(listenAndFetch);
+
+        // Check that state was populated with initialState
+        expect(sagaTester.getState()).toEqual({ user: initialState });
+
+        // Dispatch the event to start the saga
+        sagaTester.dispatch({ type: 'FETCH' });
+
+        // Hook into the success action
+        await sagaTester.waitFor('FETCH_SUCCESS');
+
+        // Check that all actions have the meta property from the middleware
+        sagaTester.getCalledActions().forEach((action) => {
+            expect(action.meta).toEqual({ silent: true });
+        });
+
+        // Check that the new state was affected by the reducer
+        expect(sagaTester.getState()).toEqual({
+            user: {
+                name: 'john',
+            },
+        });
+
+        // Check that the saga listens only once
+        sagaTester.dispatch({ type: 'FETCH' });
+        expect(sagaTester.numCalled('FETCH_SUCCESS')).toEqual(1);
+        sagaTester.dispatch({ type: 'FETCH' });
+        expect(sagaTester.numCalled('FETCH_SUCCESS')).toEqual(1);
+    });
+});

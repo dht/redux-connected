@@ -1,0 +1,17 @@
+@import '../Prefix.scss';
+
+.#{$prefix}Dispatcher-container {
+    padding: 18px 15px;
+    max-height: 365px;
+    overflow: auto;
+    background-color: #eee;
+
+    button {
+        margin: 3px;
+    }
+
+    &.wide {
+        max-height: 720px;
+        padding: 25px 40px;
+    }
+}

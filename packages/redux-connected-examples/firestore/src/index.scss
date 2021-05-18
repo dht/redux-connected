@@ -1,0 +1,58 @@
+@import url('//fonts.googleapis.com/icon?family=Material+Icons');
+
+body {
+    margin: 0;
+    font-family: 'Madefor';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #dfe5eb;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+        monospace;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+a.link {
+    color: #333;
+    cursor: pointer;
+
+    &:hover {
+        color: darken(#333, 12%);
+        text-decoration: underline;
+    }
+}
+
+a {
+    cursor: pointer;
+
+    &:hover {
+        color: darken(#333, 12%);
+        text-decoration: underline;
+    }
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 7px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #aaa;
+}
