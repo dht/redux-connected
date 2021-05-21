@@ -10,12 +10,14 @@ import {
     generateConnectedStore,
 } from 'redux-connected';
 import { firestoreDb } from '../utils/firestore';
+import axios from 'axios';
+
+const axiosInstance = axios.create({
+    baseURL: 'http://localhost:3000',
+});
 
 const restAdapter = new RestAdapter({
-    baseURL: 'http://10.100.102.26:3001/api/',
-    timeout: 1000,
-    headers: { 'X-Custom-Header': 'foobar' },
-    serverConnectionCheckUrl: 'http://localhost:3001/ping',
+    axios: axiosInstance,
 });
 
 const firestoreAdapter = new FirestoreAdapter({

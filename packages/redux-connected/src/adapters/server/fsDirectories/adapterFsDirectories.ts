@@ -1,8 +1,8 @@
-import { randomGuid } from '../../../__helpers__/random';
 import { ResponseBuilder } from '../../../sagas/_utils/ResponseBuilder';
 import { ApiRequest, ApiResponse } from '../../../types/types';
 import { Json } from 'redux-store-generator';
 import nodePath from 'path';
+import { uuidv4 } from '../../../sagas/_utils/uuid';
 
 export type FsAdapterConfiguration = {
     dbPath: string;
@@ -304,7 +304,7 @@ export class FsDirectories {
     };
 
     push = () => {
-        const id = randomGuid();
+        const id = uuidv4();
         return this.ref(id);
     };
 

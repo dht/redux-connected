@@ -15,6 +15,8 @@ import {
     LOGS_COUNT,
 } from '../../globalMockDataConfiguration';
 
+let db;
+
 export const generateMockData = async () => {
     let collectionRef, docRef, data, batch;
 

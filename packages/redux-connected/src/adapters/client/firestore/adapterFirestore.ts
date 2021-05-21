@@ -4,7 +4,7 @@ import { ApiRequest, ApiResponse } from '../../../types/types';
 const firebase = require('firebase');
 
 export type FirestoreServerConfiguration = {
-    db: Firestore;
+    db: any;
 };
 
 export class FirestoreAdapter {

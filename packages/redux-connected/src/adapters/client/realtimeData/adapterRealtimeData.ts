@@ -269,7 +269,7 @@ export class RealtimeData {
         return this.getAll(path, getParams);
     };
 
-    clearNext = (path: string) => {};
+    clearNext = (_path: string) => {};
 
     getSingle = (path: string): Promise<any> => {
         const ref = this.db.ref(path);
