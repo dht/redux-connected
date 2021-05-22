@@ -7,7 +7,6 @@ export function Sidebar(props: SidebarProps) {
     return (
         <div className="Sidebar-container">
             <Link to="/">Home</Link>
-            <Link to="/chat">Chat</Link>
         </div>
     );
 }

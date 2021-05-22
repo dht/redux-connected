@@ -1,5 +1,5 @@
 {
-    "name": "redux-connected-firebase",
+    "name": "redux-connected-example-realtimeData",
     "version": "0.0.1",
     "description": "auto-connected a redux store to a REST/sockets server",
     "license": "UNLICENSED",
@@ -21,7 +21,7 @@
         "@types/redux": "^3.6.0",
         "axios": "^0.21.1",
         "firebase-admin": "^9.5.0",
-        "react-use": "^17.1.1",
+        "react-use": "17.2.1",
         "redux": "^4.0.5",
         "redux-devtools-extension": "^2.13.8",
         "redux-saga": "^1.1.3"

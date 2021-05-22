@@ -1,5 +1,5 @@
 {
-    "name": "redux-connected-sockets",
+    "name": "redux-connected-example-sockets",
     "version": "0.9.0",
     "description": "",
     "main": "lib/index.js",

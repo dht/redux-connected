@@ -28,7 +28,7 @@ export function DevTools(_props: DevToolsProps) {
     return (
         <ThemeProvider theme={devtoolsTheme}>
             <div className={`${cssPrefix}DevTools-container`}>
-                <OverlayManager onClose={toggleDevtools} />
+                <OverlayManager onClose={() => {}} />
             </div>
         </ThemeProvider>
     );

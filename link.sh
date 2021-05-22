@@ -16,7 +16,7 @@ yarn link
 yarn link redux-store-generator
 yarn link redux-connected
 
-cd ../redux-connected-examples/client
+cd ../redux-connected-example-client
 yarn link redux-connected
 yarn link redux-connected-devtools
 yarn link redux-connected-components

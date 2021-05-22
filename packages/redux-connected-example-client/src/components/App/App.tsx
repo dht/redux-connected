@@ -6,7 +6,6 @@ import Sidebar from '../Sidebar/Sidebar';
 import Home from '../Home/Home';
 import { actions } from '../../redux/store';
 import { ChatBar } from 'redux-connected-components';
-import Chat from '../Chat/Chat';
 
 function App() {
     return (
@@ -17,7 +16,6 @@ function App() {
             <Content>
                 <Switch>
                     <Route path="/" exact component={Home} />
-                    <Route path="/chat" exact component={Chat} />
                 </Switch>
             </Content>
         </div>

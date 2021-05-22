@@ -1,5 +1,5 @@
 {
-    "name": "redux-connected-examples-client",
+    "name": "redux-connected-example-client",
     "version": "0.1.0",
     "private": true,
     "dependencies": {
@@ -19,7 +19,7 @@
         "react-redux": "^7.2.2",
         "react-router-dom": "^5.2.0",
         "react-scripts": "4.0.2",
-        "react-use": "^17.2.1",
+        "react-use": "17.2.1",
         "redux": "^4.0.5",
         "redux-connected": "^0.0.5",
         "redux-connected-components": "^0.0.3",

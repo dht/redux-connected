@@ -15,8 +15,7 @@
             "**/firebase-admin",
             "**/firebase-admin/**",
             "**/firebase-functions",
-            "**/firebase-functions/**",
-            "**/react-use/**"
+            "**/firebase-functions/**"
         ]
     },
     "scripts": {

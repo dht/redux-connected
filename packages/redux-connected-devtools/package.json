@@ -31,7 +31,7 @@
         "lodash": "^4.17.21",
         "react-draggable": "^4.4.3",
         "react-json-view": "^1.21.1",
-        "react-use": "^17.2.1",
+        "react-use": "17.2.1",
         "react-window": "^1.8.6",
         "redux-connected": "^0.0.5",
         "sass": "^1.32.8"
