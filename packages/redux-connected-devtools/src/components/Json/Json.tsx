@@ -18,6 +18,7 @@ export function Json(props: JsonProps) {
                 enableClipboard={false}
                 displayObjectSize={false}
                 displayDataTypes={false}
+                theme={'monokai'}
             />
         </div>
     );

@@ -1,5 +1,7 @@
 @import '../Prefix.scss';
 
+$grid: rgba(255, 255, 255, 0.01);
+
 .#{$prefix}OverlayManager-container {
     position: fixed;
     top: 0;
@@ -14,34 +16,34 @@
     flex-direction: row;
     align-items: center;
     z-index: 99999;
+    color: #eee;
 
-    .content {
+    > .content {
         margin: auto;
         width: calc(350px + 750px + 350px + 5px * 4 + 2px);
         height: calc(800px + 18px);
-        border: 1px solid green;
-        background-color: #eee;
         display: grid;
         grid-template-columns: 350px 750px 350px;
         grid-template-rows: 400px 400px;
         border-radius: 3px;
         overflow: hidden;
         gap: 5px;
-        background-color: #eee;
         padding: 5px;
         animation-name: reveal;
         animation-duration: 50ms;
         animation-fill-mode: forwards;
+        background-color: rgb(39, 40, 34);
+        background-image: linear-gradient($grid 0.1em, transparent 0.1em),
+            linear-gradient(90deg, $grid 0.1em, transparent 0.1em);
+        background-size: 25px 25px;
 
         .area {
-            background-color: white;
             &.area-1 {
                 grid-area: 1/1/2/2;
             }
 
             &.area-center {
                 grid-area: 1/2/3/3;
-                border: none;
             }
 
             &.area-2 {

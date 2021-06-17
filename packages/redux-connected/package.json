@@ -1,6 +1,6 @@
 {
     "name": "redux-connected",
-    "version": "0.0.9",
+    "version": "0.0.10",
     "description": "auto-connect a redux store to a REST/sockets server",
     "license": "MIT",
     "main": "lib/index.js",
@@ -19,7 +19,7 @@
         "lint:types": "tsc --noEmit",
         "build:cjs": "tsc",
         "build:es": "tsc -m esNext --outDir esm",
-        "build": "yarn build:cjs && yarn build:es",
+        "build": "yarn build:cjs && yarn build:es && yalc push",
         "clean": "rm -rf lib/* && rm -rf esm/*",
         "watch": "nodemon -x \"npm run build\"",
         "generateData": "ts-node src/__helpers__/generateData"
@@ -33,9 +33,10 @@
         "react-use": "17.2.1",
         "redux-devtools-extension": "^2.13.8",
         "redux-saga": "^1.1.3",
-        "redux-store-generator": "^0.9.62",
+        "redux-store-generator": "0.9.67",
         "reselect": "^4.0.0",
-        "socket.io-client": "^4.0.0"
+        "socket.io-client": "^4.0.0",
+        "react-redux": "^7.2.4"
     },
     "devDependencies": {
         "@jest/types": "^26.6.2",

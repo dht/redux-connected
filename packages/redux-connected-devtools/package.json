@@ -1,11 +1,12 @@
 {
     "name": "redux-connected-devtools",
-    "version": "0.0.8",
+    "version": "0.0.10",
     "license": "MIT",
     "description": "Styless UI",
     "main": "lib/index.js",
     "files": [
         "lib/",
+        "lib/index.css",
         "esm/"
     ],
     "types": "lib/index.d.ts",
@@ -19,22 +20,24 @@
         "lint:types": "tsc --noEmit",
         "build:cjs": "tsc",
         "build:es": "tsc -m esNext --outDir esm",
+        "build": "node scripts/generate-index.js && npm run clean && npm run scss && yarn build:cjs && yarn build:es && yalc push",
         "clean": "rm -rf lib2/* && rm -rf esm2/*",
         "watch": "nodemon -x \"npm run build\"",
-        "scss": "node scripts/build-scss.js",
-        "build": "node scripts/generate-index.js && npm run clean && npm run scss && yarn build:cjs && yarn build:es"
+        "scss": "node scripts/build-scss.js"
     },
     "dependencies": {
+        "react": "^17.0.2",
+        "react-use": "^17.2.4",
         "@fluentui/react": "^8.1.5",
         "@testing-library/react": "^11.2.5",
         "classnames": "^2.2.6",
         "lodash": "^4.17.21",
         "react-draggable": "^4.4.3",
         "react-json-view": "^1.21.1",
-        "react-use": "17.2.1",
         "react-window": "^1.8.6",
         "redux-connected": "^0.0.5",
-        "sass": "^1.32.8"
+        "sass": "^1.32.8",
+        "react-redux": "^7.2.4"
     },
     "devDependencies": {
         "@babel/core": "^7.13.8",
@@ -46,7 +49,6 @@
         "jest": "^26.6.3",
         "lint-staged": "^10.5.4",
         "prettier": "^2.2.1",
-        "react": "17.0.2",
         "ts-jest": "^26.5.4",
         "tslib": "^2.1.0",
         "tslint": "^6.1.3",
