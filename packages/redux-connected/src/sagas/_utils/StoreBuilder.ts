@@ -1,13 +1,19 @@
 import { startSaga } from './../process-manager';
-import { applyMiddleware, combineReducers, createStore, compose } from 'redux';
-import { Json } from 'redux-store-generator';
+import {
+    applyMiddleware,
+    combineReducers,
+    createStore,
+    compose,
+    Middleware,
+} from 'redux';
+import { clearNodes, Json } from 'redux-store-generator';
 import createSagaMiddleware from 'redux-saga';
 import { StoreOptions, StoreDefinition, Sagas } from './../../types/types';
 import ProcessManager from './../process-manager';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 export class StoreBuilder {
-    private definition: StoreDefinition = {
+    private output: StoreDefinition = {
         name: '',
         initialState: {},
         reducers: {},
@@ -20,30 +26,35 @@ export class StoreBuilder {
     private sagaMiddleware: any;
 
     constructor(name: string) {
-        this.definition.name = name;
+        this.output.name = name;
     }
 
-    withInitialState(initialState: Json) {
-        this.definition.initialState = {
-            ...this.definition.initialState,
+    withInitialState(initialState: Json | undefined) {
+        this.output.initialState = {
+            ...this.output.initialState,
             ...initialState,
         };
         return this;
     }
 
     withReducers(reducers: any) {
-        this.definition.reducers = {
-            ...this.definition.reducers,
+        this.output.reducers = {
+            ...this.output.reducers,
             ...reducers,
         };
         return this;
     }
 
-    withMiddlewares(...middlewares: any) {
-        this.definition.middlewares = [
-            ...middlewares,
-            ...this.definition.middlewares,
+    withMiddlewares(middlewares: Middleware | Middleware[]) {
+        const extraMiddlewares = Array.isArray(middlewares)
+            ? middlewares
+            : [middlewares];
+
+        this.output.middlewares = [
+            ...this.output.middlewares,
+            ...extraMiddlewares,
         ];
+
         return this;
     }
 
@@ -58,22 +69,22 @@ export class StoreBuilder {
     }
 
     withSagas(...sagas: any) {
-        this.definition.sagas = [...this.definition.sagas, ...sagas];
+        this.output.sagas = [...this.output.sagas, ...sagas];
         return this;
     }
     withOptions(options: Partial<StoreOptions>) {
-        this.definition.options = options;
+        this.output.options = options;
         return this;
     }
 
     get options(): StoreOptions {
         return {
-            ...this.definition.options,
+            ...this.output.options,
         } as StoreOptions;
     }
 
     fireSagas = (store: any) => {
-        this.definition.sagas.forEach((sagaId: keyof Sagas) => {
+        this.output.sagas.forEach((sagaId: keyof Sagas) => {
             const action = startSaga({ sagaId });
             store.dispatch(action);
         });
@@ -83,18 +94,21 @@ export class StoreBuilder {
         const { devTools } = this.options;
 
         // add the saga middleware
-        if (this.definition.sagas.length > 0) {
+        if (this.output.sagas.length > 0) {
             this.sagaMiddleware = createSagaMiddleware();
             this.withMiddlewares(this.sagaMiddleware);
         }
 
-        const initialState = this.definition.initialState;
+        const initialState = clearNodes(
+            this.output.initialState,
+            this.options.clearNodes || []
+        );
 
-        const rootReducer = combineReducers(this.definition.reducers);
+        const rootReducer = combineReducers({ ...this.output.reducers });
 
         const middlewareEnhancer = applyMiddleware(
             ...this.preMiddlewares,
-            ...this.definition.middlewares,
+            ...this.output.middlewares,
             ...this.postMiddlewares
         );
 
@@ -108,7 +122,7 @@ export class StoreBuilder {
         ) as any;
 
         const processManager = new ProcessManager();
-        if (this.definition.sagas.length > 0) {
+        if (this.output.sagas.length > 0) {
             this.sagaMiddleware.run(processManager.run);
             setTimeout(() => this.fireSagas(store));
         }

@@ -10,12 +10,14 @@ import {
     getConnectStoreDefinition,
     getMainStoreDefinition,
 } from './storeDefinitions';
+import { Middleware } from 'redux';
 
 const CATCH_CONSOLE_LOG = false;
 
 export const generateStore = <T extends StoreStructure>(
     state: T,
-    options: Partial<StoreOptions>
+    options: Partial<StoreOptions>,
+    middlewares: Middleware | Middleware[] = []
 ): any => {
     globals.structure = state;
 
@@ -25,13 +27,10 @@ export const generateStore = <T extends StoreStructure>(
     globals.adapters = options.adapters;
 
     mainStoreBuilder
-        .withInitialState({
-            ...mainStoreDefinition.initialState,
-        })
-        .withReducers({
-            ...mainStoreDefinition.reducers,
-        })
+        .withInitialState(mainStoreDefinition.initialState)
+        .withReducers(mainStoreDefinition.reducers)
         .withMiddlewares(connectedMiddleware)
+        .withMiddlewares(middlewares)
         .withOptions(options);
 
     globals.mainStore = mainStoreBuilder.build();

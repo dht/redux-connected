@@ -201,6 +201,7 @@ export interface StoreOptions {
         fs?: any;
     };
     devTools?: boolean;
+    clearNodes?: string[];
 }
 
 export interface StoreDefinition {
