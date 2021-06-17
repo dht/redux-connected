@@ -15,7 +15,6 @@ initializeIcons();
 ReactDOM.render(
     <Provider store={connectedStore}>
         <div>
-            a`
             <DevTools />
         </div>
     </Provider>,

@@ -1,5 +1,5 @@
 {
-    "name": "redux-connected-example-fs",
+    "name": "redux-connected-example-server",
     "version": "0.9.0",
     "main": "index.js",
     "license": "MIT",

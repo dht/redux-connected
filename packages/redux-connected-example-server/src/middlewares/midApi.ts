@@ -1,4 +1,4 @@
-import { actions, connectedStore, store } from './../redux/store';
+import { actions, connectedStore, store } from '../redux/store';
 import { routeToAction } from 'redux-connected';
 import { ApiResponse } from 'redux-connected/lib/types/types';
 import { Json } from 'redux-store-generator';
