@@ -24,5 +24,9 @@
         "start": "concurrently --kill-others-on-fail \"yarn server\"  \"yarn client\"",
         "clean": "node scripts/clean",
         "link": "./scripts/link.sh"
+    },
+    "devDependencies": {
+        "fs-extra": "^10.0.0",
+        "globby": "^11.0.4"
     }
 }

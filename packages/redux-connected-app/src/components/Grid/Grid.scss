@@ -1,0 +1,42 @@
+@import '../../colors.scss';
+
+.Grid-container {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 25px);
+    grid-template-rows: repeat(auto-fill, 25px);
+    background-image: linear-gradient($grid 1px, transparent 1px),
+        linear-gradient(90deg, $grid 1px, transparent 1px);
+    background-size: 25px 25px;
+
+    &.edit {
+        background-image: linear-gradient($gridEdit 1px, transparent 1px),
+            linear-gradient(90deg, $gridEdit 1px, transparent 1px);
+    }
+
+    > div {
+        border-radius: 2px;
+    }
+
+    > .panel {
+        background-color: rgba(21, 21, 30, 0.8);
+    }
+
+    > .area {
+        pointer-events: none;
+        transition: opacity 100ms ease-in-out;
+    }
+
+    .actions {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        position: fixed;
+        top: 10px;
+        right: 10px;
+
+        .Icon-container {
+            margin: 0 7px;
+        }
+    }
+}
