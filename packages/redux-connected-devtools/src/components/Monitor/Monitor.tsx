@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Sagas, SagaState } from 'redux-connected';
-import { Toggle } from '@fluentui/react';
 import { formatDistance } from 'date-fns';
 import { startSaga, stopSaga } from 'redux-connected';
 import classnames from 'classnames';
@@ -9,6 +8,7 @@ import VirtualList, { VirtualListItemWithEvent, VirtualListRowProps } from '../V
 import * as selectors from '../../selectors/selectors';
 import { preview } from '../Preview/Preview';
 import cssPrefix from '../prefix';
+import Toggle from '../Toggle/Toggle';
 
 type MonitorProps = {
     isWide: boolean;
@@ -73,7 +73,7 @@ const SagaRow = (props: VirtualListRowProps) => {
                 </div>
             </div>
             <div className="col">
-                <Toggle checked={saga.isRunning} onChange={onChange} />
+                <Toggle defaultChecked={saga.isRunning} onChange={onChange} />
             </div>
         </div>
     );

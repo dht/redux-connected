@@ -1,9 +1,15 @@
 {
   "version": "v1",
   "packages": {
-    "ingrid": {
-      "signature": "501688819b7476900ad4adbe3b48d799",
-      "file": true
+    "igrid": {
+      "signature": "b9a0d46bcbbe823cbf388a8413003c74",
+      "file": true,
+      "replaced": "^0.0.2"
+    },
+    "redux-connected": {
+      "signature": "2bfda20a5c79007ce86f6dbdea65f271",
+      "file": true,
+      "replaced": "^0.0.5"
     }
   }
 }

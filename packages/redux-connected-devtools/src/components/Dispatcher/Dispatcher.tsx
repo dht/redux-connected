@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Group from '../Group/Group';
 import classnames from 'classnames';
-import { DefaultButton } from '@fluentui/react';
 import { generateActionsForStore, NodeType } from 'redux-store-generator';
 import * as dispatcherActions from '../../data/dispatcherActions';
 import { ActionParams } from '../../data/dispatcherActions';
@@ -45,14 +44,9 @@ export function Dispatcher(props: DispatcherProps) {
         const disabled = requests[`${nodeName}_${verbType}`];
 
         return (
-            <DefaultButton
-                size={1}
-                onClick={() => dispatchAction(nodeName, verbType, actionParams)}
-                key={verbType}
-                disabled={disabled}
-            >
+            <button onClick={() => dispatchAction(nodeName, verbType, actionParams)} key={verbType} disabled={disabled}>
                 {verbType}
-            </DefaultButton>
+            </button>
         );
     }
 

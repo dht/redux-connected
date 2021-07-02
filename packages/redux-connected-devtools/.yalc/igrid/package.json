@@ -1,8 +1,8 @@
 {
-    "name": "ingrid",
-    "version": "0.0.1",
+    "name": "igrid",
+    "version": "0.0.2",
     "license": "MIT",
-    "description": "Ingrid core",
+    "description": "Igrid core",
     "main": "lib/index.js",
     "files": [
         "lib/",
@@ -53,5 +53,5 @@
             "git add"
         ]
     },
-    "yalcSig": "501688819b7476900ad4adbe3b48d799"
+    "yalcSig": "b9a0d46bcbbe823cbf388a8413003c74"
 }

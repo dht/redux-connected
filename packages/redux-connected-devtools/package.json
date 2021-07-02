@@ -1,6 +1,6 @@
 {
     "name": "redux-connected-devtools",
-    "version": "0.0.10",
+    "version": "0.0.14",
     "license": "MIT",
     "description": "Styless UI",
     "main": "lib/index.js",
@@ -26,18 +26,21 @@
         "scss": "node scripts/build-scss.js"
     },
     "dependencies": {
-        "@fluentui/react": "^8.1.5",
         "@testing-library/react": "^11.2.5",
-        "classnames": "^2.2.6",
-        "ingrid": "file:.yalc/ingrid",
+        "classnames": "^2.3.1",
+        "date-fns": "^2.22.1",
+        "igrid": "file:.yalc/igrid",
         "lodash": "^4.17.21",
         "react": "^17.0.2",
         "react-draggable": "^4.4.3",
         "react-json-view": "^1.21.1",
+        "react-modal": "^3.14.3",
         "react-redux": "^7.2.4",
+        "react-toggle": "^4.1.2",
         "react-use": "^17.2.4",
         "react-window": "^1.8.6",
-        "redux-connected": "^0.0.5",
+        "redux-connected": "file:.yalc/redux-connected",
+        "reselect": "^4.0.0",
         "sass": "^1.32.8"
     },
     "devDependencies": {

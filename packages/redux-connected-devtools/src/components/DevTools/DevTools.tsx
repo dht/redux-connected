@@ -1,36 +1,35 @@
 import * as React from 'react';
-import devtoolsTheme from '../../theme/devtoolsTheme';
-import OverlayManager from '../OverlayManager/OverlayManager';
-import { loadPanelsArrangement } from '../../utils/localStorage';
-import { ThemeProvider } from '@fluentui/react';
-import { useKey, useToggle } from 'react-use';
-import cssPrefix from '../prefix';
+import { Grid } from 'igrid';
+import { panels } from '../../data/panels';
+import { widgets } from '../../data/widgets';
 
 type DevToolsProps = {};
 
 export function DevTools(_props: DevToolsProps) {
-    const [showDevtools, toggleDevtools] = useToggle(false);
+    function renderPanel(id: string) {
+        const widget = widgets[id];
 
-    useKey('`', (ev) => {
-        if (ev.ctrlKey && ev.shiftKey) {
-            loadPanelsArrangement();
+        if (!widget || !widget.component) {
+            return <div />;
         }
 
-        if (ev.ctrlKey) {
-            toggleDevtools();
-        }
-    });
+        return <div className="panel">{widget.component}</div>;
+    }
 
-    if (!showDevtools) {
-        return null;
+    function renderInfo(_id: string) {
+        return (
+            <div className="panel">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean emper congue. Mauris eget congue magna.
+                Aliquam aliquam lorem lectus, eget auctor nisl fringilla eu. Donec semper tincidunt nibh, a hendrerit
+                neque posuere in. Ut a augue libero.
+            </div>
+        );
     }
 
     return (
-        <ThemeProvider theme={devtoolsTheme}>
-            <div className={`${cssPrefix}DevTools-container`}>
-                <OverlayManager onClose={() => {}} />
-            </div>
-        </ThemeProvider>
+        <div className="ExamplePick-container">
+            <Grid defaultPanels={panels} renderPanel={renderPanel} renderInfo={renderInfo} widgets={widgets}></Grid>
+        </div>
     );
 }
 

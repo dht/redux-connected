@@ -2,10 +2,8 @@ import * as React from 'react';
 import * as selectors from '../../selectors/selectors';
 import classnames from 'classnames';
 import Json from '../Json/Json';
-import ReduxSettings, { SavedFilters } from '../ReduxSettings/ReduxSettings';
 import { Action } from 'redux-store-generator';
 import { filterReadings } from '../../utils/filter';
-import { Icon } from '@fluentui/react';
 import { Reading, useMonitor } from 'redux-connected';
 import { useBoolean, useLocalStorage } from 'react-use';
 import { useSelector } from 'react-redux';
@@ -23,9 +21,9 @@ export function Redux(props: ReduxProps) {
     const actionTypes = useSelector(selectors.$actionTypes);
 
     const [readings] = useMonitor({ monitorState: true });
-    const [showFiltersDialog, toggleFilterDialog] = useBoolean(false);
+    const [_showFiltersDialog, _toggleFilterDialog] = useBoolean(false);
     const [currentReading, setCurrentReading] = useState<Reading>();
-    const [filters, setFilters] = useLocalStorage<SavedFilters>('REDUX_FILTERS', {});
+    const [filters, _setFilters] = useLocalStorage<any>('REDUX_FILTERS', {});
 
     const { isWide } = props;
 
@@ -66,7 +64,7 @@ export function Redux(props: ReduxProps) {
         return (
             <div className="filters">
                 <input className="search" placeholder="search..."></input>
-                <Icon iconName="Filter" className="icon" onClick={toggleFilterDialog} />
+                {/* <Icon iconName="Filter" className="icon" onClick={toggleFilterDialog} /> */}
             </div>
         );
     }
@@ -78,9 +76,9 @@ export function Redux(props: ReduxProps) {
     return (
         <div className={className}>
             <div className="list">
-                {showFiltersDialog && (
+                {/* {showFiltersDialog && (
                     <ReduxSettings onDismiss={toggleFilterDialog} filters={filters} setFilters={setFilters} />
-                )}
+                )} */}
                 {renderFilters()}
                 {renderList()}
             </div>

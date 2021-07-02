@@ -9,14 +9,7 @@
         "packages": [
             "packages/*"
         ],
-        "nohoist": [
-            "**/firebase",
-            "**/firebase/**",
-            "**/firebase-admin",
-            "**/firebase-admin/**",
-            "**/firebase-functions",
-            "**/firebase-functions/**"
-        ]
+        "nohoist": []
     },
     "scripts": {
         "client": "yarn workspace client start",
@@ -28,5 +21,6 @@
     "devDependencies": {
         "fs-extra": "^10.0.0",
         "globby": "^11.0.4"
-    }
+    },
+    "dependencies": {}
 }

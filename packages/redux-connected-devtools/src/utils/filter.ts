@@ -2,9 +2,9 @@ import { Reading } from 'redux-connected';
 import { ApiInfoPerType } from 'redux-store-generator';
 import { IncludePredicate, ExcludePredicate } from '../data/reduxFilterOptions';
 import { ReadingsFilter, readingsFilters } from '../data/reduxFilterOptions';
-import { SavedFilters } from '../components/ReduxSettings/ReduxSettings';
+// import { SavedFilters } from '../components/ReduxSettings/ReduxSettings';
 
-export const filterReadings = (readings: Reading[], filters: SavedFilters, apiInfo: ApiInfoPerType): Reading[] => {
+export const filterReadings = (readings: Reading[], filters: any, apiInfo: ApiInfoPerType): Reading[] => {
     const includes = [] as IncludePredicate[];
     const excludes = [] as ExcludePredicate[];
 

@@ -1,0 +1,76 @@
+import { IPanel } from 'igrid';
+import { boxSizes } from './boxSizes';
+
+export const panels: Record<string, IPanel> = {
+    p1: {
+        id: 'p1',
+        widgetId: 'processes',
+        title: 'Processes',
+        description: 'Start & stop processes',
+        dimension: boxSizes[0],
+        position: { x: 2, y: 2 },
+    },
+    p2: {
+        id: 'p2',
+        widgetId: 'requests',
+        title: 'Requests',
+        description: 'Monitor API requests',
+        dimension: boxSizes[0],
+        position: { x: 16, y: 2 },
+    },
+    p3: {
+        id: 'p3',
+        widgetId: 'redux',
+        title: 'Redux devtools',
+        description: 'Watch actions and state changes',
+        dimension: boxSizes[1],
+    },
+    p4: {
+        id: 'p4',
+        widgetId: 'endpoints',
+        title: 'Endpoints Configuration',
+        description: 'Configure API for root nodes ',
+        dimension: boxSizes[0],
+        position: { x: 30, y: 2 },
+    },
+    p5: {
+        id: 'p5',
+        widgetId: 'apiStatus',
+        title: 'API Status',
+        description: 'Connection status for root nodes',
+        dimension: boxSizes[0],
+        position: { x: 44, y: 2 },
+    },
+    p6: {
+        id: 'p6',
+        widgetId: 'logs',
+        title: 'Logs',
+        description: 'Watch console logs',
+        dimension: boxSizes[0],
+        position: { x: 2, y: 20 },
+    },
+    p7: {
+        id: 'p7',
+        widgetId: 'visual',
+        title: 'Visual',
+        description: 'High-level requests visualization by root node',
+        dimension: boxSizes[0],
+        position: { x: 16, y: 20 },
+    },
+    p8: {
+        id: 'p8',
+        widgetId: 'settings',
+        title: 'Settings',
+        description: 'Global settings',
+        dimension: boxSizes[0],
+        position: { x: 30, y: 20 },
+    },
+    p9: {
+        id: 'p9',
+        widgetId: 'preview',
+        title: 'Preview',
+        description: 'Preview a specific datapoint',
+        dimension: boxSizes[0],
+        position: { x: 44, y: 20 },
+    },
+};
