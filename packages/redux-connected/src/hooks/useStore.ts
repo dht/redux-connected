@@ -17,6 +17,12 @@ export function useStore(
     useEffect(() => {
         const store = globals.connectedStore;
 
+        if (!store) {
+            return;
+        }
+
+        console.log('store ->', store);
+
         const unsubscribe = store.subscribe(() => {
             const state = store.getState();
             const action = state._lastAction;

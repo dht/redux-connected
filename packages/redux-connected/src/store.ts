@@ -34,6 +34,7 @@ export const generateStore = <T extends StoreStructure>(
         .withOptions(options);
 
     globals.mainStore = mainStoreBuilder.build();
+    console.log('globals.mainStore ->', globals.mainStore);
 
     return globals.mainStore;
 };
@@ -55,6 +56,7 @@ export const generateConnectedStore = <T extends StoreStructure>(
         .withSagas('logger', 'requests', 'get', 'save', 'internet');
 
     globals.connectedStore = connectedStoreBuilder.build();
+    console.log('globals.connectedStore ->', globals.connectedStore);
 
     return globals.connectedStore;
 };

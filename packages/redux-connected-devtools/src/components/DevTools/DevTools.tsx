@@ -2,6 +2,8 @@ import * as React from 'react';
 import { Grid } from 'igrid';
 import { panels } from '../../data/panels';
 import { widgets } from '../../data/widgets';
+import cssPrefix from '../prefix';
+import classnames from 'classnames';
 
 type DevToolsProps = {};
 
@@ -26,8 +28,10 @@ export function DevTools(_props: DevToolsProps) {
         );
     }
 
+    const className = classnames(`${cssPrefix}DevTools-container`, {});
+
     return (
-        <div className="ExamplePick-container">
+        <div className={className}>
             <Grid defaultPanels={panels} renderPanel={renderPanel} renderInfo={renderInfo} widgets={widgets}></Grid>
         </div>
     );

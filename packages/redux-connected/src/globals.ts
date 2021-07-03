@@ -7,15 +7,19 @@ const globals = {
 
 const accessors = {
     set mainStore(store: any) {
+        console.log('store1 set ->', store);
         globals.mainStore = store;
     },
     get mainStore() {
+        console.log('store1 get ->', globals.mainStore);
         return globals.mainStore;
     },
     set connectedStore(store: any) {
+        console.log('store2 set ->', store);
         globals.connectedStore = store;
     },
     get connectedStore() {
+        console.log('store2 get ->', globals.connectedStore);
         return globals.connectedStore;
     },
     set structure(structure: any) {

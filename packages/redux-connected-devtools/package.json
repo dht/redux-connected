@@ -43,6 +43,9 @@
         "reselect": "^4.0.0",
         "sass": "^1.32.8"
     },
+    "peerDependencies": {
+        "redux-connected": "^0.0.10"
+    },
     "devDependencies": {
         "@babel/core": "^7.13.8",
         "@jest/types": "^26.6.2",
