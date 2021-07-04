@@ -2,8 +2,9 @@
 
 .#{$prefix}Visual-container {
     padding: 10px 10px;
-    max-height: 350px;
+    max-height: 380px;
     overflow: auto;
+    flex: 1;
 
     &.wide {
         max-height: 710px;

@@ -2,12 +2,12 @@
   "version": "v1",
   "packages": {
     "igrid": {
-      "signature": "b9a0d46bcbbe823cbf388a8413003c74",
+      "signature": "3ef615cb463fdb92c0281df7e12b4fcd",
       "file": true,
       "replaced": "^0.0.2"
     },
     "redux-connected": {
-      "signature": "240748338a8a64ae619b53466301861a",
+      "signature": "3d3fc758c95df99f52f1463423bede48",
       "file": true,
       "replaced": "^0.0.5"
     }

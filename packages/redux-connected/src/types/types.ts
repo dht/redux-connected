@@ -200,7 +200,10 @@ export interface StoreOptions {
         firestore?: any;
         fs?: any;
     };
-    devTools?: boolean;
+    devTools?: {
+        socketUrl: string;
+        socketStoreId: string;
+    };
     clearNodes?: string[];
 }
 

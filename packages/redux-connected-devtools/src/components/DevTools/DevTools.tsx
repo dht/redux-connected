@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid } from 'igrid';
+import { Grid, IPanel } from 'igrid';
 import { panels } from '../../data/panels';
 import { widgets } from '../../data/widgets';
 import cssPrefix from '../prefix';
@@ -8,17 +8,17 @@ import classnames from 'classnames';
 type DevToolsProps = {};
 
 export function DevTools(_props: DevToolsProps) {
-    function renderPanel(id: string) {
-        const widget = widgets[id];
+    function renderPanel(panel: IPanel) {
+        const widget = widgets[panel.widgetId || ''];
 
         if (!widget || !widget.component) {
             return <div />;
         }
 
-        return <div className="panel">{widget.component}</div>;
+        return widget.component(widget.props);
     }
 
-    function renderInfo(_id: string) {
+    function renderInfo(_panel: IPanel) {
         return (
             <div className="panel">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean emper congue. Mauris eget congue magna.

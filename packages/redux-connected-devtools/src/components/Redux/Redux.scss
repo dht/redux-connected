@@ -9,8 +9,8 @@
     height: 390px;
 
     &.wide {
-        width: 750px;
-        height: 733px;
+        width: 1370px;
+        height: 797px;
     }
 
     .filters {
@@ -90,7 +90,7 @@
     &.wide {
         .list {
             flex: 1;
-            max-width: 280px;
+            max-width: 400px;
         }
         .details {
             display: flex;
