@@ -1,4 +1,4 @@
-import { Sagas } from './../types/types';
+import { Sagas } from '../types/types';
 import get from './get/get';
 import { internet } from './internet/internet';
 import logger from './logger/logger';

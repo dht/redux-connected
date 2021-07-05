@@ -21,8 +21,6 @@ export function useStore(
             return;
         }
 
-        console.log('store ->', store);
-
         const unsubscribe = store.subscribe(() => {
             const state = store.getState();
             const action = state._lastAction;

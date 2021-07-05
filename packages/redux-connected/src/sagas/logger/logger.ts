@@ -1,5 +1,5 @@
-import { ActionWithPayload, Log } from './../../types/types';
-import { put, takeEvery } from 'redux-saga/effects';
+import { ActionWithPayload, Log } from '../../types/types';
+import { delay, put, takeEvery } from 'redux-saga/effects';
 import { Json } from 'redux-store-generator';
 import { generateMeta } from '../_utils/meta';
 
@@ -22,6 +22,7 @@ export const log = (payload: Json): ActionWithPayload<Log> => {
 export const logm = (message: string) => log({ message });
 
 function* logger() {
+    yield delay(0);
     if (!DEBUG) {
         return;
     }

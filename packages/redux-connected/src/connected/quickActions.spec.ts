@@ -1,10 +1,6 @@
-import {
-    ApiErrorType,
-    ConnectionStatus,
-    RequestResult,
-} from './../types/types';
-import { RequestBuilder } from './../sagas/_utils/RequestsBuilder';
-import { ResponseBuilder } from './../sagas/_utils/ResponseBuilder';
+import { ApiErrorType, ConnectionStatus, RequestResult } from '../types/types';
+import { RequestBuilder } from '../sagas/_utils/RequestsBuilder';
+import { ResponseBuilder } from '../sagas/_utils/ResponseBuilder';
 import {
     apiError,
     onRequestStart,

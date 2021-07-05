@@ -1,4 +1,8 @@
-import { Action, ApiInfo, ApiVerb } from 'redux-store-generator';
+import {
+    Action,
+    ApiInfo,
+    ApiVerb,
+} from 'redux-store-generator';
 import { put } from 'redux-saga/effects';
 import { expectSaga } from 'redux-saga-test-plan';
 import { get } from './get';

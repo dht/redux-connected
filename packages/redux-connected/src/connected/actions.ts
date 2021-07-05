@@ -1,5 +1,8 @@
-import { Json } from 'redux-store-generator';
-import { collection_all, single_all } from 'redux-store-generator';
+import {
+    collection_all,
+    single_all,
+    Json,
+} from 'redux-store-generator';
 import {
     EndpointConfig,
     ApiRequest,
@@ -17,37 +20,37 @@ export const SIGNATURE_GLOBAL_SETTINGS = { '@@redux-connected/GLOBAL_SETTINGS_AC
 export const SIGNATURE_SAGA = { '@@redux-connected/SAGA_ACTION': true }; // prettier-ignore
 
 // ============== config ==============
-export const config_setAction = <T>(configName: string, extra?: Json) => (
-    payload: Partial<T> & withNodeName
-) => {
-    const { nodeName } = payload;
+export const config_setAction =
+    <T>(configName: string, extra?: Json) =>
+    (payload: Partial<T> & withNodeName) => {
+        const { nodeName } = payload;
 
-    delete (payload as any)['nodeName'];
+        delete (payload as any)['nodeName'];
 
-    return {
-        type: `SET_${configName.toUpperCase()}`,
-        payload: {
-            [nodeName]: payload,
-        },
-        ...extra,
+        return {
+            type: `SET_${configName.toUpperCase()}`,
+            payload: {
+                [nodeName]: payload,
+            },
+            ...extra,
+        };
     };
-};
 
-export const config_patchAction = <T>(configName: string, extra?: Json) => (
-    payload: Partial<T> & withNodeName
-) => {
-    const { nodeName } = payload;
+export const config_patchAction =
+    <T>(configName: string, extra?: Json) =>
+    (payload: Partial<T> & withNodeName) => {
+        const { nodeName } = payload;
 
-    delete (payload as any)['nodeName'];
+        delete (payload as any)['nodeName'];
 
-    return {
-        type: `PATCH_${configName.toUpperCase()}`,
-        payload: {
-            [nodeName]: payload,
-        },
-        ...extra,
+        return {
+            type: `PATCH_${configName.toUpperCase()}`,
+            payload: {
+                [nodeName]: payload,
+            },
+            ...extra,
+        };
     };
-};
 
 export const config_all = <T>(configName: string, extra?: Json) => {
     return {

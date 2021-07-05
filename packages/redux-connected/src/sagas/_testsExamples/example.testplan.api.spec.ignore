@@ -41,7 +41,7 @@ describe('example API', () => {
         const error = new Error('error');
 
         return expectSaga(userSaga)
-            .provide([[matchers.call.fn(api.fetchUser), throwError(error)]])
+            .provide([[matchers.call.fn(api.fetchUser), throwError(error: any)]])
             .put({ type: 'FAIL_USER', error })
             .dispatch({ type: 'REQUEST_USER', payload: 42 })
             .run();

@@ -1,4 +1,4 @@
-import { Item, SortOrder, SortOrders } from './../types/types';
+import { Item, SortOrder, SortOrders } from '../types/types';
 
 export const sortItems = (items: Item[], sortOrder: SortOrders) => {
     const sortField = Object.keys(sortOrder)[0];

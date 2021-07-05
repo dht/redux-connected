@@ -1,12 +1,16 @@
 import { combineReducers } from 'redux';
-import { Action, NodeType, generateSingle } from 'redux-store-generator';
+import {
+    Action,
+    NodeType,
+    generateSingle,
+} from 'redux-store-generator';
 import {
     EndpointsConfig,
     ApiRequest,
     ApiStatuses,
     Sagas,
     SagaState,
-} from './../types/types';
+} from '../types/types';
 
 interface Single {
     nodeType?: NodeType;

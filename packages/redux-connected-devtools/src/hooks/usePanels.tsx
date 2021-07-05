@@ -5,11 +5,14 @@ import { useList, useLocalStorage, useKey } from 'react-use';
 import { loadPanelsArrangement } from '../utils/localStorage';
 
 function uuidv4() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-        var r = (Math.random() * 16) | 0,
-            v = c == 'x' ? r : (r & 0x3) | 0x8;
-        return v.toString(16);
-    });
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
+        /[xy]/g,
+        function (c) {
+            var r = (Math.random() * 16) | 0,
+                v = c === 'x' ? r : (r & 0x3) | 0x8;
+            return v.toString(16);
+        }
+    );
 }
 
 export interface PanelState {
@@ -23,7 +26,10 @@ export interface PanelChildProps {
 }
 
 export function usePanels(Cmp: (props: any) => JSX.Element) {
-    const [savedList, setSavedList] = useLocalStorage<PanelState[]>('PANELS_STATE', []);
+    const [savedList, setSavedList] = useLocalStorage<PanelState[]>(
+        'PANELS_STATE',
+        []
+    );
     const [list, { push, updateAt, removeAt }] = useList<PanelState>(savedList);
 
     useEffect(() => {
@@ -48,7 +54,7 @@ export function usePanels(Cmp: (props: any) => JSX.Element) {
             const index = list.findIndex((item) => item.guid === guid);
             removeAt(index);
         },
-        [removeAt, list],
+        [removeAt, list]
     );
 
     const onToggleSize = useCallback(
@@ -57,7 +63,7 @@ export function usePanels(Cmp: (props: any) => JSX.Element) {
             const updatedItem = { ...list[index], isWide };
             updateAt(index, updatedItem);
         },
-        [list, updateAt],
+        [list, updateAt]
     );
 
     const fullJsx = useMemo(
@@ -68,7 +74,9 @@ export function usePanels(Cmp: (props: any) => JSX.Element) {
                         id={panelState.guid}
                         isWide={panelState.isWide}
                         key={panelState.guid}
-                        onToggleSize={(isWide: boolean) => onToggleSize(panelState.guid, isWide)}
+                        onToggleSize={(isWide: boolean) =>
+                            onToggleSize(panelState.guid, isWide)
+                        }
                         onNew={add}
                         onClose={() => remove(panelState.guid)}
                         showDuplicate={true}
@@ -79,7 +87,7 @@ export function usePanels(Cmp: (props: any) => JSX.Element) {
                 ))}
             </>
         ),
-        [list, Cmp, add, remove, onToggleSize],
+        [list, Cmp, add, remove, onToggleSize]
     );
 
     return fullJsx as JSX.Element;

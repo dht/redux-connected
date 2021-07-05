@@ -1,10 +1,27 @@
-import { today, weekStart, weekEnd, monthStart, monthEnd, yearStart, yearEnd } from './date';
-import { FilterType, FilterValue, FilterValues, Item, FilterOption } from './../types/types';
+import {
+    today,
+    weekStart,
+    weekEnd,
+    monthStart,
+    monthEnd,
+    yearStart,
+    yearEnd,
+} from './date';
+import {
+    FilterType,
+    FilterValue,
+    FilterValues,
+    Item,
+    FilterOption,
+} from '../types/types';
 import { format, add } from 'date-fns';
 
 type QueryParams = Record<string, string>;
 
-export const filterItems = (items: Item[], currentFilters: FilterValues): Item[] => {
+export const filterItems = (
+    items: Item[],
+    currentFilters: FilterValues
+): Item[] => {
     let output = items;
 
     const params = filtersValuesToQueryParams(currentFilters);
@@ -41,7 +58,9 @@ export const filtersValuesToQueryParams = (filter: FilterValues) => {
     }, {} as any);
 };
 
-export const filterValueToQueryParams = (filterValue: FilterValue): QueryParams => {
+export const filterValueToQueryParams = (
+    filterValue: FilterValue
+): QueryParams => {
     let output = {} as any;
     const { config, value } = filterValue;
     const { key, type } = config;
@@ -107,7 +126,7 @@ function replaceDates(str: string) {
             });
 
             return format(futureDate, 'yyyy-MM-dd');
-        },
+        }
     );
 
     output = output.replace(
@@ -115,7 +134,7 @@ function replaceDates(str: string) {
         (_all: string, period: string) => {
             const date = periodToDate(period);
             return format(date, 'yyyy-MM-dd');
-        },
+        }
     );
 
     return output;

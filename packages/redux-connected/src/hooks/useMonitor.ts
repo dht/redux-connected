@@ -20,8 +20,6 @@ export function useMonitor(
     const { onlyLast } = options || {};
 
     useStore(({ state, action }) => {
-        console.log('2 ->', 2);
-
         inc();
 
         const reading: Reading = {

@@ -1,10 +1,17 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Sagas, SagaState } from 'redux-connected';
+import {
+    Sagas,
+    SagaState,
+    startSaga,
+    stopSaga,
+} from 'redux-connected';
 import { formatDistance } from 'date-fns';
-import { startSaga, stopSaga } from 'redux-connected';
 import classnames from 'classnames';
-import VirtualList, { VirtualListItemWithEvent, VirtualListRowProps } from '../VirtualList/VirtualList';
+import VirtualList, {
+    VirtualListItemWithEvent,
+    VirtualListRowProps,
+} from '../VirtualList/VirtualList';
 import * as selectors from '../../selectors/selectors';
 import { preview } from '../Preview/Preview';
 import cssPrefix from '../prefix';
@@ -23,14 +30,23 @@ export function Monitor(props: MonitorProps) {
         dispatch(preview(item, 'process'));
     }
 
-    const className = classnames(`${cssPrefix}Monitor-container`, `${cssPrefix}Rows-container`, {
-        wide: isWide,
-    });
+    const className = classnames(
+        `${cssPrefix}Monitor-container`,
+        `${cssPrefix}Rows-container`,
+        {
+            wide: isWide,
+        }
+    );
 
-    const height = isWide ? 735 : 325;
+    const height = isWide ? 735 : 395;
 
     return (
-        <VirtualList className={className} items={sagas} height={height} onClick={onClick}>
+        <VirtualList
+            className={className}
+            items={sagas}
+            height={height}
+            onClick={onClick}
+        >
             {SagaRow}
         </VirtualList>
     );
@@ -44,16 +60,24 @@ const SagaRow = (props: VirtualListRowProps) => {
 
     const saga = listItem.item;
 
-    const distanceStart = formatDistance(new Date(), new Date(saga.startedTS || 0));
+    const distanceStart = formatDistance(
+        new Date(),
+        new Date(saga.startedTS || 0)
+    );
 
-    const distanceStopped = formatDistance(new Date(), new Date(saga.stoppedTS || 0));
+    const distanceStopped = formatDistance(
+        new Date(),
+        new Date(saga.stoppedTS || 0)
+    );
 
     const distance = saga.isRunning ? distanceStart : distanceStopped;
 
-    function onChange(_ev: React.MouseEvent<HTMLElement>, checked?: boolean) {
+    function onChange(ev: React.ChangeEvent<HTMLInputElement>) {
         const sagaId = saga.id as keyof Sagas;
 
-        const action = checked ? startSaga({ sagaId }) : stopSaga({ sagaId });
+        const action = ev.target.checked
+            ? startSaga({ sagaId })
+            : stopSaga({ sagaId });
 
         dispatch(action);
     }
@@ -63,7 +87,12 @@ const SagaRow = (props: VirtualListRowProps) => {
     });
 
     return (
-        <div className={className} key={saga.id} style={props.style} onClick={listItem.onClick}>
+        <div
+            className={className}
+            key={saga.id}
+            style={props.style}
+            onClick={listItem.onClick}
+        >
             <div className="col">
                 <div className="title">
                     {saga.id} <span className="timeAgo">{distance} ago</span>
@@ -73,7 +102,7 @@ const SagaRow = (props: VirtualListRowProps) => {
                 </div>
             </div>
             <div className="col">
-                <Toggle defaultChecked={saga.isRunning} onChange={onChange} />
+                <Toggle defaultChecked={!!saga.isRunning} onChange={onChange} />
             </div>
         </div>
     );

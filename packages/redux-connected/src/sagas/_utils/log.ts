@@ -1,4 +1,4 @@
-import { log } from './../logger/logger';
+import { log } from '../logger/logger';
 
 export const captureLog = (store: any) => {
     console.log = function (...params: any) {

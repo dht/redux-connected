@@ -1,9 +1,6 @@
 import globals from '../../globals';
 import { Action } from 'redux-store-generator';
-import {
-    ActionWithPromise,
-    ConnectionActionResponse,
-} from './../../types/types';
+import { ActionWithPromise, ConnectionActionResponse } from '../../types/types';
 import { uuidv4 } from './uuid';
 
 export const dispatchP = (

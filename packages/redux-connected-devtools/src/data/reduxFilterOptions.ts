@@ -1,5 +1,8 @@
 import { Reading } from 'redux-connected';
-import { ApiInfo, ApiInfoPerType } from 'redux-store-generator';
+import {
+    ApiInfo,
+    ApiInfoPerType,
+} from 'redux-store-generator';
 
 export type IncludePredicate = (
     reading: Reading,

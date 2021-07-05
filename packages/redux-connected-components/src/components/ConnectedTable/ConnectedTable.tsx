@@ -19,9 +19,19 @@ type ConnectedTableProps = {
 };
 
 export function ConnectedTable(props: ConnectedTableProps) {
-    const { actions, columns, filters, fields, height = 600, itemsPerPage = 50, selector } = props;
+    const {
+        actions,
+        columns,
+        filters,
+        fields,
+        height = 600,
+        itemsPerPage = 50,
+        selector,
+    } = props;
     const [crudModalsJsx, { onAction }] = useCrudModals(fields, actions);
-    const [items, data, methods] = useTableState(actions, selector, { itemsPerPage });
+    const [items, data, methods] = useTableState(actions, selector, {
+        itemsPerPage,
+    });
 
     return (
         <div className={`${cssPrefix}ConnectedTable-container`}>

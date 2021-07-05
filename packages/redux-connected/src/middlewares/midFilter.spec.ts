@@ -1,4 +1,4 @@
-import { partialStore } from './../__fixtures__/store-state';
+import { partialStore } from '../__fixtures__/store-state';
 import { filterMiddleware } from './midFilter';
 import globals from '../globals';
 

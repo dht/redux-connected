@@ -41,4 +41,8 @@ export const layout: Record<string, IPositionAndDimension> = {
         dimension: { x: 55, y: 20 },
         position: { x: 2, y: 54 },
     },
+    portrait: {
+        dimension: { x: 55, y: 30 },
+        position: { x: 2, y: 2 },
+    },
 };

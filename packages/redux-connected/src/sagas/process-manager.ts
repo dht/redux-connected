@@ -3,7 +3,7 @@ import {
     StartSagaPayload,
     StopSagaPayload,
     RunningSagas,
-} from './../types/types';
+} from '../types/types';
 import { fork, put, cancel, takeEvery, ForkEffect } from 'redux-saga/effects';
 import { Action } from 'redux-store-generator';
 import sagas from './index';

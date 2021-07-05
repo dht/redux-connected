@@ -1,3 +1,5 @@
+import { initSockets } from './sagas/_utils/sockets';
+import { devtoolsMiddleware } from './middlewares/midDevtools';
 import globals from './globals';
 import { captureLog } from './sagas/_utils/log';
 import { connectedMiddleware } from './middlewares/midConnected';
@@ -29,12 +31,15 @@ export const generateStore = <T extends StoreStructure>(
     mainStoreBuilder
         .withInitialState(mainStoreDefinition.initialState)
         .withReducers(mainStoreDefinition.reducers)
-        .withMiddlewares(connectedMiddleware)
+        .withMiddlewares([connectedMiddleware, devtoolsMiddleware('mainStore')])
         .withMiddlewares(middlewares)
         .withOptions(options);
 
     globals.mainStore = mainStoreBuilder.build();
-    console.log('globals.mainStore ->', globals.mainStore);
+
+    if (options.devTools && !options.devTools.passive) {
+        initSockets(options.devTools.socketUrl);
+    }
 
     return globals.mainStore;
 };
@@ -52,11 +57,17 @@ export const generateConnectedStore = <T extends StoreStructure>(
             ...connectedStoreDefinition.reducers,
             _lastAction: lastAction,
         })
-        .withMiddlewares(filterMiddleware)
+        .withMiddlewares([
+            filterMiddleware,
+            devtoolsMiddleware('connectedStore'),
+        ])
         .withSagas('logger', 'requests', 'get', 'save', 'internet');
 
     globals.connectedStore = connectedStoreBuilder.build();
-    console.log('globals.connectedStore ->', globals.connectedStore);
+
+    if (options.devTools && !options.devTools.passive) {
+        initSockets(options.devTools.socketUrl);
+    }
 
     return globals.connectedStore;
 };

@@ -2,6 +2,8 @@ import {
     generateActionTypesDictionaryForStore,
     StoreNode,
     StoreStructure,
+    analyzeStructure,
+    nodeToType,
 } from 'redux-store-generator';
 import {
     ApiSettings,
@@ -13,7 +15,6 @@ import {
     RetryStrategy,
     StoreOptions,
 } from './types/types';
-import { analyzeStructure, nodeToType } from 'redux-store-generator';
 
 const DEFAULT_API_GLOBAL_SETTINGS: ApiSettings = {
     beat: 300,
@@ -63,7 +64,7 @@ export const generateInitialState = <T extends StoreStructure>(
             ...DEFAULT_STATE,
         };
 
-        const overrides = apiConfigOverrides[key as any];
+        const overrides = (apiConfigOverrides as any)[key as any];
 
         output.endpointsConfig[key] = {
             nodeType: type,

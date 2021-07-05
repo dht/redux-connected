@@ -1,7 +1,7 @@
 import { Json } from 'redux-store-generator';
 import { ResponseBuilder } from '../../../sagas/_utils/ResponseBuilder';
 import { ApiRequest, ApiResponse } from '../../../types/types';
-const firebase = require('firebase');
+const firebase = require('firebase/app');
 
 export type RealtimeDataServerConfiguration = {
     db: RealtimeData;
@@ -150,7 +150,7 @@ export class RealtimeDataAdapter {
         const response = new ResponseBuilder(request);
         const type = request.nodeType.toLocaleLowerCase().replace('_node', '');
         const methodName = `${type}_${request.apiVerb}`;
-        const apiMethod = this[methodName];
+        const apiMethod = (this as any)[methodName];
 
         if (typeof apiMethod !== 'function') {
             Promise.resolve(response);
@@ -162,7 +162,7 @@ export class RealtimeDataAdapter {
                 response.withData(data).withIsSuccess(true).withData(data);
                 return response.build();
             })
-            .catch((error) => {
+            .catch((error: any) => {
                 console.log('Error getting documents: ', error);
                 return response.build();
             });
@@ -258,7 +258,7 @@ export class RealtimeData {
         if (isNext) {
         }
 
-        return pointer.get().then((snapshot) => {
+        return pointer.get().then((snapshot: any) => {
             console.log('snapshot.val() ->', snapshot.val());
             return objectToArray(snapshot.val());
         });
@@ -276,7 +276,7 @@ export class RealtimeData {
 
         console.log('path ->', path);
 
-        return ref.get().then((snapshot) => {
+        return ref.get().then((snapshot: any) => {
             return snapshot.val();
         });
     };
@@ -338,7 +338,7 @@ export class RealtimeData {
         return this.db.ref(path).remove();
     };
 
-    deleteCollection = async (collection) => {
+    deleteCollection = async (collection: any) => {
         const collectionRef = this.db.ref(collection);
         return collectionRef.remove();
     };

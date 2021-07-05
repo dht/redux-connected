@@ -2,7 +2,10 @@ import { Adapter, ApiResponse } from '../../../types/types';
 import { ResponseBuilder } from '../../../sagas/_utils/ResponseBuilder';
 import { ApiRequest, ApiServerConfiguration } from '../../../types/types';
 import { AxiosInstance, AxiosResponse } from 'axios';
-import { Json, NodeType } from 'redux-store-generator';
+import {
+    Json,
+    NodeType,
+} from 'redux-store-generator';
 import { itemsToObject } from '../../../sagas/_utils/object';
 
 export class SocketsAdapter implements Adapter {

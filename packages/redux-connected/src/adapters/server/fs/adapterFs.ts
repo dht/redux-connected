@@ -154,7 +154,7 @@ export class FsAdapter {
         const response = new ResponseBuilder(request);
         const type = request.nodeType.toLocaleLowerCase().replace('_node', '');
         const methodName = `${type}_${request.apiVerb}`;
-        const apiMethod = this[methodName];
+        const apiMethod = (this as any)[methodName];
 
         if (typeof apiMethod !== 'function') {
             Promise.resolve(response);
@@ -166,7 +166,7 @@ export class FsAdapter {
                 response.withData(data).withIsSuccess(true).withData(data);
                 return response.build();
             })
-            .catch((error) => {
+            .catch((error: any) => {
                 console.log('Error getting documents: ', error);
                 return response.build();
             });
@@ -224,7 +224,6 @@ export class FS {
     };
 
     load = () => {
-        console.log('2 ->', 2);
         const p = path.resolve(this.dbPath);
         console.log('p ->', p);
         this.data = this.readJson(this.dbPath);
@@ -340,7 +339,7 @@ export class FS {
 
     deleteSingle = async (_path: string) => {};
 
-    deleteCollection = async (_collection) => {};
+    deleteCollection = async (_collection: any) => {};
 }
 
 // const _objectToArray = (object: Record<string, Json>): Json[] => {

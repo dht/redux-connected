@@ -1,7 +1,7 @@
 import * as React from 'react';
 import classnames from 'classnames';
 import { ColumnConfig, Item, SortOrders } from '../../types/types';
-import { FixedSizeList, ListOnItemsRenderedProps } from 'react-window';
+import { FixedSizeList } from 'react-window';
 import { TableHeader } from './TableHeader';
 import { useState } from 'react';
 import { Cell } from './cells/Cell';
@@ -31,22 +31,33 @@ export type TableRowProps = {
 };
 
 export type InfiniteLoaderParams = {
-    onItemsRendered: (props: ListOnItemsRenderedProps) => void;
-    ref: React.LegacyRef<FixedSizeList>;
+    onItemsRendered: (props: any) => void;
+    ref: React.LegacyRef<any>;
 };
 
 const blankFunction = () => {};
 
 export function Table(props: TableProps) {
-    const { items, height, columns = [], hasNextPage, isNextPageLoading, showCount } = props;
+    const {
+        items,
+        height,
+        columns = [],
+        hasNextPage,
+        isNextPageLoading,
+        showCount,
+    } = props;
     const [sortOrder, setSortOrder] = useState<SortOrders>({});
     const onRowClick = props.onClick || blankFunction;
 
     const selectable = typeof props.onClick === 'function';
 
-    const className = classnames(`${cssPrefix}Table-container`, props.className, {
-        selectable,
-    });
+    const className = classnames(
+        `${cssPrefix}Table-container`,
+        props.className,
+        {
+            selectable,
+        }
+    );
 
     if (items.length === 0) {
         return <EmptyList />;
@@ -68,9 +79,19 @@ export function Table(props: TableProps) {
         });
 
         return (
-            <div className={className} style={rowProps.style} onClick={() => onRowClick(item)} key={item.id}>
+            <div
+                className={className}
+                style={rowProps.style}
+                onClick={() => onRowClick(item)}
+                key={item.id}
+            >
                 {columns.map((column) => (
-                    <Cell key={column.key} column={column} item={item} onActionClick={props.onAction} />
+                    <Cell
+                        key={column.key}
+                        column={column}
+                        item={item}
+                        onActionClick={props.onAction}
+                    />
                 ))}
             </div>
         );
@@ -85,12 +106,21 @@ export function Table(props: TableProps) {
     const loadMoreItems = isNextPageLoading ? () => {} : props.loadNextPage;
 
     // Every row is loaded except for our loading indicator row.
-    const isItemLoaded = (index: number) => !hasNextPage || index < items.length;
+    const isItemLoaded = (index: number) =>
+        !hasNextPage || index < items.length;
 
     return (
         <div className={className}>
-            <TableHeader columns={columns} sortOrder={sortOrder} setSortOrder={changeSort} />
-            <InfiniteLoader isItemLoaded={isItemLoaded} itemCount={itemCount} loadMoreItems={loadMoreItems as any}>
+            <TableHeader
+                columns={columns}
+                sortOrder={sortOrder}
+                setSortOrder={changeSort}
+            />
+            <InfiniteLoader
+                isItemLoaded={isItemLoaded}
+                itemCount={itemCount}
+                loadMoreItems={loadMoreItems as any}
+            >
                 {(params: InfiniteLoaderParams) => (
                     <FixedSizeList
                         className="table"

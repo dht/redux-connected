@@ -1,7 +1,7 @@
 import { Json } from 'redux-store-generator';
 import { ResponseBuilder } from '../../../sagas/_utils/ResponseBuilder';
 import { ApiRequest, ApiResponse } from '../../../types/types';
-const firebase = require('firebase');
+const firebase = require('firebase/app');
 
 export type FirestoreServerConfiguration = {
     db: any;
@@ -128,7 +128,7 @@ export class FirestoreAdapter {
         const response = new ResponseBuilder(request);
         const type = request.nodeType.toLocaleLowerCase().replace('_node', '');
         const methodName = `${type}_${request.apiVerb}`;
-        const apiMethod = this[methodName];
+        const apiMethod = (this as any)[methodName];
 
         if (typeof apiMethod !== 'function') {
             Promise.resolve(response);
@@ -139,7 +139,7 @@ export class FirestoreAdapter {
                 response.withData(data).withIsSuccess(true).withData(data);
                 return response.build();
             })
-            .catch((error) => {
+            .catch((error: any) => {
                 console.log('Error getting documents: ', error);
                 return response.build();
             });
@@ -208,11 +208,11 @@ export class Firestore {
             pointer = pointer.startAt(lastDoc);
         }
 
-        return pointer.get().then((snapshot) => {
+        return pointer.get().then((snapshot: any) => {
             let data = [] as any,
                 lastDoc;
 
-            snapshot.forEach((d) => {
+            snapshot.forEach((d: any) => {
                 data.push({
                     id: d.id,
                     ...d.data(),
@@ -239,7 +239,7 @@ export class Firestore {
     getSingle = (path: string): Promise<any> => {
         const ref = this.db.doc(path);
 
-        return ref.get().then((snapshot) => {
+        return ref.get().then((snapshot: any) => {
             if (snapshot.exists) {
                 return snapshot.data();
             }
@@ -257,7 +257,7 @@ export class Firestore {
         return this.db
             .collection(path)
             .add(item)
-            .then((docRef) => {
+            .then((docRef: any) => {
                 return { ...item, id: docRef.id };
             });
     };
@@ -302,7 +302,7 @@ export class Firestore {
         return this.db.doc(path).delete();
     };
 
-    deleteCollection = async (collection, batchSize: number = 30) => {
+    deleteCollection = async (collection: any, batchSize: number = 30) => {
         const collectionRef = this.db.collection(collection);
         const query = collectionRef.orderBy('__name__').limit(batchSize);
 
@@ -311,7 +311,7 @@ export class Firestore {
         });
     };
 
-    deleteQueryBatch = async (query, resolve) => {
+    deleteQueryBatch = async (query: any, resolve: any) => {
         const snapshot = await query.get();
 
         const batchSize = snapshot.size;
@@ -322,7 +322,7 @@ export class Firestore {
 
         // Delete documents in a batch
         const batch = this.db.batch();
-        snapshot.docs.forEach((doc) => {
+        snapshot.docs.forEach((doc: any) => {
             batch.delete(doc.ref);
         });
         await batch.commit();

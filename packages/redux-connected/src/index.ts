@@ -1,9 +1,10 @@
 import globals from './globals';
 export { generateStore, generateConnectedStore } from './store';
-export { generateActionsForStore, StoreStructure } from 'redux-store-generator';
+export { generateActionsForStore } from 'redux-store-generator';
+export type { StoreStructure } from 'redux-store-generator';
 export { apiActions } from './connected/actions';
 export { startSaga, stopSaga } from './sagas/process-manager';
-export {
+export type {
     ActionWithPromise,
     EndpointConfig,
     EndpointsConfigOverrides,

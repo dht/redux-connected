@@ -1,4 +1,4 @@
-import { ApiResponse, ActionWithPromise } from './../../../types/types';
+import { ApiResponse, ActionWithPromise } from '../../../types/types';
 import { Action } from 'redux-store-generator';
 import { ConnectionActionResponse } from '../../../types/types';
 

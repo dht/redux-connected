@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { generateConnectedStore, generateStore } from './../store';
+import { generateConnectedStore, generateStore } from '../store';
 import { renderHook, act } from '@testing-library/react-hooks';
 import globals from '../globals';
 import { useMonitor } from './useMonitor';

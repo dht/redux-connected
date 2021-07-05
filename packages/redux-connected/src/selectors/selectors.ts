@@ -1,4 +1,4 @@
-import { ApiRequestStatus } from './../types/types';
+import { ApiRequestStatus } from '../types/types';
 import { createSelector } from 'reselect';
 import { EndpointsConfig, ApiRequest } from '../types/types';
 

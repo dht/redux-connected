@@ -1,4 +1,4 @@
-import { JsonServerClient } from './../../../../adapters/client/jsonServer/jsonServer';
+import { JsonServerClient } from '../../../../adapters/client/jsonServer/jsonServer';
 import {
     pickRandom,
     randomUser,

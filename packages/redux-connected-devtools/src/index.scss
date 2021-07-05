@@ -1,5 +1,6 @@
 @import 'components/Config/Config.scss';
 @import 'components/DevTools/DevTools.scss';
+@import 'components/DevToolsLocal/DevToolsLocal.scss';
 @import 'components/Dispatcher/Dispatcher.scss';
 @import 'components/GlobalSettings/GlobalSettings.scss';
 @import 'components/Group/Group.scss';
@@ -15,7 +16,6 @@
 @import 'components/TaskManager/TaskManager.scss';
 @import 'components/Timeline/Timeline.scss';
 @import 'components/TimelineEvent/TimelineEvent.scss';
-@import 'components/TimelineHeader/TimelineHeader.scss';
 @import 'components/TimelineRow/TimelineRow.scss';
 @import 'components/TimelineRowHeader/TimelineRowHeader.scss';
 @import 'components/Toggle/Toggle.scss';

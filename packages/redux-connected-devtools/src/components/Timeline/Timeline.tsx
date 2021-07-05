@@ -1,13 +1,12 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import TimelineHeader from '../TimelineHeader/TimelineHeader';
 import TimelineRow from '../TimelineRow/TimelineRow';
 
 type TimelineProps = {
     selector: any;
 };
 
-const $i = (i) => i;
+const $i = (i: any) => i;
 
 export function Timeline(props: TimelineProps) {
     const sagas: any = useSelector(props.selector || $i);
@@ -18,9 +17,6 @@ export function Timeline(props: TimelineProps) {
 
     return (
         <div className="Timeline-container">
-            <div className="header">
-                <TimelineHeader />
-            </div>
             {sagas.map((saga) => (
                 <TimelineRow key={saga.id} saga={saga} />
             ))}

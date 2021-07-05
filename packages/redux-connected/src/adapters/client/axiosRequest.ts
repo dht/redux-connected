@@ -1,5 +1,5 @@
-import { ApiRequest } from './../../types/types';
-import { ResponseBuilder } from './../../sagas/_utils/ResponseBuilder';
+import { ApiRequest } from '../../types/types';
+import { ResponseBuilder } from '../../sagas/_utils/ResponseBuilder';
 import { AxiosResponse } from 'axios';
 
 const $i = (_request: ApiRequest, res: AxiosResponse) => res.data;

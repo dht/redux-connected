@@ -4,7 +4,11 @@ import { sortToQueryParams } from './sort';
 import { filtersValuesToQueryParams } from './filter';
 import { QueryParams } from 'redux-connected';
 
-export const tableDataToQueryParams = (tableData: TableData, page: number, itemsPerPage: number): QueryParams => {
+export const tableDataToQueryParams = (
+    tableData: TableData,
+    page: number,
+    itemsPerPage: number
+): QueryParams => {
     return {
         _page: page,
         _limit: itemsPerPage,

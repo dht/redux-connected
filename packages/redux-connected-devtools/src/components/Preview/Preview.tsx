@@ -2,8 +2,16 @@ import * as React from 'react';
 import classnames from 'classnames';
 import Json from '../Json/Json';
 import { Action } from 'redux-store-generator';
-import { Log, ActionWithPromise } from 'redux-connected';
-import { ApiRequest, clearMeta, clearActionP, Reading, SagaState, useMonitor } from 'redux-connected';
+import {
+    Log,
+    ActionWithPromise,
+    ApiRequest,
+    clearMeta,
+    clearActionP,
+    Reading,
+    SagaState,
+    useMonitor,
+} from 'redux-connected';
 import cssPrefix from '../prefix';
 
 export type PreviewType = 'request' | 'log' | 'process';
@@ -18,7 +26,10 @@ export type PreviewAction = Action & {
     };
 };
 
-export const preview = (item: PreviewItem, previewType: PreviewType): PreviewAction => ({
+export const preview = (
+    item: PreviewItem,
+    previewType: PreviewType
+): PreviewAction => ({
     type: 'PREVIEW',
     payload: {
         item,
@@ -32,7 +43,10 @@ type PreviewProps = {
 
 export function Preview(props: PreviewProps) {
     const { isWide } = props;
-    const [previews] = useMonitor({ onlyLast: true }, (action: Action) => action.type === 'PREVIEW');
+    const [previews] = useMonitor(
+        { onlyLast: true },
+        (action: Action) => action.type === 'PREVIEW'
+    );
 
     function renderInner(reading: Reading) {
         if (!reading) {

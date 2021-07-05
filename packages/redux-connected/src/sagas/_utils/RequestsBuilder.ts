@@ -1,4 +1,7 @@
-import { ApiVerb, NodeType } from 'redux-store-generator';
+import {
+    ApiVerb,
+    NodeType,
+} from 'redux-store-generator';
 import {
     ActionWithPromise,
     ApiRequest,

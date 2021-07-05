@@ -1,4 +1,4 @@
-import { startSaga } from './../process-manager';
+import { startSaga } from '../process-manager';
 import {
     applyMiddleware,
     combineReducers,
@@ -6,10 +6,13 @@ import {
     compose,
     Middleware,
 } from 'redux';
-import { clearNodes, Json } from 'redux-store-generator';
+import {
+    clearNodes,
+    Json,
+} from 'redux-store-generator';
 import createSagaMiddleware from 'redux-saga';
-import { StoreOptions, StoreDefinition, Sagas } from './../../types/types';
-import ProcessManager from './../process-manager';
+import { StoreOptions, StoreDefinition, Sagas } from '../../types/types';
+import ProcessManager from '../process-manager';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 export class StoreBuilder {

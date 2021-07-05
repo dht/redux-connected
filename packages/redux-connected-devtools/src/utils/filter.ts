@@ -4,7 +4,11 @@ import { IncludePredicate, ExcludePredicate } from '../data/reduxFilterOptions';
 import { ReadingsFilter, readingsFilters } from '../data/reduxFilterOptions';
 // import { SavedFilters } from '../components/ReduxSettings/ReduxSettings';
 
-export const filterReadings = (readings: Reading[], filters: any, apiInfo: ApiInfoPerType): Reading[] => {
+export const filterReadings = (
+    readings: Reading[],
+    filters: any,
+    apiInfo: ApiInfoPerType
+): Reading[] => {
     const includes = [] as IncludePredicate[];
     const excludes = [] as ExcludePredicate[];
 
@@ -13,7 +17,9 @@ export const filterReadings = (readings: Reading[], filters: any, apiInfo: ApiIn
         .sort();
 
     checkedFilters.forEach((filterId) => {
-        const filter = readingsFilters.find((f: ReadingsFilter) => f.id === filterId);
+        const filter = readingsFilters.find(
+            (f: ReadingsFilter) => f.id === filterId
+        );
 
         if (filter) {
             if (filter.include) {

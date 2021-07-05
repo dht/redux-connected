@@ -1,10 +1,11 @@
 export { Details } from './components/Details/Details';
 export { Filter } from './components/Filter/Filter';
-export { Form, FormInterface } from './components/Form/Form';
+export { Form } from './components/Form/Form';
+export type { FormInterface } from './components/Form/Form';
 export { Table } from './components/Table/Table';
 export { TableBar } from './components/TableBar/TableBar';
 export { ChatBar } from './components/ChatBar/ChatBar';
-export {
+export type {
     ColumnType,
     ColumnConfig,
     FilterConfig,

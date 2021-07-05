@@ -1,4 +1,7 @@
-import { Action, generateActionsForStore } from 'redux-store-generator';
+import {
+    Action,
+    generateActionsForStore,
+} from 'redux-store-generator';
 import { ApiResponse, ApiRequest } from '../../types/types';
 import globals from '../../globals';
 

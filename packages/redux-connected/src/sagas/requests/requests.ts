@@ -2,11 +2,11 @@ import * as actions from '../../connected/quickActions';
 import * as selectors from '../../selectors/selectors';
 import globals from '../../globals';
 import { Action } from 'redux-store-generator';
-import { apiActions } from './../../connected/actions';
+import { apiActions } from '../../connected/actions';
 import { call, delay, fork, put, select, takeEvery } from 'redux-saga/effects';
 import { intervalChannel } from '../_channels/interval';
 import { logm } from '../logger/logger';
-import { PostApiActionBuilder } from './../_utils/PostApiActionBuilder';
+import { PostApiActionBuilder } from '../_utils/PostApiActionBuilder';
 import {
     ApiRequest,
     ConnectionStatus,
@@ -18,7 +18,7 @@ import {
     ApiRequestStatus,
     EndpointsConfig,
     RetryStrategy,
-} from './../../types/types';
+} from '../../types/types';
 
 const runningRequests: Record<string, ApiRequest> = {};
 
@@ -61,6 +61,8 @@ function* fireRequest(request: ApiRequest): any {
         }
 
         if (!adapter) {
+            console.log('request ->', request);
+
             throw new Error(
                 `no adapter is defined for ${request.connectionType}`
             );

@@ -1,5 +1,5 @@
-import { RequestBuilder } from './../sagas/_utils/RequestsBuilder';
-import { ConnectionStatus } from './../types/types';
+import { RequestBuilder } from '../sagas/_utils/RequestsBuilder';
+import { ConnectionStatus } from '../types/types';
 import {
     config_patchAction,
     config_setAction,

@@ -1,4 +1,4 @@
-import { generateConnectedStore, generateStore } from './../store';
+import { generateConnectedStore, generateStore } from '../store';
 import { connectedMiddleware } from './midConnected';
 import globals from '../globals';
 

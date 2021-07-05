@@ -7,7 +7,7 @@ import {
     generateSagasReducersForStore,
     generateApiReducersForStore,
 } from './reducers';
-import { ConnectionStatus, ConnectionType } from './../types/types';
+import { ConnectionStatus, ConnectionType } from '../types/types';
 import { NodeType } from 'redux-store-generator';
 import { Chance } from 'chance';
 import { RequestBuilder } from '../sagas/_utils/RequestsBuilder';
@@ -93,7 +93,7 @@ describe('apiConfig', () => {
         const state = {
             appState: {
                 nodeType: NodeType.SINGLE_NODE,
-                connectionType: ConnectionType.SOCKET,
+                connectionType: ConnectionType.SOCKETS,
             },
             products: {
                 nodeType: NodeType.COLLECTION_NODE,

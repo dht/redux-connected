@@ -1,7 +1,7 @@
 import * as selectors from '../../selectors/selectors';
 import { apiActions } from '../../connected/actions';
 import { ApiRequest } from '../../types/types';
-import { logm } from './../logger/logger';
+import { logm } from '../logger/logger';
 import { put, select, takeEvery } from 'redux-saga/effects';
 import { RequestBuilder } from '../_utils/RequestsBuilder';
 import {
@@ -9,8 +9,12 @@ import {
     EndpointConfig,
     EndpointsConfig,
     ConnectionType,
-} from './../../types/types';
-import { ApiInfo, ApiInfoPerType, NodeType } from 'redux-store-generator';
+} from '../../types/types';
+import {
+    ApiInfo,
+    ApiInfoPerType,
+    NodeType,
+} from 'redux-store-generator';
 
 export function* get(apiInfo: ApiInfo, action: ActionWithPromise) {
     const configs = (yield select(selectors.$config)) as EndpointsConfig;

@@ -1,4 +1,4 @@
-import { ApiRequest } from './../types/types';
+import { ApiRequest } from '../types/types';
 import {
     randomProduct,
     randomLog,

@@ -154,7 +154,7 @@ export class FsAdapter {
         const response = new ResponseBuilder(request);
         const type = request.nodeType.toLocaleLowerCase().replace('_node', '');
         const methodName = `${type}_${request.apiVerb}`;
-        const apiMethod = this[methodName];
+        const apiMethod = (this as any)[methodName];
 
         if (typeof apiMethod !== 'function') {
             Promise.resolve(response);
@@ -166,7 +166,7 @@ export class FsAdapter {
                 response.withData(data).withIsSuccess(true).withData(data);
                 return response.build();
             })
-            .catch((error) => {
+            .catch((error: any) => {
                 console.log('Error getting documents: ', error);
                 return response.build();
             });
@@ -334,7 +334,7 @@ export class FsDirectories {
 
     deleteSingle = async (_path: string) => {};
 
-    deleteCollection = async (_collection) => {};
+    deleteCollection = async (_collection: any) => {};
 }
 
 export class FsExtra {
@@ -375,7 +375,7 @@ export class FsExtra {
     lsSync(path: string, recursive: boolean = false, withContent: boolean) {
         const items = this.fs.readdirSync(path);
 
-        return items.map((item) => {
+        return items.map((item: any) => {
             const itemPath = path + '/' + item;
             const isDirectory = this.fs.lstatSync(itemPath).isDirectory();
             const isFile = this.fs.lstatSync(itemPath).isFile();

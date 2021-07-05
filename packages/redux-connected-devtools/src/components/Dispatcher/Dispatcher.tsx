@@ -1,11 +1,14 @@
 import * as React from 'react';
 import Group from '../Group/Group';
 import classnames from 'classnames';
-import { generateActionsForStore, NodeType } from 'redux-store-generator';
+import {
+    generateActionsForStore,
+    NodeType,
+    analyzeStructure,
+} from 'redux-store-generator';
 import * as dispatcherActions from '../../data/dispatcherActions';
 import { ActionParams } from '../../data/dispatcherActions';
 import { useSetState } from 'react-use';
-import { analyzeStructure } from 'redux-store-generator';
 import Panel from '../Panel/Panel';
 import { useDispatch } from 'react-redux';
 import cssPrefix from '../prefix';
@@ -24,7 +27,11 @@ export function Dispatcher(props: DispatcherProps) {
     const actions = generateActionsForStore(storeState);
     const nodeTypes = analyzeStructure(storeState);
 
-    async function dispatchAction(nodeName: string, verbType: string, actionParams: any[]) {
+    async function dispatchAction(
+        nodeName: string,
+        verbType: string,
+        actionParams: any[]
+    ) {
         const node = actions[nodeName] as any;
         const actionCreator = node[verbType];
         const action = actionCreator.apply(null, actionParams);
@@ -40,11 +47,19 @@ export function Dispatcher(props: DispatcherProps) {
         });
     }
 
-    function renderAction(nodeName: string, verbType: string, actionParams: any[]) {
+    function renderAction(
+        nodeName: string,
+        verbType: string,
+        actionParams: any[]
+    ) {
         const disabled = requests[`${nodeName}_${verbType}`];
 
         return (
-            <button onClick={() => dispatchAction(nodeName, verbType, actionParams)} key={verbType} disabled={disabled}>
+            <button
+                onClick={() => dispatchAction(nodeName, verbType, actionParams)}
+                key={verbType}
+                disabled={disabled}
+            >
                 {verbType}
             </button>
         );
@@ -70,7 +85,12 @@ export function Dispatcher(props: DispatcherProps) {
         <Panel id="dispatcher" zIndex={999} onClose={props.onClose}>
             <div className={className}>
                 {Object.keys(nodeTypes).map((nodeName: string) => (
-                    <Group key={nodeName} title={nodeName} isWide={isWide} fluid={true}>
+                    <Group
+                        key={nodeName}
+                        title={nodeName}
+                        isWide={isWide}
+                        fluid={true}
+                    >
                         <>{renderActions(nodeName)}</>
                     </Group>
                 ))}

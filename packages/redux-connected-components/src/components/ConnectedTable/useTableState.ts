@@ -1,4 +1,4 @@
-import { tableDataToQueryParams } from './../../utils/query';
+import { tableDataToQueryParams } from '../../utils/query';
 import { sortItems } from '../../utils/sort';
 import { searchItems } from '../../utils/search';
 import { filterItems } from '../../utils/filter';
@@ -34,10 +34,14 @@ type TableMethods = {
 type useTableStateReturn = [
     items: any[], //
     data: TableData,
-    methods: TableMethods,
+    methods: TableMethods
 ];
 
-export function useTableState(actions: any, selector: any, options: useTableStateOptions) {
+export function useTableState(
+    actions: any,
+    selector: any,
+    options: useTableStateOptions
+) {
     const dispatch = useDispatch();
     const { itemsPerPage = 50 } = options;
     const [page, { inc: incPage, reset: resetPage }] = useCounter(1);
@@ -57,7 +61,10 @@ export function useTableState(actions: any, selector: any, options: useTableStat
     });
 
     const rawItems = useSelector(selector) as any[];
-    const items = filterItems(searchItems(rawItems, state.search), state.currentFilters);
+    const items = filterItems(
+        searchItems(rawItems, state.search),
+        state.currentFilters
+    );
     sortItems(items, state.sortOrder);
 
     const getState = useCallback(() => {
@@ -76,7 +83,11 @@ export function useTableState(actions: any, selector: any, options: useTableStat
             }
 
             setState({ isNextPageLoading: true });
-            const queryParams = tableDataToQueryParams(_state, _page, itemsPerPage);
+            const queryParams = tableDataToQueryParams(
+                _state,
+                _page,
+                itemsPerPage
+            );
             const response = await dispatch(actions.get(queryParams));
             const { data = [] } = response || {};
             setState({ isNextPageLoading: false });
@@ -91,7 +102,7 @@ export function useTableState(actions: any, selector: any, options: useTableStat
                 setState({ hasNextPage: false });
             }
         },
-        [page, state, getState],
+        [page, state, getState]
     );
 
     const setCurrentFilters = useCallback(
@@ -100,7 +111,7 @@ export function useTableState(actions: any, selector: any, options: useTableStat
             setState(change);
             loadPage(true, change);
         },
-        [loadPage],
+        [loadPage]
     );
 
     const setSearch = useCallback(
@@ -109,7 +120,7 @@ export function useTableState(actions: any, selector: any, options: useTableStat
             setState(change);
             loadPage(true, change);
         },
-        [loadPage],
+        [loadPage]
     );
 
     const setSortOrder = useCallback(
@@ -118,14 +129,14 @@ export function useTableState(actions: any, selector: any, options: useTableStat
             setState(change);
             loadPage(true, change);
         },
-        [loadPage],
+        [loadPage]
     );
 
     const loadNextPage = useCallback(
         async (_startIndex: number, _stopIndex: number) => {
             await loadPage(false, {});
         },
-        [loadPage],
+        [loadPage]
     );
 
     const setHasNextPage = useCallback((value: boolean) => {

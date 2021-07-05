@@ -153,7 +153,7 @@ export class MongoDbAdapter {
         const response = new ResponseBuilder(request);
         const type = request.nodeType.toLocaleLowerCase().replace('_node', '');
         const methodName = `${type}_${request.apiVerb}`;
-        const apiMethod = this[methodName];
+        const apiMethod = (this as any)[methodName];
 
         if (typeof apiMethod !== 'function') {
             Promise.resolve(response);
@@ -165,7 +165,7 @@ export class MongoDbAdapter {
                 response.withData(data).withIsSuccess(true).withData(data);
                 return response.build();
             })
-            .catch((error) => {
+            .catch((error: any) => {
                 console.log('Error getting documents: ', error);
                 return response.build();
             });
