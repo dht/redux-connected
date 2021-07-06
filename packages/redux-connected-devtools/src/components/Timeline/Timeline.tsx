@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import TimelineRow from '../TimelineRow/TimelineRow';
+import cssPrefix from '../prefix';
 
 type TimelineProps = {
     selector: any;
@@ -16,7 +17,7 @@ export function Timeline(props: TimelineProps) {
     }
 
     return (
-        <div className="Timeline-container">
+        <div className={`${cssPrefix}Timeline-container`}>
             {sagas.map((saga) => (
                 <TimelineRow key={saga.id} saga={saga} />
             ))}

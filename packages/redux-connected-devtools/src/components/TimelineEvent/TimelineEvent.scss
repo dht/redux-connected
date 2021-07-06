@@ -1,4 +1,6 @@
-.TimelineEvent-container {
+@import '../Prefix.scss';
+
+.#{$prefix}TimelineEvent-container {
     position: absolute;
     left: 0;
     top: 1px;

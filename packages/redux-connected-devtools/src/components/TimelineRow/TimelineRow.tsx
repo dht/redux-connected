@@ -2,6 +2,7 @@ import React from 'react';
 import { ISaga } from '../../types';
 import TimelineEvent from '../TimelineEvent/TimelineEvent';
 import TimelineRowHeader from '../TimelineRowHeader/TimelineRowHeader';
+import cssPrefix from '../prefix';
 
 type TimelineRowProps = {
     saga: ISaga;
@@ -13,7 +14,7 @@ export function TimelineRow(props: TimelineRowProps) {
     const styleBar = {};
 
     return (
-        <div className="TimelineRow-container">
+        <div className={`${cssPrefix}TimelineRow-container`}>
             <TimelineRowHeader saga={saga} />
             <div className="bar" style={styleBar}>
                 {items.map((event, index) => (

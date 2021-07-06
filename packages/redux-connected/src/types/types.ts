@@ -201,7 +201,6 @@ export interface StoreOptions {
         fs?: any;
     };
     devTools?: {
-        passive: boolean;
         socketUrl: string;
     };
     clearNodes?: string[];

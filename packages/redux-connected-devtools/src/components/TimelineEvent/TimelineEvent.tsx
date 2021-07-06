@@ -1,6 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
 import { IEvent } from '../../types';
+import cssPrefix from '../prefix';
 
 type TimelineEventProps = {
     event: IEvent;
@@ -14,7 +15,10 @@ export function TimelineEvent(props: TimelineEventProps) {
         left: (timestamp / 1000) * 100 + 'px',
     };
 
-    const className = classnames('TimelineEvent-container', action.type);
+    const className = classnames(
+        `${cssPrefix}TimelineEvent-container`,
+        action.type
+    );
 
     return <div className={className} style={style}></div>;
 }

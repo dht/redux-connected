@@ -1,4 +1,6 @@
-.TimelineRowHeader-container {
+@import '../Prefix.scss';
+
+.#{$prefix}TimelineRowHeader-container {
     width: 250px;
     display: flex;
     flex-direction: row;

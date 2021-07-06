@@ -1,4 +1,6 @@
-.TimelineRow-container {
+@import '../Prefix.scss';
+
+.#{$prefix}TimelineRow-container {
     display: flex;
     flex-direction: row;
     align-items: center;
