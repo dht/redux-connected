@@ -1,6 +1,6 @@
 {
     "name": "redux-connected",
-    "version": "0.0.10",
+    "version": "0.0.11",
     "description": "auto-connect a redux store to a REST/sockets server",
     "license": "MIT",
     "main": "lib/index.js",
@@ -37,7 +37,7 @@
         "react-use": "17.2.1",
         "redux-devtools-extension": "^2.13.8",
         "redux-saga": "^1.1.3",
-        "redux-store-generator": "file:.yalc/redux-store-generator",
+        "redux-store-generator": "^0.9.68",
         "reselect": "^4.0.0",
         "socket.io-client": "^4.0.0"
     },

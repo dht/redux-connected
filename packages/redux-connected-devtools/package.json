@@ -1,6 +1,6 @@
 {
     "name": "redux-connected-devtools",
-    "version": "0.0.14",
+    "version": "0.0.15",
     "license": "MIT",
     "description": "Styless UI",
     "main": "lib/index.js",
@@ -29,7 +29,7 @@
         "@testing-library/react": "^11.2.5",
         "classnames": "^2.3.1",
         "date-fns": "^2.22.1",
-        "igrid": "file:.yalc/igrid",
+        "igrid": "^0.0.4",
         "lodash": "^4.17.21",
         "react": "^17.0.2",
         "react-draggable": "^4.4.3",
@@ -39,7 +39,7 @@
         "react-toggle": "^4.1.2",
         "react-use": "^17.2.4",
         "react-window": "^1.8.6",
-        "redux-connected": "file:.yalc/redux-connected",
+        "redux-connected": "^0.0.11",
         "reselect": "^4.0.0",
         "sass": "^1.32.8"
     },

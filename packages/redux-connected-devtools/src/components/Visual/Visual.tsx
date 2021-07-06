@@ -5,10 +5,7 @@ import * as selectors from '../../selectors/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { ApiRequest } from 'redux-connected';
 import { preview } from '../Preview/Preview';
-import {
-    EndpointsConfig,
-    ConnectionType,
-} from '../../../redux-connected/types/types';
+import { EndpointsConfig, ConnectionType } from 'redux-connected/lib/types/types';
 import cssPrefix from '../prefix';
 
 type VisualProps = {
@@ -29,19 +26,13 @@ export function Visual(props: VisualProps) {
     }
 
     function renderRequests(nodeName: string) {
-        const requestsForNode = requests.filter(
-            (request) => request.nodeName === nodeName
-        );
+        const requestsForNode = requests.filter((request) => request.nodeName === nodeName);
 
         return requestsForNode.map((request) => {
             const className = classnames('request', request.status);
 
             return (
-                <div
-                    key={request.meta.id}
-                    className={className}
-                    onClick={() => onClick(request)}
-                >
+                <div key={request.meta.id} className={className} onClick={() => onClick(request)}>
                     {request.meta.sequence}
                 </div>
             );
@@ -66,11 +57,7 @@ export function Visual(props: VisualProps) {
         wide: isWide,
     });
 
-    return (
-        <div className={className}>
-            {Object.keys(nodeTypes).map(renderGroup)}
-        </div>
-    );
+    return <div className={className}>{Object.keys(nodeTypes).map(renderGroup)}</div>;
 }
 
 export default Visual;

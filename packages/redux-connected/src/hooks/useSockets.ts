@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from 'react';
 import * as sockets from '../sagas/_utils/sockets';
-import { Json } from '../../../types';
 
+type Json = Record<string, any>;
 type Callback = (data: Json) => void;
 
 export function useSockets(eventName: string, callback: Callback) {

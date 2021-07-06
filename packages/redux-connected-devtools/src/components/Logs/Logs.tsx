@@ -1,10 +1,7 @@
 import * as React from 'react';
 import { Action } from 'redux-store-generator';
-import { useMonitor, Reading, clearMeta } from '../../../redux-connected';
-import VirtualList, {
-    VirtualListItemWithEvent,
-    VirtualListRowProps,
-} from '../VirtualList/VirtualList';
+import { useMonitor, Reading, clearMeta } from 'redux-connected';
+import VirtualList, { VirtualListItemWithEvent, VirtualListRowProps } from '../VirtualList/VirtualList';
 import classnames from 'classnames';
 import { useDispatch } from 'react-redux';
 import { preview } from '../Preview/Preview';
@@ -19,10 +16,7 @@ const now = new Date().getTime();
 
 export function Logs(props: LogsProps) {
     const dispatch = useDispatch();
-    const [readings] = useMonitor(
-        {},
-        (action: Action) => action.type === 'LOG'
-    );
+    const [readings] = useMonitor({}, (action: Action) => action.type === 'LOG');
 
     function onClick(reading: Reading) {
         const { action } = reading;
@@ -32,24 +26,15 @@ export function Logs(props: LogsProps) {
 
     const { isWide } = props;
 
-    const className = classnames(
-        `${cssPrefix}Logs-container`,
-        `${cssPrefix}Rows-container`,
-        {
-            wide: isWide,
-        }
-    );
+    const className = classnames(`${cssPrefix}Logs-container`, `${cssPrefix}Rows-container`, {
+        wide: isWide,
+    });
 
     const height = isWide ? 735 : 395;
 
     return (
         <div className={className}>
-            <VirtualList
-                className={className}
-                items={readings}
-                height={height}
-                onClick={onClick}
-            >
+            <VirtualList className={className} items={readings} height={height} onClick={onClick}>
                 {LowRow}
             </VirtualList>
         </div>
@@ -73,11 +58,7 @@ const LowRow = (props: VirtualListRowProps) => {
     delete data['message'];
 
     return (
-        <div
-            className={className}
-            style={props.style}
-            onClick={listItem.onClick}
-        >
+        <div className={className} style={props.style} onClick={listItem.onClick}>
             <div className="col">
                 <div className="row">
                     <div className="sequence">{sequence}</div>

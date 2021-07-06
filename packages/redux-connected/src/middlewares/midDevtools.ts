@@ -3,7 +3,7 @@ import * as sockets from '../sagas/_utils/sockets';
 
 export const devtoolsMiddleware =
     (storeId: string) =>
-    (store: any) =>
+    (_store: any) =>
     (next: any) =>
     (action: ActionWithPromise) => {
         sockets.emit('action', {
