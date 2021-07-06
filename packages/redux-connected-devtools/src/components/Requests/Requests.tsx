@@ -1,12 +1,15 @@
 import * as React from 'react';
 import { ApiRequest } from 'redux-connected';
-import VirtualList, { VirtualListItemWithEvent, VirtualListRowProps } from '../VirtualList/VirtualList';
+import VirtualList, {
+    VirtualListItemWithEvent,
+    VirtualListRowProps,
+} from '../VirtualList/VirtualList';
 import classnames from 'classnames';
 import * as selectors from '../../selectors/selectors';
 import { isEmpty } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { preview } from '../Preview/Preview';
-import { ApiRequestStatus } from 'redux-connected/lib/types/types';
+import { ApiRequestStatus } from 'redux-connected/types/types';
 import cssPrefix from '../prefix';
 
 type RequestsProps = {
@@ -24,15 +27,24 @@ export function Requests(props: RequestsProps) {
         dispatch(preview(request, 'request'));
     }
 
-    const className = classnames(`${cssPrefix}Logs-container`, `${cssPrefix}Rows-container`, {
-        wide: isWide,
-    });
+    const className = classnames(
+        `${cssPrefix}Logs-container`,
+        `${cssPrefix}Rows-container`,
+        {
+            wide: isWide,
+        }
+    );
 
     const height = isWide ? 735 : 395;
 
     return (
         <div className={`${cssPrefix}Requests-container`}>
-            <VirtualList className={className} items={requests} height={height} onClick={onClick}>
+            <VirtualList
+                className={className}
+                items={requests}
+                height={height}
+                onClick={onClick}
+            >
                 {RequestRow}
             </VirtualList>
         </div>
@@ -43,7 +55,8 @@ const RequestRow = (props: VirtualListRowProps) => {
     const { index } = props;
     const listItem: VirtualListItemWithEvent<ApiRequest> = props.data[index];
     const apiRequest = listItem.item;
-    const { meta, method, path, params, status, errorType, errorStatus } = apiRequest;
+    const { meta, method, path, params, status, errorType, errorStatus } =
+        apiRequest;
 
     const { createdTS, id, shortId, sequence } = meta;
 
@@ -68,7 +81,12 @@ const RequestRow = (props: VirtualListRowProps) => {
     }
 
     return (
-        <div className={className} style={props.style} onClick={listItem.onClick} key={id}>
+        <div
+            className={className}
+            style={props.style}
+            onClick={listItem.onClick}
+            key={id}
+        >
             <div className="col">
                 <div className="row">
                     <div className="sequence">{sequence}</div>

@@ -115,7 +115,9 @@ export class StoreBuilder {
             ...this.postMiddlewares
         );
 
-        const composeMethod = devTools ? composeWithDevTools : (compose as any);
+        const composeMethod = devTools?.enable
+            ? composeWithDevTools
+            : (compose as any);
         const composedEnhancers = composeMethod(middlewareEnhancer);
 
         const store = createStore(

@@ -37,7 +37,7 @@ export const generateStore = <T extends StoreStructure>(
 
     globals.mainStore = mainStoreBuilder.build();
 
-    if (options.devTools) {
+    if (options.devTools?.socketUrl) {
         initSockets(options.devTools.socketUrl);
     }
 
@@ -65,7 +65,7 @@ export const generateConnectedStore = <T extends StoreStructure>(
 
     globals.connectedStore = connectedStoreBuilder.build();
 
-    if (options.devTools) {
+    if (options.devTools?.socketUrl) {
         initSockets(options.devTools.socketUrl);
     }
 
