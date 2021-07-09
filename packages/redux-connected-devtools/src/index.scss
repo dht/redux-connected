@@ -1,24 +1,73 @@
-@import 'components/Config/Config.scss';
-@import 'components/DevTools/DevTools.scss';
-@import 'components/DevToolsLocal/DevToolsLocal.scss';
-@import 'components/Dispatcher/Dispatcher.scss';
-@import 'components/GlobalSettings/GlobalSettings.scss';
-@import 'components/Group/Group.scss';
-@import 'components/Json/Json.scss';
-@import 'components/Logs/Logs.scss';
-@import 'components/Monitor/Monitor.scss';
-@import 'components/OverlayManager/OverlayManager.scss';
-@import 'components/Panel/Panel.scss';
-@import 'components/Preview/Preview.scss';
-@import 'components/Redux/Redux.scss';
-@import 'components/Requests/Requests.scss';
-@import 'components/Status/Status.scss';
-@import 'components/TaskManager/TaskManager.scss';
-@import 'components/Timeline/Timeline.scss';
-@import 'components/TimelineEvent/TimelineEvent.scss';
-@import 'components/TimelineRow/TimelineRow.scss';
-@import 'components/TimelineRowHeader/TimelineRowHeader.scss';
-@import 'components/Toggle/Toggle.scss';
-@import 'components/VirtualList/VirtualList.scss';
-@import 'components/Visual/Visual.scss';
-@import 'components/Reading.scss';
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+body {
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    flex: 1;
+    color: #eee;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    font-family: 'Open Sans', sans-serif;
+    height: 100vh;
+    background-color: #223;
+    min-height: 100vh;
+}
+
+.theme {
+    background: transparent;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+a {
+    color: #d3d3d3;
+}
+
+html {
+    min-height: 100vh;
+}
+
+html,
+body,
+#root,
+.app-container {
+    display: flex;
+    flex: 1;
+}
+
+.version {
+    position: fixed;
+    bottom: 10px;
+    left: 68px;
+    z-index: 4;
+    color: #555;
+    font-size: 11px;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #eee;
+    border-radius: 10px;
+}
+
+@import 'igrid/lib/index.css';

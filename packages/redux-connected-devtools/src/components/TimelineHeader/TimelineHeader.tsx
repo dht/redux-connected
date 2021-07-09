@@ -1,4 +1,5 @@
 import React from 'react';
+import './TimelineHeader.scss';
 
 type TimelineHeaderProps = {};
 

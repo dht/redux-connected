@@ -1,24 +1,20 @@
 {
     "compilerOptions": {
         "target": "es5",
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "jsx": "react",
-        "declaration": true,
-        "pretty": true,
-        "rootDir": "src",
-        "sourceMap": false,
-        "strict": true,
+        "lib": ["dom", "dom.iterable", "esnext"],
+        "allowJs": true,
+        "skipLibCheck": true,
         "esModuleInterop": true,
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
-        "noImplicitReturns": true,
-        "noImplicitAny": false,
+        "allowSyntheticDefaultImports": true,
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
         "noFallthroughCasesInSwitch": true,
-        "outDir": "lib",
-        "lib": ["es2018", "dom"],
-        "importHelpers": true
+        "module": "esnext",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "noEmit": true,
+        "jsx": "react-jsx"
     },
-    "include": ["src", "test"],
-    "exclude": ["node_modules", "**/__tests__/*", "**/lib/*", "**/*.spec.ts"]
+    "include": ["src", "server"]
 }

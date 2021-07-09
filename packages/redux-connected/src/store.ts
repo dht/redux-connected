@@ -1,4 +1,4 @@
-import { initSockets } from './sagas/_utils/sockets';
+import { initSockets, emit } from './sagas/_utils/sockets';
 import { devtoolsMiddleware } from './middlewares/midDevtools';
 import globals from './globals';
 import { captureLog } from './sagas/_utils/log';
@@ -25,11 +25,12 @@ export const generateStore = <T extends StoreStructure>(
 
     const mainStoreDefinition = getMainStoreDefinition(state);
     const mainStoreBuilder = new StoreBuilder('main');
+    const initialState = { ...mainStoreDefinition.initialState };
 
     globals.adapters = options.adapters;
 
     mainStoreBuilder
-        .withInitialState(mainStoreDefinition.initialState)
+        .withInitialState(initialState)
         .withReducers(mainStoreDefinition.reducers)
         .withMiddlewares([connectedMiddleware, devtoolsMiddleware('mainStore')])
         .withMiddlewares(middlewares)
@@ -39,6 +40,10 @@ export const generateStore = <T extends StoreStructure>(
 
     if (options.devTools?.socketUrl) {
         initSockets(options.devTools.socketUrl);
+        emit('state', {
+            storeId: 'mainStore',
+            state,
+        });
     }
 
     return globals.mainStore;
@@ -50,9 +55,10 @@ export const generateConnectedStore = <T extends StoreStructure>(
 ): any => {
     const connectedStoreDefinition = getConnectStoreDefinition(state, options); // prettier-ignore
     const connectedStoreBuilder = new StoreBuilder('connected');
+    const initialState = { ...connectedStoreDefinition.initialState };
 
     connectedStoreBuilder
-        .withInitialState({ ...connectedStoreDefinition.initialState })
+        .withInitialState(initialState)
         .withReducers({
             ...connectedStoreDefinition.reducers,
             _lastAction: lastAction,
@@ -67,6 +73,10 @@ export const generateConnectedStore = <T extends StoreStructure>(
 
     if (options.devTools?.socketUrl) {
         initSockets(options.devTools.socketUrl);
+        emit('state', {
+            storeId: 'connectedStore',
+            state,
+        });
     }
 
     return globals.connectedStore;

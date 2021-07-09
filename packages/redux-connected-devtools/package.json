@@ -3,14 +3,6 @@
     "version": "0.0.15",
     "license": "MIT",
     "description": "Styless UI",
-    "main": "lib/index.js",
-    "files": [
-        "lib/",
-        "lib/index.css",
-        "esm/"
-    ],
-    "types": "lib/index.d.ts",
-    "typings": "lib/index.d.ts",
     "scripts": {
         "test": "jest --config jest.config.ts",
         "test:watch": "jest --watch",
@@ -23,13 +15,16 @@
         "build": "node scripts/generate-index.js && npm run clean && npm run scss && yarn build:cjs && yarn build:es && yalc push",
         "clean": "rm -rf lib2/* && rm -rf esm2/*",
         "watch": "nodemon -x \"npm run build\"",
-        "scss": "node scripts/build-scss.js"
+        "scss": "node scripts/build-scss.js",
+        "start": "react-scripts start",
+        "eject": "react-scripts eject"
     },
     "dependencies": {
         "@testing-library/react": "^11.2.5",
+        "@types/react-toggle": "^4.0.3",
         "classnames": "^2.3.1",
         "date-fns": "^2.22.1",
-        "igrid": "^0.0.4",
+        "igrid": "file:.yalc/igrid",
         "lodash": "^4.17.21",
         "react": "^17.0.2",
         "react-draggable": "^4.4.3",
@@ -39,9 +34,17 @@
         "react-toggle": "^4.1.2",
         "react-use": "^17.2.4",
         "react-window": "^1.8.6",
-        "redux-connected": "^0.0.11",
+        "redux-connected": "file:.yalc/redux-connected",
+        "redux-devtools-extension": "^2.13.9",
+        "redux-store-generator": "^0.9.69",
         "reselect": "^4.0.0",
         "sass": "^1.32.8"
+    },
+    "eslintConfig": {
+        "extends": [
+            "react-app",
+            "react-app/jest"
+        ]
     },
     "peerDependencies": {
         "redux-connected": "^0.0.10"
@@ -52,26 +55,32 @@
         "@types/classnames": "^2.2.11",
         "@types/jest": "^26.0.21",
         "@types/lodash": "^4.14.168",
+        "@types/node": "^12.0.0",
+        "@types/react": "^17.0.0",
+        "@types/react-dom": "^17.0.0",
         "husky": "^5.2.0",
         "jest": "^26.6.3",
         "lint-staged": "^10.5.4",
         "prettier": "^2.2.1",
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2",
+        "react-scripts": "4.0.3",
         "ts-jest": "^26.5.4",
         "tslib": "^2.1.0",
         "tslint": "^6.1.3",
         "tslint-config-prettier": "^1.18.0",
         "typescript": "^4.2.3"
     },
-    "husky": {
-        "hooks": {
-            "pre-commit": "lint-staged",
-            "pre-push": "yarn lint && yarn clean && yarn build && yarn test"
-        }
-    },
-    "lint-staged": {
-        "src/**/**/*.{ts,tsx}": [
-            "eslint --fix",
-            "git add"
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
         ]
     }
 }

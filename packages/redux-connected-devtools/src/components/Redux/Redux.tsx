@@ -8,11 +8,9 @@ import { Reading, useMonitor } from 'redux-connected';
 import { useLocalStorage } from 'react-use';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
-import VirtualList, {
-    VirtualListItemWithEvent,
-    VirtualListRowProps,
-} from '../VirtualList/VirtualList';
+import VirtualList, { VirtualListItemWithEvent, VirtualListRowProps } from '../VirtualList/VirtualList';
 import cssPrefix from '../prefix';
+import './Redux.scss';
 
 type ReduxProps = {
     isWide: boolean;
@@ -30,30 +28,17 @@ export function Redux(props: ReduxProps) {
 
     const { isWide } = props;
 
-    const filteredReading = filterReadings(
-        readings,
-        filters || {},
-        actionTypes
-    );
+    const filteredReading = filterReadings(readings, filters || {}, actionTypes);
 
     function renderList() {
         const height = isWide ? 700 : 288;
 
-        const className = classnames(
-            `${cssPrefix}Redux-list-container`,
-            `${cssPrefix}Rows-container`,
-            {
-                wide: isWide,
-            }
-        );
+        const className = classnames(`${cssPrefix}Redux-list-container`, `${cssPrefix}Rows-container`, {
+            wide: isWide,
+        });
 
         return (
-            <VirtualList
-                className={className}
-                items={filteredReading}
-                height={height}
-                onClick={setCurrentReading}
-            >
+            <VirtualList className={className} items={filteredReading} height={height} onClick={setCurrentReading}>
                 {ReduxRow}
             </VirtualList>
         );
@@ -116,18 +101,12 @@ const ReduxRow = (props: VirtualListRowProps) => {
     const delta = ((createdTS - now) / 1000).toFixed(2);
 
     return (
-        <div
-            className={className}
-            style={props.style}
-            onClick={listItem.onClick}
-        >
+        <div className={className} style={props.style} onClick={listItem.onClick}>
             <div className="col">
                 <div className="row">
                     <div className="type">{type}</div>
                 </div>
-                <div className="description short">
-                    {JSON.stringify(payload)}
-                </div>
+                <div className="description short">{JSON.stringify(payload)}</div>
             </div>
             <div className="col">
                 <div className="timestamp">+{delta}s</div>

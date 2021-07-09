@@ -41,34 +41,6 @@
         "reselect": "^4.0.0",
         "socket.io-client": "^4.0.0"
     },
-    "devDependencies": {
-        "@jest/types": "^26.6.2",
-        "@testing-library/react-hooks": "^5.1.0",
-        "@types/jest": "^26.0.21",
-        "@types/redux": "^3.6.0",
-        "@types/redux-saga-tester": "^1.0.2",
-        "@types/reselect": "^2.2.0",
-        "@typescript-eslint/eslint-plugin": "^4.24.0",
-        "@typescript-eslint/parser": "^4.24.0",
-        "chance": "^1.1.7",
-        "eslint": "^7.26.0",
-        "eslint-plugin-react": "^7.23.2",
-        "firebase-admin": "^9.6.0",
-        "husky": "^5.2.0",
-        "jest": "^26.6.3",
-        "jsdom": "^16.5.0",
-        "lint-staged": "^10.5.4",
-        "lodash": "^4.17.21",
-        "react": "17.0.2",
-        "redux": "^4.0.5",
-        "redux-saga-test-plan": "^4.0.1",
-        "redux-saga-tester": "^1.0.874",
-        "source-map-explorer": "^2.5.2",
-        "ts-jest": "^26.5.4",
-        "tslib": "^2.1.0",
-        "typescript": "^4.2.3",
-        "weak-napi": "^2.0.2"
-    },
     "husky": {
         "hooks": {
             "pre-commit": "lint-staged",
@@ -80,5 +52,6 @@
             "eslint --fix",
             "git add"
         ]
-    }
+    },
+    "yalcSig": "1ec2b3363113dafa67a8bf9f6e64fc87"
 }
