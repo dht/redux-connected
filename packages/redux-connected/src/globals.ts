@@ -25,7 +25,7 @@ const accessors = {
         return globals.structure;
     },
     set adapters(adapters: any) {
-        globals.structure = adapters;
+        globals.adapters = adapters;
     },
     get adapters() {
         return globals.adapters;

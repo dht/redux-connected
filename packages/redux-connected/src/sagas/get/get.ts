@@ -1,3 +1,4 @@
+import { emitTimelineEvent } from './../_utils/sockets';
 import * as selectors from '../../selectors/selectors';
 import { apiActions } from '../../connected/actions';
 import { ApiRequest } from '../../types/types';
@@ -16,54 +17,69 @@ import {
     NodeType,
 } from 'redux-store-generator';
 
-export function* get(apiInfo: ApiInfo, action: ActionWithPromise) {
-    const configs = (yield select(selectors.$config)) as EndpointsConfig;
-    const { nodeName, verb } = apiInfo;
+export function* get(action: ActionWithPromise) {
+    try {
+        const actionTypesRaw = (yield select(
+            selectors.$actionTypes
+        )) as ApiInfoPerType;
 
-    const config = configs[nodeName] as EndpointConfig;
-    const { connectionType } = config;
+        const apiInfo: ApiInfo = actionTypesRaw[action.type];
 
-    const nodeTypes = (yield select(selectors.$nodeTypes)) as Record<
-        string,
-        NodeType
-    >;
-    const nodeType = nodeTypes[nodeName];
+        const configs = (yield select(selectors.$config)) as EndpointsConfig;
+        const { nodeName, verb } = apiInfo;
 
-    if (connectionType === ConnectionType.NONE || !connectionType) {
-        yield put(logm(`connection type is ${connectionType}. skipping`));
+        const config = configs[nodeName] as EndpointConfig;
+        const { connectionType } = config;
 
-        if (typeof action.resolve === 'function') {
-            action.resolve({ ignored: true });
+        const nodeTypes = (yield select(selectors.$nodeTypes)) as Record<
+            string,
+            NodeType
+        >;
+        const nodeType = nodeTypes[nodeName];
+
+        if (connectionType === ConnectionType.NONE || !connectionType) {
+            yield put(logm(`connection type is ${connectionType}. skipping`));
+
+            if (typeof action.resolve === 'function') {
+                action.resolve({ ignored: true });
+            }
+            return;
         }
-        return;
+
+        emitTimelineEvent('get', { action });
+
+        const request: ApiRequest = new RequestBuilder()
+            .withConnectionType(connectionType)
+            .withMethod(verb)
+            .withNodeName(nodeName)
+            .withNodeType(nodeType)
+            .withOriginalAction(action)
+            .build();
+
+        const nextAction = apiActions.api.requests.push(request);
+
+        yield put(nextAction);
+    } catch (e) {
+        console.log('e ->', e);
     }
-
-    const request: ApiRequest = new RequestBuilder()
-        .withConnectionType(connectionType)
-        .withMethod(verb)
-        .withNodeName(nodeName)
-        .withNodeType(nodeType)
-        .withOriginalAction(action)
-        .build();
-
-    const nextAction = apiActions.api.requests.push(request);
-
-    yield put(nextAction);
 }
 
 function* root() {
-    yield put(logm('get saga on'));
+    try {
+        yield put(logm('get saga on'));
 
-    const actionTypes = (yield select(
-        selectors.$actionTypes
-    )) as ApiInfoPerType;
+        const actionTypesRaw = (yield select(
+            selectors.$actionTypes
+        )) as ApiInfoPerType;
 
-    for (let actionType of Object.keys(actionTypes)) {
-        const apiInfo: ApiInfo = actionTypes[actionType];
+        const actionTypes = Object.keys(actionTypesRaw).filter((key) => {
+            const apiInfo: ApiInfo = actionTypesRaw[key];
+            return apiInfo.isGet && !apiInfo.isLocal;
+        });
 
-        if (apiInfo.isGet && !apiInfo.isLocal) {
-            yield takeEvery(actionType, get, apiInfo);
-        }
+        yield takeEvery(actionTypes, get);
+    } catch (e) {
+        console.log('e ->', e);
     }
 }
 

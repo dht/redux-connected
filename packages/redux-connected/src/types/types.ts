@@ -17,7 +17,6 @@ export enum ConnectionType {
     REALTIME_DATABASE = 'REALTIME_DATABASE',
     FIRESTORE = 'FIRESTORE',
     FS = 'FS',
-    FS_DIRECTORY = 'FS_DIRECTORY',
 }
 
 export enum ConnectionStatus {

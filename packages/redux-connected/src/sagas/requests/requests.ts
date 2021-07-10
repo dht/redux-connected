@@ -1,3 +1,4 @@
+import { emitTimelineEvent } from './../_utils/sockets';
 import * as actions from '../../connected/quickActions';
 import * as selectors from '../../selectors/selectors';
 import globals from '../../globals';
@@ -45,6 +46,8 @@ function* fireRequest(request: ApiRequest): any {
 
         let adapter;
 
+        emitTimelineEvent('requests', { request });
+
         switch (request.connectionType) {
             case ConnectionType.REST:
                 adapter = globals.adapters.rest;
@@ -54,9 +57,6 @@ function* fireRequest(request: ApiRequest): any {
                 break;
             case ConnectionType.FS:
                 adapter = globals.adapters.fs;
-                break;
-            case ConnectionType.FS_DIRECTORY:
-                adapter = globals.adapters.fsDirectory;
                 break;
         }
 

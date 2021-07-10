@@ -1,3 +1,4 @@
+import { emitTimelineEvent } from './../sagas/_utils/sockets';
 import { ApiInfo } from 'redux-store-generator';
 import * as selectors from '../selectors/selectors';
 import { ActionWithPromise, ConnectionType } from '../types/types';
@@ -42,6 +43,10 @@ export const filterMiddleware =
             }
             action.resolve({ nextAction });
             return;
+        }
+
+        if (action['@@redux-store-generator/AUTO_GENERATED_ACTION']) {
+            emitTimelineEvent('midFilter', { action });
         }
 
         return next(action);

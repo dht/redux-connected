@@ -4,9 +4,12 @@ import { AxiosResponse } from 'axios';
 
 let sequence = 1;
 
+type Transformer = (items: any) => any;
+
 export class ResponseBuilder {
     private output = {} as ApiResponse;
     private response = {} as AxiosResponse;
+    private transformers = [] as Transformer[];
 
     constructor(request: ApiRequest) {
         this.output.meta = generateMeta(sequence++);
@@ -48,7 +51,20 @@ export class ResponseBuilder {
         return this;
     }
 
+    withTransformer(transformer: Transformer) {
+        this.transformers.push(transformer);
+        return this;
+    }
+
     build(): ApiResponse {
+        this.transformers.forEach((transformer) => {
+            if (Array.isArray(this.output.data)) {
+                this.output.data = this.output.data.map((item) =>
+                    transformer(item)
+                );
+            }
+        });
+
         if (!this.response) {
             return this.output;
         } else {

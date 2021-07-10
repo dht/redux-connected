@@ -41,6 +41,7 @@ export class PostApiActionBuilder {
                 action = actionBag['pushMany'](data);
                 break;
             case 'COLLECTION_NODE_get':
+            case 'GROUPED_LIST_NODE_get':
                 action = actionBag['setMany'](data);
                 break;
             case 'COLLECTION_NODE_add':

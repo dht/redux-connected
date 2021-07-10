@@ -2,10 +2,7 @@ import { Adapter, ApiResponse } from '../../../types/types';
 import { ResponseBuilder } from '../../../sagas/_utils/ResponseBuilder';
 import { ApiRequest, ApiServerConfiguration } from '../../../types/types';
 import { AxiosInstance, AxiosResponse } from 'axios';
-import {
-    Json,
-    NodeType,
-} from 'redux-store-generator';
+import { NodeType } from 'redux-store-generator';
 import { itemsToObject } from '../../../sagas/_utils/object';
 
 export class RestAdapter implements Adapter {
@@ -15,25 +12,44 @@ export class RestAdapter implements Adapter {
         this.instance = configuration.axios;
     }
 
-    GET(path: string, params?: Json) {
+    GET = (request: ApiRequest, response: ResponseBuilder) => {
+        const { path, params: inParams = {} } = request;
+
+        const params = { ...inParams };
+        if (inParams.deep && request.nodeType === NodeType.GROUPED_LIST_NODE) {
+            const itemsKey = request.nodeName + 'Items';
+            params['_embed'] = itemsKey;
+            delete params['deep'];
+            response.withTransformer((item: any) => {
+                const newItem = { ...item };
+                newItem['items'] = newItem[itemsKey];
+                delete newItem[itemsKey];
+                return newItem;
+            });
+        }
+
         return this.instance.get(path, { params });
-    }
+    };
 
-    POST(path: string, data?: Json) {
+    POST = (request: ApiRequest, _response: ResponseBuilder) => {
+        const { path, params: data } = request;
         return this.instance.post(path, data);
-    }
+    };
 
-    PATCH(path: string, data?: Json) {
+    PATCH = (request: ApiRequest, _response: ResponseBuilder) => {
+        const { path, params: data } = request;
         return this.instance.patch(path, data);
-    }
+    };
 
-    PUT(path: string, data?: Json) {
+    PUT = (request: ApiRequest, _response: ResponseBuilder) => {
+        const { path, params: data } = request;
         return this.instance.put(path, data);
-    }
+    };
 
-    DELETE(path: string) {
+    DELETE = (request: ApiRequest, _response: ResponseBuilder) => {
+        const { path } = request;
         return this.instance.delete(path);
-    }
+    };
 
     parseReturnedData(request: ApiRequest, res: AxiosResponse) {
         const { data } = res;
@@ -51,8 +67,6 @@ export class RestAdapter implements Adapter {
     }
 
     fireRequest = (request: ApiRequest): Promise<ApiResponse> => {
-        const { path, params } = request;
-
         const response = new ResponseBuilder(request);
 
         const apiMethod = this[request.method];
@@ -62,7 +76,7 @@ export class RestAdapter implements Adapter {
         }
 
         return new Promise((resolve) => {
-            apiMethod(path, params)
+            apiMethod(request, response)
                 .then((res: AxiosResponse) => {
                     response.withIsSuccess(true).withAxiosResponse(res);
                     const data = this.parseReturnedData(request, res);

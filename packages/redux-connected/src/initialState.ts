@@ -41,8 +41,7 @@ export const generateInitialState = <T extends StoreStructure>(
     storeState: T,
     options: Partial<StoreOptions>
 ) => {
-    const { endpointsConfig, defaultConnectionType } = options;
-    const { apiConfigOverrides = {} } = endpointsConfig || {};
+    const { endpointsConfig = {}, defaultConnectionType } = options;
 
     const output = {
         apiGlobalSettings: { ...DEFAULT_API_GLOBAL_SETTINGS },
@@ -64,7 +63,7 @@ export const generateInitialState = <T extends StoreStructure>(
             ...DEFAULT_STATE,
         };
 
-        const overrides = (apiConfigOverrides as any)[key as any];
+        const overrides = (endpointsConfig as any)[key as any];
 
         output.endpointsConfig[key] = {
             nodeType: type,

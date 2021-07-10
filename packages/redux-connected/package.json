@@ -1,6 +1,6 @@
 {
     "name": "redux-connected",
-    "version": "0.0.12",
+    "version": "0.0.13",
     "description": "auto-connect a redux store to a REST/sockets server",
     "license": "MIT",
     "main": "lib/index.js",

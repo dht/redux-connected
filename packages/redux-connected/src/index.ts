@@ -41,4 +41,3 @@ export {
 } from './storeDefinitions';
 
 export const structure = globals.structure;
-export const a = 5;
