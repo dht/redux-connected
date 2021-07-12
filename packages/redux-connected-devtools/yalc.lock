@@ -7,7 +7,7 @@
       "replaced": "^0.0.5"
     },
     "redux-connected": {
-      "signature": "2f46d2253ed38568baa0de8030458645",
+      "signature": "00caacd996f0aa9efe02fb567812f7ad",
       "file": true,
       "replaced": "^0.0.11"
     }

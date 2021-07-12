@@ -5,6 +5,7 @@
     max-height: 380px;
     overflow: auto;
     flex: 1;
+    display: flex;
 
     &.wide {
         max-height: 710px;

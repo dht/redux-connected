@@ -7507,8 +7507,10 @@ ignore@^5.1.4:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.1.8.tgz#f150a8b50a34289b33e22f5889abd4d8016f0e57"
   integrity sha512-BMpfD7PpiETpBl/A6S498BaIJ6Y/ABT93ETbby2fP00v4EbvPBXWEoaR1UBPKs3iR53pJY7EtZk5KACI57i1Uw==
 
-"igrid@file:packages/redux-connected-devtools/.yalc/igrid":
+igrid@^0.0.5:
   version "0.0.5"
+  resolved "https://registry.yarnpkg.com/igrid/-/igrid-0.0.5.tgz#3a1710052e3f7fa403d7b6017151c77743989301"
+  integrity sha512-Wys2fyUjyKwSUR8QjLTKBZH40+E+7qFLuhCYGyvAUjNQkkr7CRRUz/Kyks+yIDzDrSmMF5O2B3+id6GzPN0MWw==
   dependencies:
     "@fluentui/react" "^8.1.5"
     "@testing-library/react" "^11.2.5"
@@ -12182,23 +12184,6 @@ redux-connected-devtools@^0.0.2:
     react-window "^1.8.6"
     typescript "^4.2.2"
 
-redux-connected@^0.0.11:
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/redux-connected/-/redux-connected-0.0.11.tgz#dc4fcf4d61db750a658ac88d5fb85f63221f386e"
-  integrity sha512-RdQxhlJ9EFnjfGyp1zVSXmZSWTsOr4Czt1MhVZ/GV+d73IicamA8rKEP2AphtXn2be7NX3MNfrP4WMxEwUzOsg==
-  dependencies:
-    axios "^0.21.1"
-    date-fns "^2.21.1"
-    firebase "^8.4.1"
-    mongodb "^3.6.6"
-    react-redux "^7.2.4"
-    react-use "17.2.1"
-    redux-devtools-extension "^2.13.8"
-    redux-saga "^1.1.3"
-    redux-store-generator "^0.9.68"
-    reselect "^4.0.0"
-    socket.io-client "^4.0.0"
-
 redux-connected@^0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/redux-connected/-/redux-connected-0.0.5.tgz#4a573c406b7ce80f90e5f1dfde080a34275c12b0"
@@ -12226,6 +12211,21 @@ redux-connected@^0.0.9:
     redux-saga "^1.1.3"
     redux-store-generator "^0.9.61"
     ts-node "^9.1.1"
+
+"redux-connected@file:packages/redux-connected-devtools/.yalc/redux-connected":
+  version "0.0.12"
+  dependencies:
+    axios "^0.21.1"
+    date-fns "^2.21.1"
+    firebase "^8.4.1"
+    mongodb "^3.6.6"
+    react-redux "^7.2.4"
+    react-use "17.2.1"
+    redux-devtools-extension "^2.13.8"
+    redux-saga "^1.1.3"
+    redux-store-generator "^0.9.70"
+    reselect "^4.0.0"
+    socket.io-client "^4.0.0"
 
 redux-devtools-extension@^2.13.8, redux-devtools-extension@^2.13.9:
   version "2.13.9"
@@ -12277,7 +12277,7 @@ redux-store-generator@^0.9.61:
   dependencies:
     react "^17.0.2"
 
-redux-store-generator@^0.9.68, redux-store-generator@^0.9.69:
+redux-store-generator@^0.9.69:
   version "0.9.69"
   resolved "https://registry.yarnpkg.com/redux-store-generator/-/redux-store-generator-0.9.69.tgz#916ebfe01a9724068a968f1db98fcc9c5ca53380"
   integrity sha512-AlJ1nHbzXaNEzmZAVfVESJG3n+PSvXaNN2W9jR0Grk3tJkYULj3xoEXdKfA+P8B1iYB7fJ7fnawx+tGtt2lGNg==

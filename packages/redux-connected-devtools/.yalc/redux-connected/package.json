@@ -1,6 +1,6 @@
 {
     "name": "redux-connected",
-    "version": "0.0.12",
+    "version": "0.0.13",
     "description": "auto-connect a redux store to a REST/sockets server",
     "license": "MIT",
     "main": "lib/index.js",
@@ -53,5 +53,5 @@
             "git add"
         ]
     },
-    "yalcSig": "2f46d2253ed38568baa0de8030458645"
+    "yalcSig": "00caacd996f0aa9efe02fb567812f7ad"
 }
