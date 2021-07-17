@@ -1,18 +1,18 @@
 @import '../Prefix.scss';
 
 .#{$prefix}Table-container {
-    color: #232323;
+    color: #eee;
 
     > .table {
-        background-color: rgba(0, 0, 0, 0.03);
+        background-color: rgba(255, 255, 255, 0.03);
     }
 
     .header {
         display: flex;
         flex-direction: row;
         align-items: center;
-        background-color: rgba(0, 0, 0, 0.06);
-        box-shadow: 0 2px 1px rgba(0, 0, 0, 0.05);
+        background-color: rgba(255, 255, 255, 0.06);
+        box-shadow: 0 2px 1px rgba(255, 255, 255, 0.05);
         height: 35px;
 
         > .col {
@@ -27,7 +27,7 @@
             cursor: pointer;
 
             &:hover {
-                background-color: rgba(0, 0, 0, 0.05);
+                background-color: rgba(255, 255, 255, 0.05);
             }
 
             &.empty {
@@ -70,7 +70,7 @@
         }
 
         &.alternate {
-            background-color: rgba(255, 255, 255, 0.5);
+            background-color: rgba(0, 0, 0, 0.2);
         }
 
         &:hover {
@@ -87,7 +87,7 @@
             cursor: pointer;
 
             &:hover {
-                background-color: #fff;
+                background-color: #334;
             }
         }
     }

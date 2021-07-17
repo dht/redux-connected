@@ -2,7 +2,7 @@ import { searchToQueryParams } from './search';
 import { TableData } from '../components/ConnectedTable/useTableState';
 import { sortToQueryParams } from './sort';
 import { filtersValuesToQueryParams } from './filter';
-import { QueryParams } from 'redux-connected';
+import { QueryParams } from '../../redux-connected/types/types';
 
 export const tableDataToQueryParams = (
     tableData: TableData,
