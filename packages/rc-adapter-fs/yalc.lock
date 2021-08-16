@@ -2,7 +2,7 @@
   "version": "v1",
   "packages": {
     "redux-store-generator": {
-      "signature": "2b01dc267f0bbbab71b91039e500553d",
+      "signature": "72d724cfb1d706f95d62e5a3f43b10a6",
       "file": true,
       "replaced": "^0.9.71"
     },

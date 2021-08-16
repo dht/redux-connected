@@ -1,0 +1,43 @@
+{
+    "name": "redux-store-generator",
+    "version": "0.9.71",
+    "description": "auto-generates a redux store",
+    "license": "MIT",
+    "main": "lib/index.js",
+    "files": [
+        "lib/",
+        "esm/"
+    ],
+    "types": "lib/index.d.ts",
+    "typings": "lib/index.d.ts",
+    "scripts": {
+        "test": "jest",
+        "test:watch": "jest --watch",
+        "test:coverage": "jest --coverage",
+        "lint": "eslint {src,tests,stories}/**/*.{ts,tsx}",
+        "lint:fix": "yarn lint --fix",
+        "lint:types": "tsc --noEmit",
+        "build:cjs": "tsc",
+        "build:es": "tsc -m esNext --outDir esm",
+        "build": "yarn build:cjs && yarn build:es",
+        "clean": "rm -rf lib/* && rm -rf esm/*",
+        "watch": "nodemon -x \"npm run build\""
+    },
+    "publishConfig": {
+        "registry": "https://registry.npmjs.org/"
+    },
+    "author": "",
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged",
+            "pre-push": "yarn lint && yarn clean && yarn build && yarn test"
+        }
+    },
+    "lint-staged": {
+        "src/**/**/*.{ts,tsx}": [
+            "eslint --fix",
+            "git add"
+        ]
+    },
+    "yalcSig": "72d724cfb1d706f95d62e5a3f43b10a6"
+}
