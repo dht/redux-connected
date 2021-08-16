@@ -7,7 +7,9 @@
     "private": true,
     "workspaces": {
         "packages": [
-            "packages/*"
+            "packages/*",
+            ".yalc/*",
+            ".yalc/@*/*"
         ],
         "nohoist": []
     },

@@ -12213,7 +12213,7 @@ redux-connected@^0.0.9:
     ts-node "^9.1.1"
 
 "redux-connected@file:packages/redux-connected-devtools/.yalc/redux-connected":
-  version "0.0.12"
+  version "0.0.13"
   dependencies:
     axios "^0.21.1"
     date-fns "^2.21.1"
@@ -12286,6 +12286,11 @@ redux-store-generator@^0.9.70:
   version "0.9.70"
   resolved "https://registry.yarnpkg.com/redux-store-generator/-/redux-store-generator-0.9.70.tgz#418d46eafe775121f6f9943cfb72e1a957c8451e"
   integrity sha512-dhhWD3yq2jmfecVzrCTZYBUrPArUbamNnztT028e1yf117CrSLNTupEcS0mTiW+s4YHxdJnrN2Qz9DvyKmCLng==
+
+redux-store-generator@^0.9.71:
+  version "0.9.71"
+  resolved "https://registry.yarnpkg.com/redux-store-generator/-/redux-store-generator-0.9.71.tgz#ed120478d95e1509d4029a8913cc58d03c4287eb"
+  integrity sha512-FiayeJGPagSC3L/pDfC8Ag3HjCd4bHL2L881TM/xjDOFBfy+gU4EySG89eo7UUGMmLZ0102LEnPCun9J7AT7lA==
 
 redux@*, redux@^4.0.0, redux@^4.0.4, redux@^4.0.5:
   version "4.1.0"

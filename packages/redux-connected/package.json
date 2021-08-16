@@ -37,7 +37,7 @@
         "react-use": "17.2.1",
         "redux-devtools-extension": "^2.13.8",
         "redux-saga": "^1.1.3",
-        "redux-store-generator": "^0.9.70",
+        "redux-store-generator": "file:.yalc/redux-store-generator",
         "reselect": "^4.0.0",
         "socket.io-client": "^4.0.0"
     },
