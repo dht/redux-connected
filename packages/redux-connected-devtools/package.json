@@ -34,7 +34,6 @@
         "react-toggle": "^4.1.2",
         "react-use": "^17.2.4",
         "react-window": "^1.8.6",
-        "redux-connected": "file:.yalc/redux-connected",
         "redux-devtools-extension": "^2.13.9",
         "redux-store-generator": "^0.9.69",
         "reselect": "^4.0.0",

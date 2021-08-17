@@ -7,6 +7,15 @@ module.exports = function (wallaby) {
     return {
         files: [
             {
+                pattern: 'adapters/**/*.ts',
+            },
+            {
+                pattern: 'connectors/**/*.ts',
+            },
+            {
+                pattern: 'examples/**/*.ts',
+            },
+            {
                 pattern: 'packages/**/*.ts',
             },
             {
@@ -22,11 +31,32 @@ module.exports = function (wallaby) {
                 ignore: true,
             },
             {
+                pattern: 'adapters/**/*.spec.ts',
+                ignore: true,
+            },
+            {
+                pattern: 'connectors/**/*.spec.ts',
+                ignore: true,
+            },
+            {
+                pattern: 'examples/**/*.spec.ts',
+                ignore: true,
+            },
+            {
                 pattern: 'packages/**/*.spec.ts',
                 ignore: true,
             },
         ],
         tests: [
+            {
+                pattern: 'adapters/**/*.spec.ts',
+            },
+            {
+                pattern: 'connectors/**/*.spec.ts',
+            },
+            {
+                pattern: 'examples/**/*.spec.ts',
+            },
             {
                 pattern: 'packages/**/*.spec.ts',
             },
