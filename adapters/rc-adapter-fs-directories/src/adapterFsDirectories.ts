@@ -1,8 +1,8 @@
-import { ResponseBuilder } from 'rc-adapter-base';
-import { ApiRequest, ApiResponse } from 'rc-adapter-base';
+import { ResponseBuilder } from '../../../base/rc-adapter-base/lib';
+import { ApiRequest, ApiResponse } from '../../../base/rc-adapter-base/lib';
 import { Json } from 'redux-store-generator';
 import nodePath from 'path';
-import { uuidv4 } from 'rc-adapter-base';
+import { uuidv4 } from '../../../base/rc-adapter-base/lib';
 
 export type FsAdapterConfiguration = {
     dbPath: string;

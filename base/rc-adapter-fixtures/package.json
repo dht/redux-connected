@@ -1,0 +1,39 @@
+{
+    "name": "rc-adapter-fixtures",
+    "version": "0.0.1",
+    "description": "redux connected fixtures for adapters tests",
+    "license": "MIT",
+    "main": "lib/index.js",
+    "files": [
+        "lib/",
+        "esm/"
+    ],
+    "types": "lib/index.d.ts",
+    "typings": "lib/index.d.ts",
+    "scripts": {
+        "build:cjs": "tsc",
+        "build:es": "tsc -m esNext --outDir esm",
+        "build": "yarn build:cjs && yarn build:es",
+        "clean": "rm -rf lib/* && rm -rf esm/*"
+    },
+    "publishConfig": {
+        "registry": "https://registry.npmjs.org/"
+    },
+    "author": "",
+    "dependencies": {},
+    "devDependencies": {
+        "faker": "^5.5.3"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged",
+            "pre-push": "yarn lint && yarn clean && yarn build && yarn test"
+        }
+    },
+    "lint-staged": {
+        "src/**/**/*.{ts,tsx}": [
+            "eslint --fix",
+            "git add"
+        ]
+    }
+}
