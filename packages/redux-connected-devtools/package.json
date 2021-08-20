@@ -17,6 +17,7 @@
         "react-dom": "^17.0.0",
         "react-redux": "^7.2.4",
         "react-router-dom": "^5.2.0",
+        "react-toggle": "^4.1.2",
         "react-use": "^17.2.4",
         "react-window": "^1.8.6",
         "redux-connected": "^0.0.15",

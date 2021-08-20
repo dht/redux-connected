@@ -1,6 +1,10 @@
-import { ColumnType, ColumnConfig } from 'redux-connected-components';
-import { FilterType, FilterConfig } from 'redux-connected-components';
-import { FieldType, Field } from 'redux-connected-components';
+import {
+    ColumnType,
+    ColumnConfig,
+    FilterType,
+    FilterConfig,
+    FieldType, Field
+} from 'redux-connected-components';
 import { actions as allActions } from '../redux/store';
 import * as allSelectors from '../redux/selectors';
 

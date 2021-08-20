@@ -26,4 +26,4 @@ globby
     });
 
 // fs.writeFileSync('src/index.ts', indexLines.join('\n') + '\n');
-fs.writeFileSync('src/index.scss', scssLines.join('\n') + '\n');
+fs.writeFileSync('./src/index.scss', scssLines.join('\n') + '\n');

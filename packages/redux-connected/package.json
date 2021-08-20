@@ -1,6 +1,6 @@
 {
     "name": "redux-connected",
-    "version": "0.0.14",
+    "version": "0.0.16",
     "description": "auto-connect a redux store to a REST/sockets server",
     "license": "MIT",
     "main": "lib/index.js",
@@ -19,7 +19,8 @@
         "lint:types": "tsc --noEmit",
         "build:cjs": "tsc",
         "build:es": "tsc -m esNext --outDir esm",
-        "build": "yarn build:cjs && yarn build:es && yalc push",
+        "build": "yarn build:cjs && yarn build:es && npm run copy",
+        "copy": "./copy.sh",
         "clean": "rm -rf lib/* && rm -rf esm/*",
         "watch": "nodemon -x \"npm run build\"",
         "generateData": "ts-node src/__helpers__/generateData"
