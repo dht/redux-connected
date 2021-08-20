@@ -1,5 +1,5 @@
 import { storeId } from './../store';
-import { isServerconfig, store, SyncOptions } from '../store';
+import { isServerconfig, SyncOptions, reduxStore } from '../store';
 import { Json } from './../types';
 import { log } from './log';
 
@@ -22,7 +22,7 @@ export const initSockets = (options: SyncOptions) => {
 
     if (typeof config.on === 'function') {
         config.on(REMOTE_ACTION_TYPE, (action: any) => {
-            if (!store) {
+            if (!reduxStore) {
                 log('store is not ready yet');
                 return;
             }
@@ -37,7 +37,7 @@ export const initSockets = (options: SyncOptions) => {
                 return;
             }
 
-            store.dispatch(action);
+            reduxStore.dispatch(action);
         });
     }
 };

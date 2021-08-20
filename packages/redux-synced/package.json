@@ -1,6 +1,6 @@
 {
     "name": "redux-synced",
-    "version": "0.0.14",
+    "version": "0.0.19",
     "main": "lib/index.js",
     "files": [
         "lib/",
@@ -11,13 +11,11 @@
     "scripts": {
         "build:cjs": "tsc",
         "build:es": "tsc -m esNext --outDir esm",
-        "build": "node scripts/prebuild && yarn build:cjs && yarn build:es"
+        "replace": "cd ~/projects && al far-package redux-synced",
+        "build": "node scripts/prebuild && yarn build:cjs && yarn build:es && yarn replace"
     },
     "license": "MIT",
-    "dependencies": {
-        "redux": "^4.1.0",
-        "redux-devtools-extension": "^2.13.9"
-    },
+    "dependencies": {},
     "devDependencies": {
         "@jest/types": "^26.6.2"
     },

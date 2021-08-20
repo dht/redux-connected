@@ -1,2 +1,2 @@
-export { generateStore, initSyncMiddleware } from './store';
+export { initSyncMiddleware, initSyncedStore } from './store';
 export type { SyncOptions } from './store';
