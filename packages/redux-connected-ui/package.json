@@ -1,6 +1,6 @@
 {
     "version": "0.0.0",
-    "name": "redux-connected-devtools-2",
+    "name": "redux-connected-ui-2",
     "license": "MIT",
     "scripts": {
         "dev": "vite",
@@ -9,7 +9,6 @@
     },
     "dependencies": {
         "@fluentui/react": "^8.23.8",
-        "@reduxjs/toolkit": "^1.6.0",
         "@types/react-router-dom": "^5.1.8",
         "classnames": "^2.3.1",
         "igrid": "^0.0.8",

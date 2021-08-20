@@ -1,3 +1,4 @@
+import React from 'react';
 import App from './components/App/App';
 import ReactDOM from 'react-dom';
 import reportWebVitals from './reportWebVitals';
@@ -7,17 +8,10 @@ import { initializeIcons } from '@fluentui/react';
 import { Provider } from 'react-redux';
 import './index.scss';
 import 'redux-connected-components/lib/index.css';
+import * as rc from 'redux-connected';
+console.log('rc ->', rc);
 
 initializeIcons();
-
-ReactDOM.render(
-    <Provider store={connectedStore}>
-        <div>
-            <DevTools />
-        </div>
-    </Provider>,
-    document.getElementById('devtools')
-);
 
 ReactDOM.render(
     <Provider store={store}>

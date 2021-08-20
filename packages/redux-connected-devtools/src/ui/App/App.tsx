@@ -1,3 +1,4 @@
+import React from 'react';
 import DevTools from '../../components/DevTools/DevTools';
 import './App.scss';
 

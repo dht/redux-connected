@@ -1,0 +1,20 @@
+Missing dependencies
+* redux-store-generator: ./debug.ts
+* @jest/types: ./jest.config.ts
+* husky: ./package.json
+* lint-staged: ./package.json
+* tslib: ./lib/adapterFs.js
+* redux: ./lib/store.d.ts
+* axios: ./lib/types/types.d.ts
+* reselect: ./lib/selectors/selectors.js
+* redux-saga: ./lib/sagas/process-manager.d.ts
+* redux-devtools-extension: ./lib/sagas/_utils/StoreBuilder.js
+* socket.io-client: ./lib/sagas/_utils/sockets.js
+* react: ./lib/hooks/useCounter.js
+* react-use: ./lib/hooks/useMonitor.js
+* firebase: ./lib/adapters/client/realtimeData/adapterRealtimeData.js
+* uuid: ./lib/adapters/client/jsonServer/jsonServer.js
+* date-fns: ./lib/__helpers__/random.js
+* Chance: ./lib/__helpers__/random.js
+* mongodb: ./lib/__helpers__/adapters/server/mongoDb/mockDataGenerator.js
+* firebase-admin: ./lib/__helpers__/adapters/client/realtimeData/mockDataGenerator.js

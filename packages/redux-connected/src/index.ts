@@ -32,9 +32,6 @@ export {
     $nodeTypes,
 } from './selectors/selectors';
 
-export { RestAdapter } from './adapters/client/rest/adapterRest';
-export { FirestoreAdapter } from './adapters/client/firestore/adapterFirestore';
-export { FsAdapter } from './adapters/server/fs/adapterFs';
 export {
     getMainStoreDefinition,
     getConnectStoreDefinition,
