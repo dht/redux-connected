@@ -1,13 +1,10 @@
-import {
-    ApiVerb,
-    NodeType,
-} from 'redux-store-generator';
+import { ApiVerb, NodeType } from 'redux-store-generator';
 import {
     ActionWithPromise,
     ApiRequest,
     ApiRequestStatus,
     ConnectionType,
-} from '../../types/types';
+} from '../types/types';
 import { generateMeta } from './meta';
 
 let sequence = 1;
