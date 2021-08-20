@@ -26,6 +26,14 @@ export type SyncOptions = {
     debug?: boolean;
 };
 
+export const initSyncMiddleware = (options: SyncOptions) => {
+    initLog(options.debug);
+    initSockets(options);
+    storeId = options.storeId;
+
+    return middlewareMirror;
+};
+
 export const generateStore = (
     reducers: any,
     initialState: any,
