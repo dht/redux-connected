@@ -2,6 +2,7 @@
     "name": "redux-synced",
     "version": "0.0.19",
     "main": "lib/index.js",
+    "module": "esm/index.js",
     "files": [
         "lib/",
         "esm/"

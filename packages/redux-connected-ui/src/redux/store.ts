@@ -5,36 +5,20 @@ import {
     generateStore,
     generateActionsForStore,
     generateConnectedStore,
-} from 'redux-connected';
-
-import { firestoreDb } from '../utils/firestore';
-import axios from 'axios';
-
-const axiosInstance = axios.create({
-    baseURL: 'http://localhost:3000',
-});
-
-// const restAdapter = new RestAdapter({
-//     axios: axiosInstance,
-// });
-
-// const firestoreAdapter = new FirestoreAdapter({
-//     db: firestoreDb,
-// });
-
-// control the URLs
-// control the query params
-// ?date_gt=2020-10-10
+    ConnectionType,
+} from '@redux-connected';
+import { restAdapter } from './adapters';
 
 const options: Partial<StoreOptions> = {
-    devTools: true,
-    defaultConnectionType: 'REST',
-    adapters: {},
-    endpointsConfig: {
-        appState: {
-            connectionType: 'NONE',
-        },
+    defaultConnectionType: ConnectionType.REST,
+    adapters: {
+        rest: restAdapter,
     },
+    devTools: {
+        enable: true,
+        socketUrl: '',
+    },
+    clearNodes: [],
 };
 
 export const connectedStore = generateConnectedStore(state, options);

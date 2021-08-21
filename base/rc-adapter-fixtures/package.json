@@ -4,6 +4,7 @@
     "description": "redux connected fixtures for adapters tests",
     "license": "MIT",
     "main": "lib/index.js",
+    "module": "esm/index.js",
     "files": [
         "lib/",
         "esm/"

@@ -1,9 +1,14 @@
-import { Adapter, ApiResponse } from 'rc-adapter-base';
-import { ResponseBuilder } from 'rc-adapter-base';
-import { ApiRequest, ApiServerConfiguration } from 'rc-adapter-base';
+import { ResponseBuilder, itemsToObject } from 'rc-adapter-base';
+import {
+    ApiRequest,
+    ApiServerConfiguration,
+    Adapter,
+    ApiResponse,
+} from 'redux-connected';
 import { AxiosInstance, AxiosResponse } from 'axios';
 import { NodeType } from 'redux-store-generator';
-import { itemsToObject } from 'rc-adapter-base';
+
+console.log('3 ->', 3);
 
 export class RestAdapter implements Adapter {
     private instance: AxiosInstance;

@@ -1,5 +1,5 @@
 import { generateMeta } from './meta';
-import { ApiResponse, ApiRequest, ApiErrorType } from '../types/types';
+import { ApiResponse, ApiRequest, ApiErrorType } from 'redux-connected';
 import { AxiosResponse } from 'axios';
 
 let sequence = 1;

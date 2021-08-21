@@ -3,13 +3,12 @@ import App from './components/App/App';
 import ReactDOM from 'react-dom';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { connectedStore, store } from './redux/store';
+import { store } from './redux/store';
 import { initializeIcons } from '@fluentui/react';
 import { Provider } from 'react-redux';
 import './index.scss';
 import 'redux-connected-components/lib/index.css';
 import * as rc from 'redux-connected';
-console.log('rc ->', rc);
 
 initializeIcons();
 

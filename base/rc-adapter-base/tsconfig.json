@@ -18,7 +18,11 @@
         "outDir": "lib",
         "allowJs": true,
         "lib": ["es2018", "dom"],
-        "importHelpers": true
+        "importHelpers": true,
+        "paths": {
+            "redux-connected": ["../redux-connected"],
+            "redux-connected/*": ["../redux-connected"]
+        }
     },
     "include": ["src", "test"],
     "exclude": [

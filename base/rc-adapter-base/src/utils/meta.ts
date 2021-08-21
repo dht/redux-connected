@@ -1,5 +1,5 @@
 import { Json } from 'redux-store-generator';
-import { Meta } from '../types/types';
+import { Meta } from 'redux-connected';
 import { timestamp } from './date';
 import { uuidv4 } from './uuid';
 

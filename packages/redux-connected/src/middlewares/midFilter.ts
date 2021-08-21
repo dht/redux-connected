@@ -1,4 +1,4 @@
-import { emitTimelineEvent } from './../sagas/_utils/sockets';
+import { emitTimelineEvent } from '../sagas/_utils/sockets';
 import { ApiInfo } from 'redux-store-generator';
 import * as selectors from '../selectors/selectors';
 import { ActionWithPromise, ConnectionType } from '../types/types';

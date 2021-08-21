@@ -4,7 +4,7 @@ import {
     ApiRequest,
     ApiRequestStatus,
     ConnectionType,
-} from '../types/types';
+} from 'redux-connected';
 import { generateMeta } from './meta';
 
 let sequence = 1;

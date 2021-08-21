@@ -4,6 +4,7 @@
     "description": "redux connected adapter for filesystem persistence",
     "license": "MIT",
     "main": "lib/index.js",
+    "module": "esm/index.js",
     "files": [
         "lib/",
         "esm/"

@@ -10,15 +10,28 @@ export type {
     EndpointsConfigOverrides,
     ApiRequest,
     ApiStatus,
-    ConnectionType,
+    ApiErrorType,
+    HttpMethod,
     Log,
     Reading,
     Sagas,
     SagaState,
     StoreOptions,
     QueryParams,
+    Meta,
 } from './types/types';
-
+export {
+    ConnectionType,
+    ConnectionStatus,
+    RetryStrategy,
+    ErrorReportingStrategy,
+    RequestResult,
+    RequestPriority,
+    ApiRequestStatus,
+    ApiServerConfiguration,
+    Adapter,
+    ApiResponse,
+} from './types/types';
 export { useStore } from './hooks/useStore';
 export { useMonitor } from './hooks/useMonitor';
 export { clearMeta } from './sagas/_utils/meta';

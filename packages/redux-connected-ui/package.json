@@ -18,7 +18,6 @@
         "react-router-dom": "^5.2.0",
         "react-use": "^17.2.4",
         "react-window": "^1.8.6",
-        "redux-connected": "^0.0.15",
         "redux-connected-components": "^0.0.9",
         "redux-store-generator": "^0.9.71",
         "reselect": "^4.0.0",

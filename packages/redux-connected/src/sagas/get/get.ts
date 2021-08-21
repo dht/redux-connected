@@ -1,4 +1,4 @@
-import { emitTimelineEvent } from './../_utils/sockets';
+import { emitTimelineEvent } from '../_utils/sockets';
 import * as selectors from '../../selectors/selectors';
 import { apiActions } from '../../connected/actions';
 import { ApiRequest } from '../../types/types';
@@ -11,11 +11,7 @@ import {
     EndpointsConfig,
     ConnectionType,
 } from '../../types/types';
-import {
-    ApiInfo,
-    ApiInfoPerType,
-    NodeType,
-} from 'redux-store-generator';
+import { ApiInfo, ApiInfoPerType, NodeType } from 'redux-store-generator';
 
 export function* get(action: ActionWithPromise) {
     try {

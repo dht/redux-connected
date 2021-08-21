@@ -1,4 +1,4 @@
-import { emitTimelineEvent } from './../_utils/sockets';
+import { emitTimelineEvent } from '../_utils/sockets';
 import { apiActions } from '../../connected/actions';
 import { RequestBuilder } from '../_utils/RequestsBuilder';
 import {
@@ -9,11 +9,7 @@ import {
     ActionWithPromise,
 } from '../../types/types';
 import { put, takeEvery, select } from 'redux-saga/effects';
-import {
-    ApiInfo,
-    ApiInfoPerType,
-    NodeType,
-} from 'redux-store-generator';
+import { ApiInfo, ApiInfoPerType, NodeType } from 'redux-store-generator';
 import { logm } from '../logger/logger';
 import * as selectors from '../../selectors/selectors';
 import { clearActionP } from '../_utils/dispatchP';

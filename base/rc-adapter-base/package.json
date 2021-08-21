@@ -4,6 +4,7 @@
     "description": "redux connected base for building adapters",
     "license": "MIT",
     "main": "lib/index.js",
+    "module": "esm/index.js",
     "files": [
         "lib/",
         "esm/"
@@ -19,7 +20,7 @@
         "lint:types": "tsc --noEmit",
         "build:cjs": "tsc",
         "build:es": "tsc -m esNext --outDir esm",
-        "build": "yarn build:cjs && yarn build:es && yalc push",
+        "build": "yarn clean && yarn build:cjs && yarn build:es",
         "clean": "rm -rf lib/* && rm -rf esm/*",
         "watch": "nodemon -x \"npm run build\""
     },

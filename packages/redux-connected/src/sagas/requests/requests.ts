@@ -1,4 +1,4 @@
-import { emitTimelineEvent } from './../_utils/sockets';
+import { emitTimelineEvent } from '../_utils/sockets';
 import * as actions from '../../connected/quickActions';
 import * as selectors from '../../selectors/selectors';
 import globals from '../../globals';

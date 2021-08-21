@@ -4,6 +4,7 @@
         "module": "commonjs",
         "moduleResolution": "node",
         "jsx": "react",
+        "baseUrl": "./",
         "declaration": true,
         "pretty": true,
         "rootDir": "src",
@@ -18,8 +19,15 @@
         "outDir": "lib",
         "allowJs": true,
         "lib": ["es2018", "dom"],
-        "importHelpers": true
+        "importHelpers": true,
+        "paths": {
+            "rc-adapter-base": ["../../base/rc-adapter-base"],
+            "rc-adapter-base/*": ["../../base/rc-adapter-base"],
+            "redux-connected": ["../redux-connected"],
+            "redux-connected/*": ["../redux-connected"]
+        }
     },
+
     "include": ["src", "test"],
     "exclude": [
         "node_modules",
