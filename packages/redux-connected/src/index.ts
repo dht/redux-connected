@@ -19,6 +19,9 @@ export type {
     StoreOptions,
     QueryParams,
     Meta,
+    ApiServerConfiguration,
+    Adapter,
+    ApiResponse,
 } from './types/types';
 export {
     ConnectionType,
@@ -28,9 +31,6 @@ export {
     RequestResult,
     RequestPriority,
     ApiRequestStatus,
-    ApiServerConfiguration,
-    Adapter,
-    ApiResponse,
 } from './types/types';
 export { useStore } from './hooks/useStore';
 export { useMonitor } from './hooks/useMonitor';

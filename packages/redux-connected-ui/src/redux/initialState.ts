@@ -1,4 +1,4 @@
-import { StoreStructure } from 'redux-connected';
+import { StoreStructure } from '@redux-connected';
 
 export type AppState = { isLoading: boolean; email?: string };
 export type User = { userName?: string; email?: string };

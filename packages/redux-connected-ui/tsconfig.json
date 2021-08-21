@@ -16,12 +16,12 @@
         "jsx": "react",
         "baseUrl": "./",
         "paths": {
-            "@rc-adapter-base": ["../../base/rc-adapter-base"],
-            "@rc-adapter-base/*": ["../../base/rc-adapter-base"],
+            "@rc-adapter-base": ["../../base/rc-adapter-base/src"],
+            "@rc-adapter-base/*": ["../../base/rc-adapter-base/src"],
             "@rc-adapter-rest": ["../../adapters/rc-adapter-rest/src"],
             "@rc-adapter-rest/*": ["../../adapters/rc-adapter-rest/src"],
-            "@redux-connected": ["../redux-connected"],
-            "@redux-connected/*": ["../redux-connected"]
+            "@redux-connected": ["../redux-connected/src"],
+            "@redux-connected/*": ["../redux-connected/src"]
         }
     },
     "include": ["./src"]

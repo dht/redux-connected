@@ -8,7 +8,6 @@ import { initializeIcons } from '@fluentui/react';
 import { Provider } from 'react-redux';
 import './index.scss';
 import 'redux-connected-components/lib/index.css';
-import * as rc from 'redux-connected';
 
 initializeIcons();
 

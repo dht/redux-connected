@@ -8,7 +8,7 @@ import {
 import { AxiosInstance, AxiosResponse } from 'axios';
 import { NodeType } from 'redux-store-generator';
 
-console.log('3 ->', 3);
+console.log('3 ->', 44);
 
 export class RestAdapter implements Adapter {
     private instance: AxiosInstance;

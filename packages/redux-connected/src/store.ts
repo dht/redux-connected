@@ -85,6 +85,9 @@ export const generateConnectedStore = <T extends StoreStructure>(
 if (CATCH_CONSOLE_LOG) {
     captureLog(globals.mainStore);
 }
+
+console.log('51 ->', 5);
+
 /*
 store.dispatch(apiActions.api.config.appState.patch({ requestsPerMinute: 4 }));
 store.dispatch(apiActions.api.config.site.patch({ requestsPerMinute: 5 }));
