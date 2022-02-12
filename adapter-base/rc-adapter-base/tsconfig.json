@@ -1,0 +1,36 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "jsx": "react",
+        "declaration": true,
+        "pretty": true,
+        "sourceMap": false,
+        "strict": true,
+        "esModuleInterop": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noImplicitReturns": true,
+        "noImplicitAny": false,
+        "noFallthroughCasesInSwitch": true,
+        "outDir": "lib",
+        "allowJs": true,
+        "lib": ["es2018", "dom"],
+        "importHelpers": true,
+        "baseUrl": "../../",
+        "paths": {
+            "@rc-adapter-fixtures": ["adapter-base/rc-adapter-fixtures/src"],
+            "@rc-adapter-fixtures/*": ["adapter-base/rc-adapter-fixtures/src"]
+        }
+    },
+    "include": ["src", "test"],
+    "exclude": [
+        "node_modules/**/*",
+        "lib/**/*",
+        "esm/**/*",
+        "types/types.play.ts",
+        "**/*.spec.ts",
+        "jest.config.ts"
+    ]
+}

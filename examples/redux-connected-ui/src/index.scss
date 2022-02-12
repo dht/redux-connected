@@ -1,0 +1,61 @@
+@import url('//fonts.googleapis.com/icon?family=Material+Icons');
+@import '../../../packages/redux-connected-components/src/index.scss';
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
+        sans-serif, Apple Color Emoji, Segoe UI Emoji;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #232332;
+    color: #ccc;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+        monospace;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+a.link {
+    color: #ccc;
+    cursor: pointer;
+
+    &:hover {
+        color: darken(#ccc, 12%);
+        text-decoration: underline;
+    }
+}
+
+a {
+    cursor: pointer;
+
+    &:hover {
+        color: darken(#ccc, 12%);
+        text-decoration: underline;
+    }
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 7px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #aaa;
+}

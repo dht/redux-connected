@@ -1,0 +1,29 @@
+import { Json } from 'redux-store-generator';
+import { put } from 'redux-saga/effects';
+import SagaTester from 'redux-saga-tester';
+
+const initialState = {};
+
+const actions = {
+    start: () => ({ type: 'START' }),
+    success: (data: Json) => ({ type: 'SUCCESS', data }),
+};
+
+function* ourSaga() {
+    yield put(actions.success({ name: 'john' }));
+}
+
+describe('ourSaga test', () => {
+    let sagaTester: any = null;
+
+    beforeEach(() => {
+        sagaTester = new SagaTester({ initialState });
+        sagaTester.start(ourSaga);
+    });
+
+    it('should retrieve data from the server and send a SUCCESS action', async () => {
+        sagaTester.dispatch(actions.start());
+        const successAction = await sagaTester.waitFor('SUCCESS');
+        expect(successAction).toEqual(actions.success({ name: 'john' }));
+    });
+});

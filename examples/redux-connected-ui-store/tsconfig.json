@@ -1,0 +1,60 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "jsx": "react",
+        "declaration": true,
+        "pretty": true,
+        "sourceMap": false,
+        "strict": true,
+        "esModuleInterop": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noImplicitReturns": true,
+        "noImplicitAny": false,
+        "noFallthroughCasesInSwitch": true,
+        "outDir": "lib",
+        "allowJs": true,
+        "lib": ["es2018", "dom"],
+        "importHelpers": true,
+        "baseUrl": "../../",
+        "paths": {
+            "@rc-adapter-base": ["adapter-base/rc-adapter-base/src"],
+            "@rc-adapter-base/*": ["adapter-base/rc-adapter-base/src"],
+            "@rc-adapter-rest": ["adapters/rc-adapter-rest/src"],
+            "@rc-adapter-rest/*": ["adapters/rc-adapter-rest/src"],
+            "@redux-synced": ["packages/redux-synced/src"],
+            "@redux-synced/*": ["packages/redux-synced/src"],
+            "@redux-connected": ["packages/redux-connected-core/src"],
+            "@redux-connected/*": ["packages/redux-connected-core/src"],
+            "@redux-connected-ui-store": [
+                "examples/redux-connected-ui-store/src"
+            ],
+            "@redux-connected-ui-store/*": [
+                "examples/redux-connected-ui-store/src"
+            ],
+            "@redux-connected-components": [
+                "packages/redux-connected-components/src"
+            ],
+            "@redux-connected-components/*": [
+                "packages/redux-connected-components/src"
+            ]
+        }
+    },
+    "include": [
+        "src",
+        "test",
+        "../blkr-mobile/src/nfc.js",
+        "../jira-simple-api/types.jira.ts",
+        "../redux-connected-ui/src/adapters/adapters.ts"
+    ],
+    "exclude": [
+        "node_modules/**/*",
+        "lib/**/*",
+        "esm/**/*",
+        "types/types.play.ts",
+        "**/*.spec.ts",
+        "jest.config.ts"
+    ]
+}

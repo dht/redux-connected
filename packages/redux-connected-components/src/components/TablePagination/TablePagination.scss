@@ -1,0 +1,106 @@
+@import '../Prefix.scss';
+
+.#{$prefix}TablePagination-container {
+    color: #eee;
+
+    > .table {
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    .header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        background-color: rgba(0, 0, 0, 0.2);
+        box-shadow: 0 2px 1px rgba(255, 255, 255, 0.05);
+        height: 35px;
+
+        > .col {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding: 4px 5px;
+            font-weight: 500;
+            display: flex;
+            color: #999;
+            flex-direction: row;
+            align-items: center;
+            cursor: pointer;
+
+            &:hover {
+                background-color: rgba(255, 255, 255, 0.02);
+            }
+
+            &.empty {
+                pointer-events: none;
+            }
+        }
+    }
+
+    .Item-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        > .col {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding: 0 5px;
+
+            &.actions {
+                flex-direction: row;
+                align-items: center;
+                justify-content: flex-end;
+                display: none;
+
+                .action {
+                    margin: 0 3px;
+
+                    .icon {
+                        font-size: 19px;
+                        cursor: pointer;
+                        color: #aaa;
+
+                        &:hover {
+                            color: palevioletred;
+                        }
+                    }
+                }
+            }
+        }
+
+        &.alternate {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+
+        &:hover {
+            > .col {
+                &.actions {
+                    display: flex;
+                }
+            }
+        }
+    }
+
+    &.selectable {
+        .Item-container {
+            cursor: pointer;
+
+            &:hover {
+                background-color: rgba(255, 255, 255, 0.06);
+            }
+        }
+    }
+
+    .count {
+        margin-top: 3px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-end;
+        color: #aaa;
+        font-weight: 100;
+        font-size: 11px;
+    }
+}

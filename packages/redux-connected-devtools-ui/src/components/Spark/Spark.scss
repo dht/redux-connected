@@ -1,0 +1,281 @@
+.Spark-container {
+    flex: 1;
+    font-family: 'Monaco';
+    position: relative;
+
+    .requests-panel {
+        position: absolute;
+        top: 40px;
+        left: 400px;
+    }
+
+    .actionLogs-panel {
+        position: absolute;
+        top: 950px;
+        left: 400px;
+    }
+
+    .request-details {
+        position: absolute;
+        top: 100px;
+        right: 100px;
+
+        > .header {
+            color: #ffd223;
+            margin-bottom: 20px;
+        }
+
+        .Table-container {
+            margin-bottom: 40px;
+        }
+    }
+
+    .actionLog-details {
+        position: absolute;
+        top: 1000px;
+        right: 100px;
+
+        > .header {
+            color: #ffd223;
+            margin-bottom: 20px;
+        }
+
+        .Table-container {
+            margin-bottom: 40px;
+        }
+    }
+
+    .Table-container {
+        width: 250px;
+        background-color: rgba(0, 0, 0, 0.13);
+        border-radius: 12px;
+
+        .header {
+            color: #ffd223;
+        }
+
+        .rows {
+            .row {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                padding: 5px;
+
+                &:nth-child(2n-1) {
+                    background-color: rgba(0, 0, 0, 0.13);
+                }
+
+                .title {
+                    width: 100px;
+                    opacity: 0.4;
+                }
+
+                .cell {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                }
+            }
+        }
+    }
+
+    .Cell-container {
+        pre {
+            max-width: 160px;
+            overflow: auto;
+        }
+    }
+
+    .Tag-container {
+        background-color: rgba(0, 0, 0, 1);
+        width: 30px;
+        height: 24px;
+        line-height: 24px;
+        border-radius: 5px;
+        font-size: 12px;
+        text-align: center;
+        color: #fc85ff;
+        border: 1px solid #222222;
+        margin: 0 1px;
+
+        &.clickable {
+            cursor: pointer;
+
+            &:hover {
+                background-color: rgba(255, 255, 255, 0.1);
+            }
+
+            &:active {
+                position: relative;
+                top: 1px;
+                left: 1px;
+            }
+        }
+    }
+
+    .Circle-container {
+        width: 600px;
+        height: 600px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 300px;
+        position: absolute;
+        top: 200px;
+        left: 300px;
+
+        .center {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 5px;
+            background-color: rgba(0, 0, 0, 0.5);
+            top: 50%;
+            left: 50%;
+            margin-left: -5px;
+            margin-top: -5px;
+        }
+
+        &.actions {
+            top: 1150px;
+        }
+    }
+
+    .RequestsPanel-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        background-color: rgba(0, 0, 0, 0.13);
+        padding: 10px;
+        border-radius: 5px;
+
+        .title {
+            color: #ffd223;
+            margin-right: 25px;
+        }
+
+        .items {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+    }
+
+    .TagGroup {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: wrap;
+        width: 100px;
+    }
+
+    .CircleBase-container {
+        position: absolute;
+
+        .title {
+            color: #ffd223;
+            position: absolute;
+            width: 100px;
+            transform: translateX(-35px) translateY(8px);
+            text-align: center;
+        }
+
+        .dot {
+            position: absolute;
+            width: 32px;
+            height: 32px;
+            background-color: #777;
+            border-radius: 16px;
+            transform: translateX(300px - 17px) translateY(300px - 15px);
+        }
+
+        .items {
+            position: absolute;
+            top: 50px;
+            transform: translateX(-33px) translateY(-8px);
+        }
+    }
+
+    .ActionLogsPanel-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        background-color: rgba(0, 0, 0, 0.13);
+        padding: 10px;
+        border-radius: 5px;
+
+        .title {
+            color: #ffd223;
+            margin-right: 25px;
+        }
+
+        .items {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+    }
+
+    .RequestDetails-container {
+        > .header {
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        .table {
+            &.table-1 {
+                height: 450px;
+            }
+
+            &.table-2 {
+            }
+        }
+    }
+
+    .ActionLogDetails-container {
+        > .header {
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        .table {
+            &.table-1 {
+                height: 450px;
+            }
+
+            &.table-2 {
+            }
+        }
+    }
+}
+
+@media (max-height: 1200px) {
+    .Spark-container {
+        .requests-panel {
+            top: 40px;
+            left: 400px;
+        }
+
+        .actionLogs-panel {
+            top: 40px;
+            left: 1400px;
+        }
+
+        .request-details {
+            top: 100px;
+            left: 880px;
+        }
+
+        .actionLog-details {
+            top: 100px;
+            left: 1880px;
+        }
+
+        .Circle-container {
+            left: 200px;
+
+            &.actions {
+                top: 200px;
+                left: 1200px;
+            }
+        }
+    }
+}

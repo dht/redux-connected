@@ -1,0 +1,25 @@
+.Logo-container {
+    img.logo {
+        width: 35px;
+        opacity: 0.9;
+    }
+
+    &.small {
+        img.logo {
+            width: 30px;
+            filter: grayscale(1);
+
+            &:hover {
+                filter: none;
+            }
+        }
+    }
+
+    &.clickable {
+        cursor: pointer;
+
+        &:hover {
+            color: gold;
+        }
+    }
+}

@@ -1,0 +1,27 @@
+{
+    "name": "redux-synced",
+    "version": "0.0.178",
+    "main": "lib/index.js",
+    "module": "esm/index.js",
+    "files": [
+        "lib/",
+        "esm/"
+    ],
+    "types": "lib/index.d.ts",
+    "typings": "lib/index.d.ts",
+    "scripts": {
+        "build:cjs": "tsc",
+        "build:es": "tsc -m esNext --outDir esm",
+        "clean": "rm -rf lib && rm -rf esm",
+        "build": "yarn clean && node scripts/prebuild && yarn build:cjs && yarn build:es"
+    },
+    "license": "MIT",
+    "dependencies": {
+        "@jest/types": "^27.0.6",
+        "chalk": "^4.1.2",
+        "store-builder-redux": "^0.0.70"
+    },
+    "devDependencies": {
+        "tslib": "^2.3.1"
+    }
+}

@@ -1,0 +1,16 @@
+| id  | location | provider_name | type      | subtype |
+| --- | -------- | ------------- | --------- | ------- |
+| 1   | CLIENT   | REST          | ADAPTER   | NETWORK |
+| 2   | CLIENT   | JSON_SERVER   | ADAPTER   | NETWORK |
+| 3   | SERVER   | FS            | ADAPTER   | DB      |
+| 4   | SERVER   | FS_DIRECTORY  | ADAPTER   | DB      |
+| 5   | SERVER   | MONGO_DB      | ADAPTER   | DB      |
+| 6   | SERVER   | SQL_LITE      | ADAPTER   | DB      |
+| 7   | SERVER   | MYSQL         | ADAPTER   | DB      |
+| 8   | SERVER   | POSTGRES      | ADAPTER   | DB      |
+| 9   | ISO      | REALTIME_DB   | ADAPTER   | SAAS    |
+| 10  | ISO      | FIRESTORE     | ADAPTER   | SAAS    |
+| 11  | ISO      | ATLAS         | ADAPTER   | SAAS    |
+| 12  | ISO      | HASURA        | ADAPTER   | SAAS    |
+| 13  | ISO      | JIRA          | CONNECTOR | SAAS    |
+| 14  | SERVER   | CLI           | CONNECTOR | NODEJS  |

@@ -1,0 +1,122 @@
+export const products = [
+    {
+        "id": "dbda14f8-6512-448b-843b-e3f4fb2f21a7",
+        "dateAdded": "2021-06-12 23:17:53",
+        "price": 431,
+        "department": "Computers",
+        "color": "red",
+        "name": "Licensed Plastic Pants",
+        "description": "The Football Is Good For Training And Recreational Purposes",
+        "thumbnail": "https://cdn.fakercloud.com/avatars/smenov_128.jpg",
+        "imageUrl": "http://placeimg.com/640/480",
+        "shippingDate": "2021-09-01 23:51:18"
+    },
+    {
+        "id": "79f82723-42a1-4c4f-b412-1114f2688aba",
+        "dateAdded": "2020-12-05 17:06:30",
+        "price": 907,
+        "department": "Home",
+        "color": "silver",
+        "name": "Rustic Soft Keyboard",
+        "description": "The Apollotech B340 is an affordable wireless mouse with reliable connectivity, 12 months battery life and modern design",
+        "thumbnail": "https://cdn.fakercloud.com/avatars/aaronkwhite_128.jpg",
+        "imageUrl": "http://placeimg.com/640/480",
+        "shippingDate": "2021-09-01 18:30:49"
+    },
+    {
+        "id": "9e19e334-cee2-44d7-8e5f-9457d74b69b5",
+        "dateAdded": "2021-01-21 09:37:05",
+        "price": 143,
+        "department": "Beauty",
+        "color": "orange",
+        "name": "Practical Wooden Chair",
+        "description": "The slim & simple Maple Gaming Keyboard from Dev Byte comes with a sleek body and 7- Color RGB LED Back-lighting for smart functionality",
+        "thumbnail": "https://cdn.fakercloud.com/avatars/ifarafonow_128.jpg",
+        "imageUrl": "http://placeimg.com/640/480",
+        "shippingDate": "2021-09-01 20:52:25"
+    },
+    {
+        "id": "318d6a52-1dfd-4cdd-90a7-1aadb5cd976a",
+        "dateAdded": "2020-10-30 08:05:24",
+        "price": 964,
+        "department": "Grocery",
+        "color": "red",
+        "name": "Awesome Plastic Pants",
+        "description": "The Nagasaki Lander is the trademarked name of several series of Nagasaki sport bikes, that started with the 1984 ABC800J",
+        "thumbnail": "https://cdn.fakercloud.com/avatars/shadeed9_128.jpg",
+        "imageUrl": "http://placeimg.com/640/480",
+        "shippingDate": "2021-09-02 05:33:48"
+    },
+    {
+        "id": "a2e8ff97-9ea4-4401-8041-f27308cfa243",
+        "dateAdded": "2020-10-03 13:07:06",
+        "price": 145,
+        "department": "Garden",
+        "color": "tan",
+        "name": "Small Granite Gloves",
+        "description": "Carbonite web goalkeeper gloves are ergonomically designed to give easy fit",
+        "thumbnail": "https://cdn.fakercloud.com/avatars/joaoedumedeiros_128.jpg",
+        "imageUrl": "http://placeimg.com/640/480",
+        "shippingDate": "2021-09-02 08:27:21"
+    },
+    {
+        "id": "c3100e8d-cb43-45fa-a1d6-7bdc9c1129d2",
+        "dateAdded": "2021-08-06 13:08:55",
+        "price": 293,
+        "department": "Outdoors",
+        "color": "purple",
+        "name": "Generic Soft Cheese",
+        "description": "Ergonomic executive chair upholstered in bonded black leather and PVC padded seat and back for all-day comfort and support",
+        "thumbnail": "https://cdn.fakercloud.com/avatars/ganserene_128.jpg",
+        "imageUrl": "http://placeimg.com/640/480",
+        "shippingDate": "2021-09-01 23:49:11"
+    },
+    {
+        "id": "9c481e4e-345e-44c3-8ce5-fda93fa8507c",
+        "dateAdded": "2021-05-10 22:13:50",
+        "price": 739,
+        "department": "Books",
+        "color": "maroon",
+        "name": "Tasty Metal Bacon",
+        "description": "Boston's most advanced compression wear technology increases muscle oxygenation, stabilizes active muscles",
+        "thumbnail": "https://cdn.fakercloud.com/avatars/anthonysukow_128.jpg",
+        "imageUrl": "http://placeimg.com/640/480",
+        "shippingDate": "2021-09-02 03:30:56"
+    },
+    {
+        "id": "d6e19e59-d4a0-4c71-a183-3889bf670f82",
+        "dateAdded": "2020-10-11 06:49:23",
+        "price": 154,
+        "department": "Toys",
+        "color": "yellow",
+        "name": "Generic Fresh Bacon",
+        "description": "The automobile layout consists of a front-engine design, with transaxle-type transmissions mounted at the rear of the engine and four wheel drive",
+        "thumbnail": "https://cdn.fakercloud.com/avatars/imomenui_128.jpg",
+        "imageUrl": "http://placeimg.com/640/480",
+        "shippingDate": "2021-09-01 17:01:45"
+    },
+    {
+        "id": "58e990c1-635c-4959-9194-4466ba66bfd3",
+        "dateAdded": "2021-04-19 03:07:52",
+        "price": 895,
+        "department": "Clothing",
+        "color": "sky blue",
+        "name": "Practical Plastic Tuna",
+        "description": "New range of formal shirts are designed keeping you in mind. With fits and styling that will make you stand apart",
+        "thumbnail": "https://cdn.fakercloud.com/avatars/kapaluccio_128.jpg",
+        "imageUrl": "http://placeimg.com/640/480",
+        "shippingDate": "2021-09-01 20:29:33"
+    },
+    {
+        "id": "89f328eb-3036-4d8a-a1b1-6d0f100ee672",
+        "dateAdded": "2020-11-23 01:40:22",
+        "price": 966,
+        "department": "Toys",
+        "color": "maroon",
+        "name": "Practical Frozen Bike",
+        "description": "New ABC 13 9370, 13.3, 5th Gen CoreA5-8250U, 8GB RAM, 256GB SSD, power UHD Graphics, OS 10 Home, OS Office A & J 2016",
+        "thumbnail": "https://cdn.fakercloud.com/avatars/oktayelipek_128.jpg",
+        "imageUrl": "http://placeimg.com/640/480",
+        "shippingDate": "2021-09-01 23:43:36"
+    }
+];

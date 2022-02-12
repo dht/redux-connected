@@ -1,0 +1,39 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "target": "es6",
+        "noImplicitAny": true,
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "outDir": "dist",
+        "baseUrl": "../../",
+        "allowJs": true,
+        "paths": {
+            "@rc-adapter-fixtures": ["adapter-base/rc-adapter-fixtures/src"],
+            "@rc-adapter-fixtures/*": ["adapter-base/rc-adapter-fixtures/src"],
+            "@rc-adapter-base": ["adapter-base/rc-adapter-base/src"],
+            "@rc-adapter-base/*": ["adapter-base/rc-adapter-base/src"],
+            "@rc-adapter-rest": ["adapters/rc-adapter-rest/src"],
+            "@rc-adapter-rest/*": ["adapters/rc-adapter-rest/src"],
+            "@redux-synced": ["packages/redux-synced/src"],
+            "@redux-synced/*": ["packages/redux-synced/src"],
+            "@redux-connected": ["packages/redux-connected-core/src"],
+            "@redux-connected/*": ["packages/redux-connected-core/src"],
+            "@redux-connected-ui-store": [
+                "examples/redux-connected-ui-store/src"
+            ],
+            "@redux-connected-ui-store/*": [
+                "examples/redux-connected-ui-store/src"
+            ],
+            "@redux-connected-components": [
+                "packages/redux-connected-components/src"
+            ],
+            "@redux-connected-components/*": [
+                "packages/redux-connected-components/src"
+            ]
+        }
+    },
+    "include": ["src/**/*"]
+}

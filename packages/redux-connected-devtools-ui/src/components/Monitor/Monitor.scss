@@ -1,0 +1,9 @@
+@import '../Prefix.scss';
+
+.#{$prefix}Monitor-container {
+    flex: 1;
+
+    .col:first-child {
+        max-width: 255px;
+    }
+}

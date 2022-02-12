@@ -1,0 +1,33 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "jsx": "react",
+        "declaration": true,
+        "pretty": true,
+        "rootDir": "src",
+        "sourceMap": false,
+        "strict": true,
+        "esModuleInterop": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noImplicitReturns": true,
+        "noImplicitAny": false,
+        "noFallthroughCasesInSwitch": true,
+        "outDir": "lib",
+        "allowJs": true,
+        "baseUrl": ".",
+        "lib": ["es2018", "dom"],
+        "importHelpers": true
+    },
+    "include": ["src", "test"],
+    "exclude": [
+        "node_modules/**/*",
+        "lib/**/*",
+        "esm/**/*",
+        "types/types.play.ts",
+        "**/*.spec.ts",
+        "jest.config.ts"
+    ]
+}

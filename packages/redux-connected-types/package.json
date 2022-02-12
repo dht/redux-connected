@@ -1,0 +1,37 @@
+{
+    "name": "redux-connected-types",
+    "version": "0.0.114",
+    "description": "types for redux-connected",
+    "license": "MIT",
+    "main": "lib/index.js",
+    "module": "esm/index.js",
+    "files": [
+        "lib/",
+        "esm/"
+    ],
+    "types": "lib/index.d.ts",
+    "typings": "lib/index.d.ts",
+    "scripts": {
+        "lint": "eslint {src,tests,stories}/**/*.{ts,tsx}",
+        "lint:fix": "yarn lint --fix",
+        "lint:types": "tsc --noEmit",
+        "build:cjs": "tsc",
+        "build:es": "tsc -m esNext --outDir esm",
+        "build": "yarn clean && yarn build:cjs && yarn build:es",
+        "clean": "rm -rf lib/* && rm -rf esm/*",
+        "watch": "nodemon -x \"npm run build\"",
+        "generateData": "ts-node src/__helpers__/generateData"
+    },
+    "publishConfig": {
+        "registry": "https://registry.npmjs.org/"
+    },
+    "author": "",
+    "dependencies": {
+        "axios": "^0.21.1",
+        "redux-store-generator": "^0.9.72",
+        "store-builder-redux": "^0.0.70"
+    },
+    "devDependencies": {
+        "typescript": "4.3.5"
+    }
+}

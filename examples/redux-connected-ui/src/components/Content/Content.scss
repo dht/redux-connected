@@ -1,0 +1,34 @@
+.Content-container {
+    // margin-left: 220px;
+    padding-top: 45px;
+    min-height: 100vh;
+    box-sizing: border-box;
+
+    > .container {
+        width: 1048px;
+        padding-top: 30px;
+        display: flex;
+        flex-direction: row;
+        margin: auto;
+        justify-content: center;
+
+        &.multi-column {
+            > div {
+                &.left {
+                    flex: 4;
+                    max-width: 876px;
+                }
+
+                &.right {
+                    width: 352px;
+                }
+            }
+        }
+
+        &.single-column {
+            > .col {
+                flex: 1;
+            }
+        }
+    }
+}

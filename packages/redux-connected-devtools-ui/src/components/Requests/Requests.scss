@@ -1,0 +1,13 @@
+@import '../Prefix.scss';
+
+.#{$prefix}Requests-container {
+    .#{$prefix}Reading-container {
+        .status {
+            padding-right: 5px;
+
+            &.error {
+                color: red;
+            }
+        }
+    }
+}

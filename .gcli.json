@@ -1,0 +1,32 @@
+{
+    "id": "redux-connected",
+    "title": "redux-connected",
+    "isActive": true,
+    "scripts": [
+        {
+            "id": "example-ui",
+            "packagePath": "/examples/redux-connected-ui",
+            "runScript": "dev",
+            "port": 4100
+        },
+        {
+            "id": "example-server",
+            "packagePath": "/examples/redux-connected-ui-server",
+            "runScript": "dev",
+            "port": 4101
+        },
+        {
+            "id": "devtools-ui",
+            "packagePath": "/packages/redux-connected-devtools-server",
+            "runScript": "dev",
+            "port": 4102
+        },
+        {
+            "id": "devtools-server",
+            "packagePath": "/packages/redux-connected-devtools-ui",
+            "runScript": "dev",
+            "port": 4103
+        }
+    ],
+    "quickActions": []
+}

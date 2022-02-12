@@ -1,0 +1,8 @@
+@import '../Prefix.scss';
+
+.#{$prefix}Loader-container {
+    .svg {
+        width: 19px;
+        height: 19px;
+    }
+}

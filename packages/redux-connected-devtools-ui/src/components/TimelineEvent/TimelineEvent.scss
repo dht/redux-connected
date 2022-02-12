@@ -1,0 +1,23 @@
+@import '../Prefix.scss';
+
+.#{$prefix}TimelineEvent-container {
+    position: absolute;
+    left: 0;
+    top: 1px;
+    background-color: darken(#aaa, 30%);
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+
+    &.RAW_BEAT {
+        background-color: goldenrod;
+    }
+
+    &.RAW_MIDI {
+        background-color: hotpink;
+    }
+
+    &.DATA_NEW_MOVEMENT {
+        background-color: purple;
+    }
+}
