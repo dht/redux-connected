@@ -20,6 +20,11 @@
         "lib": ["es2018", "dom"],
         "importHelpers": true
     },
+    "baseUrl": "../../",
+    "paths": {
+        "redux-connected-types": ["packages/redux-connected-types/src"],
+        "redux-connected-types/*": ["packages/redux-connected-types/src"],
+    },
     "include": ["src", "test"],
     "exclude": [
         "node_modules/**/*",

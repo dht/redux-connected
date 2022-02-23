@@ -22,6 +22,8 @@
             "@rc-adapter-rest/*": ["adapters/rc-adapter-rest/src"],
             "@redux-synced": ["packages/redux-synced/src"],
             "@redux-synced/*": ["packages/redux-synced/src"],
+            "redux-connected-types": ["packages/redux-connected-types/src"],
+            "redux-connected-types/*": ["packages/redux-connected-types/src"],
             "@redux-connected": ["packages/redux-connected-core/src"],
             "@redux-connected/*": ["packages/redux-connected-core/src"],
             "@redux-connected-ui-store": [

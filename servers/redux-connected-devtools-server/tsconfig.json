@@ -19,11 +19,13 @@
             "@redux-synced/*": ["packages/redux-synced/src"],
             "@redux-connected": ["packages/redux-connected-core/src"],
             "@redux-connected/*": ["packages/redux-connected-core/src"],
+            "redux-connected-types": ["packages/redux-connected-types/src"],
+            "redux-connected-types/*": ["packages/redux-connected-types/src"],
             "@redux-connected-ui-store": [
-                "examples/redux-connected-ui-store/src"
+                "packages/redux-connected-ui-store/src"
             ],
             "@redux-connected-ui-store/*": [
-                "examples/redux-connected-ui-store/src"
+                "packages/redux-connected-ui-store/src"
             ],
             "@redux-connected-components": [
                 "packages/redux-connected-components/src"

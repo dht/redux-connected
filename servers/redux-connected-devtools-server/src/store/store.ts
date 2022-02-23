@@ -7,7 +7,7 @@ const socketIOInstance = require('socket.io');
 export const actions = apiActions;
 ``;
 export const initStore = (expressServerInstance: any) => {
-    return generateConnectedStore(initialState, {}, [], (storeBuilder) => {
+    return generateConnectedStore(initialState, {}, [], (storeBuilder: any) => {
         initSyncedStoreForServer(
             {
                 socketIOInstance,

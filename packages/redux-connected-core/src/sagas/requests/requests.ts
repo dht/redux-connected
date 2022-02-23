@@ -204,7 +204,7 @@ function* parseIncomingRequests() {
 }
 
 function* moveSuccessfulRequestToDone() {
-    const requests = yield select(selectors.$successfulRequests);
+    const requests = yield select(selectors.$successfulRequests as any) as any;
 
     for (let request of requests) {
         yield put(actions.addRequestJourneyPoint(request, 'to done'));
