@@ -1,5 +1,5 @@
 import { Json, NodeType } from 'redux-store-generator';
-import { HttpMethod } from '../../../../types';
+import { HttpMethod } from '../types';
 
 export type ActionConfig = {
     nodeName: string;

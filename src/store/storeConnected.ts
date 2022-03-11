@@ -3,7 +3,7 @@ import { gatekeeperMiddleware } from '../middlewares/midGatekeeper';
 import { getConnectStoreDefinition } from './storeDefinitions';
 import { lastAction } from '../store/reducers';
 import { Middleware } from 'redux';
-import { StoreBuilder } from 'store-builder-redux';
+import { StoreBuilder } from '../builders/StoreBuilder';
 import { StoreDecorator, IReduxConnectedConfig } from '../types';
 import { StoreStructure } from 'redux-store-generator';
 import sagas from '../sagas';

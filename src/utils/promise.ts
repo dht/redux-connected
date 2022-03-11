@@ -30,7 +30,7 @@ export class ChainablePromise {
     }
 }
 
-let timeout;
+let timeout: any;
 
 const debounce = (callback: any, delay: number) => {
     clearTimeout(timeout);
