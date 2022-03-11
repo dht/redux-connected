@@ -9,7 +9,7 @@ import {
     NodeType,
     SingleBag,
 } from 'redux-store-generator';
-import { StoreBuilder } from 'store-builder-redux';
+import { StoreBuilder } from './builders/StoreBuilder';
 
 export interface IReduxConnectedConfig {
     defaultEndpointsConfig: EndpointConfig;
@@ -17,6 +17,16 @@ export interface IReduxConnectedConfig {
     adapters: {
         rest?: any;
     };
+}
+
+export interface StoreDefinition {
+    name: string;
+    initialState: Json;
+    reducers: any;
+    middlewares: any;
+    enhancers: any;
+    sagas: any;
+    enableDevtoolsExtension: boolean;
 }
 
 export type Json = Record<string, any>;
@@ -228,8 +238,9 @@ export interface StoreDefinition {
     initialState: Json;
     reducers: any;
     middlewares: any;
+    enhancers: any;
     sagas: any;
-    options: Partial<IReduxConnectedConfig>;
+    enableDevtoolsExtension: boolean;
 }
 
 export type Meta = {

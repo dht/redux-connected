@@ -6,8 +6,7 @@
   "version": "3.0.0",
   "description": "Javascript Version",
   "private": true,
-  "scripts": {
-  },
+  "scripts": {},
   "babel": {
     "presets": [
       "@babel/preset-react"
@@ -34,6 +33,7 @@
   },
   "devDependencies": {
     "@redux-devtools/extension": "^3.2.2",
+    "@types/lodash": "^4.14.179",
     "redux-store-generator": "^0.9.72"
   }
 }
