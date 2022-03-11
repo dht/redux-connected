@@ -1,0 +1,40 @@
+{
+  "name": "@payem/platformer",
+  "main": "src/index.ts",
+  "license": "MIT",
+  "type": "module",
+  "version": "3.0.0",
+  "description": "Javascript Version",
+  "private": true,
+  "scripts": {
+    "dev": "react-scripts start",
+    "build": "react-scripts build",
+    "eject": "react-scripts eject",
+    "lint": "eslint --ext .js,.jsx ./src",
+    "lint:fix": "eslint --fix --ext .js,.jsx ./src"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-react"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@redux-devtools/extension": "^3.2.2",
+    "redux-store-generator": "^0.9.72"
+  }
+}

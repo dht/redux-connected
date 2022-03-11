@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist/",
+        "sourceMap": true,
+        "noImplicitAny": true,
+        "module": "commonjs",
+        "target": "es6",
+        "esModuleInterop": true,
+        "jsx": "react-jsx",
+        "baseUrl": "../..",
+        "paths": {
+            "@payem/root-types": ["packages/root-types"],
+            "@payem/ui": ["packages/web-ui"]
+        }
+    },
+    "include": ["**/*.tsx", "../../clients/mobile-app/src/hooks/useConfig.tsx"],
+    "exclude": ["node_modules"]
+}

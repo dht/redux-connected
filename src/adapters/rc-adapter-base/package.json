@@ -1,0 +1,56 @@
+{
+    "name": "rc-adapter-base",
+    "version": "0.0.209",
+    "description": "redux connected base for building adapters",
+    "license": "MIT",
+    "main": "src/index.ts",
+    "module": "esm/index.js",
+    "files": [
+        "lib/",
+        "esm/"
+    ],
+    "types": "lib/index.d.ts",
+    "typings": "lib/index.d.ts",
+    "scripts": {
+        "test": "jest --config jest.config.ts",
+        "test:watch": "jest --watch",
+        "test:coverage": "jest --coverage",
+        "lint": "eslint {src,tests,stories}/**/*.{ts,tsx}",
+        "lint:fix": "yarn lint --fix",
+        "lint:types": "tsc --noEmit",
+        "build:cjs": "tsc",
+        "build:es": "tsc -m esNext --outDir esm",
+        "build": "yarn clean && yarn build:cjs && yarn build:es",
+        "clean": "rm -rf lib/* && rm -rf esm/*",
+        "watch": "nodemon -x \"npm run build\""
+    },
+    "publishConfig": {
+        "registry": "https://registry.npmjs.org/"
+    },
+    "author": "",
+    "dependencies": {
+        "@jest/types": "^27.1.0",
+        "axios": "^0.21.1",
+        "rc-adapter-fixtures": "^0.0.87",
+        "redux-connected": "^0.0.80",
+        "redux-store-generator": "^0.9.72"
+    },
+    "devDependencies": {
+        "chance": "^1.1.7",
+        "husky": "^7.0.2",
+        "lint-staged": "^11.1.2",
+        "tslib": "^2.3.1"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged",
+            "pre-push": "yarn lint && yarn clean && yarn build && yarn test"
+        }
+    },
+    "lint-staged": {
+        "src/**/**/*.{ts,tsx}": [
+            "eslint --fix",
+            "git add"
+        ]
+    }
+}
