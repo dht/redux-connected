@@ -2,7 +2,6 @@
   "name": "redux-connected",
   "main": "src/index.ts",
   "license": "MIT",
-  "type": "module",
   "version": "3.0.0",
   "description": "Javascript Version",
   "private": true,
@@ -28,6 +27,7 @@
     "axios": "^0.26.1",
     "lodash": "^4.17.21",
     "react": "^17.0.2",
+    "react-router-dom": "^6.2.2",
     "redux-saga": "^1.1.3",
     "typed-redux-saga": "^1.4.0"
   },

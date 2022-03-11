@@ -12,6 +12,7 @@ import {
 export type DevMenuProps = {
     groups: string[];
     items: IDevRoute[];
+    onClick: (route: IDevRoute) => void;
 };
 
 export function DevMenu(props: DevMenuProps) {

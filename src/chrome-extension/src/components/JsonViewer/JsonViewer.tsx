@@ -5,7 +5,10 @@ export type JsonViewerProps = {};
 
 export function JsonViewer(_props: JsonViewerProps) {
     return (
-        <Container className="JsonViewer-container" data-testid="JsonViewer-container">
+        <Container
+            className='JsonViewer-container'
+            data-testid='JsonViewer-container'
+        >
             JsonViewer
         </Container>
     );

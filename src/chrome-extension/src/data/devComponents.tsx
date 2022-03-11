@@ -5,7 +5,7 @@ import StateViewerContainer from '../containers/StateViewerContainer';
 
 type DevComponents = Record<string, React.FC<any>>;
 
-export const routes: DevComponents = {
+export const devComponents: DevComponents = {
     Lifecycle: LifecycleContainer,
     jsonViewer: JsonViewerContainer,
     stateViewer: StateViewerContainer,

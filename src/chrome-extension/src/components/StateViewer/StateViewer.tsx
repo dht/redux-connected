@@ -5,7 +5,10 @@ export type StateViewerProps = {};
 
 export function StateViewer(_props: StateViewerProps) {
     return (
-        <Container className="StateViewer-container" data-testid="StateViewer-container">
+        <Container
+            className='StateViewer-container'
+            data-testid='StateViewer-container'
+        >
             StateViewer
         </Container>
     );

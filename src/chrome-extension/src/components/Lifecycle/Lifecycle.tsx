@@ -5,7 +5,10 @@ export type LifecycleProps = {};
 
 export function Lifecycle(_props: LifecycleProps) {
     return (
-        <Container className="Lifecycle-container" data-testid="Lifecycle-container">
+        <Container
+            className='Lifecycle-container'
+            data-testid='Lifecycle-container'
+        >
             Lifecycle
         </Container>
     );

@@ -1,4 +1,4 @@
-import {  itemsToObject } from './adapterBase';
+import { itemsToObject } from './adapterBase';
 import {
     ApiRequest,
     ApiServerConfiguration,
@@ -7,13 +7,13 @@ import {
 } from '../types';
 import { AxiosInstance, AxiosResponse } from 'axios';
 import { NodeType } from 'redux-store-generator';
-import {ResponseBuilder} from '../utils/ResponseBuilder';
+import { ResponseBuilder } from '../utils/ResponseBuilder';
 
 export class RestAdapter implements Adapter {
     private instance: AxiosInstance;
 
     constructor(configuration: ApiServerConfiguration) {
-         this.instance = configuration.axios;
+        this.instance = configuration.axios;
     }
 
     GET = (request: ApiRequest, response: ResponseBuilder) => {
