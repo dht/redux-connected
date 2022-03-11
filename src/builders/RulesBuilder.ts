@@ -1,7 +1,7 @@
-import { Filter, GetParams, OrderBy } from '../../../typ';
-import { getSubitemsNodeName } from '../..';
-import { toArray } from '../../utils/object';
-import { GetRequest } from '../getRequestBuilder';
+import { Filter, GetParams, OrderBy } from '../types';
+import { getSubitemsNodeName } from '../adapters/adapterBase';
+import { toArray } from '../adapters/utils/object';
+import { GetRequest } from './getRequestBuilder';
 
 export type RequestDecorator = (
     request: GetRequest,

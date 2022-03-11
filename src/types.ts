@@ -455,3 +455,9 @@ export type RequestResponseAction = Action & {
 export enum SagaEvents {
     POST_ACTION = 'POST_ACTION',
 }
+
+
+export type FieldValue = {
+    field: string;
+    value: any;
+};

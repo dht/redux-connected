@@ -6,7 +6,7 @@ const path = require('path');
 require('dotenv-flow').config();
 
 const cwd = path.resolve(process.cwd(), '../../');
-const host = process.env.VITE_SERVER_DOMAIN.replace(/https?:\/\//, '');
+const host = (process.env.VITE_SERVER_DOMAIN||'').replace(/https?:\/\//, '');
 
 // https://vitejs.dev/config/
 export default defineConfig({

@@ -2,7 +2,7 @@ import * as actions from '../store/quickActions';
 import { logm } from './logger';
 import { PostApiActionBuilder } from '../utils/PostApiActionBuilder';
 import { put } from 'redux-saga/effects';
-import { takeEvery } from '../../saga-manager/sagas/_helpers';
+import { takeEvery } from './_helpers';
 import {
     ConnectionStatus,
     ApiRequestStatus,

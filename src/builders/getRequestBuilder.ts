@@ -1,10 +1,9 @@
-import { FieldValue } from '../types';
-import { Filter, GetParams, Json } from '../../../../types';
-import { isEmpty, toArray } from '../utils/object';
+import { Filter, GetParams, Json, FieldValue } from '../types';
+import { isEmpty, toArray } from '../adapters/utils/object';
 import {
     GetRequestBuilderRules,
     rules,
-} from './get-builder-rules/rules.default';
+} from './RulesBuilder';
 
 export type GetRequest = {
     path: string;

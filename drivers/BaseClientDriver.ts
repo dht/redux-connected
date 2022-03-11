@@ -1,4 +1,4 @@
-import { ChainablePromise } from '../utils/promise';
+import { ChainablePromise } from '../src/adapters/utils/promise';
 
 export class BaseClientDriver {
     private promise: ChainablePromise;

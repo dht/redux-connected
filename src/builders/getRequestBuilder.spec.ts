@@ -1,4 +1,4 @@
-import { GetParams } from '../../../../types';
+import { GetParams } from '../types';
 import { GetRequestBuilder } from './getRequestBuilder';
 
 describe('UrlBuilder', () => {
