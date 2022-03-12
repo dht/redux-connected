@@ -12,7 +12,13 @@ const mockStore = (state?: any) => ({
 });
 
 describe('midConnected', () => {
-    let store: any, next: any, action: any, resolve: any;
+    let store: any = '',
+        next: any,
+        action: any,
+        resolve: any;
+
+    if (store) {
+    }
 
     beforeEach(() => {
         globals.mainStore = mockStore();

@@ -1,10 +1,9 @@
 {
     "name": "redux-connected",
-    "main": "src/index.ts",
+    "main": "dist/index.js",
     "license": "MIT",
-    "version": "3.0.0",
+    "version": "0.0.84",
     "description": "Javascript Version",
-    "private": true,
     "scripts": {
         "build": "tsc",
         "lint": "tslint -p tsconfig.json"
@@ -14,6 +13,7 @@
             "@babel/preset-react"
         ]
     },
+    "types": "dist/index.d.ts",
     "browserslist": {
         "production": [
             ">0.2%",

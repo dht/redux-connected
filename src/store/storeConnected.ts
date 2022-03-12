@@ -43,3 +43,19 @@ export const generateConnectedStore = <T extends StoreStructure>(
 
     return globals.connectedStore;
 };
+
+export const generateConnectedStoreEmpty = <T extends StoreStructure>(
+    state: T,
+    options: Partial<IReduxConnectedConfig>
+): any => {
+    const connectedStoreDefinition = getConnectStoreDefinition(state, options); // prettier-ignore
+    const connectedStoreBuilder = new StoreBuilder('connected');
+    const initialState = { ...connectedStoreDefinition.initialState };
+
+    connectedStoreBuilder.withInitialState(initialState).withReducers({
+        ...connectedStoreDefinition.reducers,
+        _lastAction: lastAction,
+    });
+
+    return connectedStoreBuilder.build();
+};

@@ -60,7 +60,7 @@ export const lastAction = (_state: any, action: Action) => {
 const apiSettings = generateSingle('API_GLOBAL_SETTINGS');
 const apiStats = generateSingle('API_GLOBAL_STATS');
 export const apiEndpointsConfig = generateConfigReducer<EndpointsConfig>('API_ENDPOINTS_CONFIG'); // prettier-ignore
-const apiRequests = generateListReducer<ApiRequest>('REQUEST');
+export const apiRequests = generateListReducer<ApiRequest>('REQUEST');
 const actionLogs = generateListReducer<ActionLog>('ACTION_LOG');
 export const apiStatus = generateConfigReducer<ApiStatuses>('API_STATUS');
 const apiActionTypes = generateSingle('API_ACTION_TYPES');

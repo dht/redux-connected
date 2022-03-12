@@ -126,8 +126,6 @@ function* onError(request: ApiRequest, response: ApiResponse) {
     request.resolve({ nextAction, response });
 }
 
-function* onSuccess(request: ApiRequest, response: ApiResponse) {}
-
 function* shouldRetry(request: ApiRequest) {
     let output = false;
     const configs = yield* select(selectors.$endpointsConfig);

@@ -10,7 +10,6 @@
         "jsx": "react",
         "outDir": "dist",
         "declaration": true,
-        "declarationDir": "./types",
         "sourceMap": true,
         "removeComments": false,
         "noUnusedLocals": true,
