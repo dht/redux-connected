@@ -81,8 +81,8 @@ export const $actionLogs = createSelector($apiRaw, (api) => api.actionLogs);
 
 export const $actionLogsByLifecycle = createSelector(
     $actionLogs,
-    (actionLogs) => {
-        return actionLogs.reduce((output, actionLog: ActionLog) => {
+    (actionLogs: any) => {
+        return actionLogs.reduce((output: any, actionLog: ActionLog) => {
             output[actionLog.lifecyclePhase] =
                 output[actionLog.lifecyclePhase] || [];
             output[actionLog.lifecyclePhase].push(actionLog);
@@ -94,7 +94,7 @@ export const $actionLogsByLifecycle = createSelector(
 export const $settingsAndStats = createSelector(
     $apiGlobalSettings,
     $apiGlobalStats,
-    (settings, stats) => ({
+    (settings: any, stats: any) => ({
         settings,
         stats,
     })

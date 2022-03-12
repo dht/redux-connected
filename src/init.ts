@@ -1,7 +1,7 @@
 import globals from './utils/globals';
 import { connectedMiddleware } from './middlewares/midConnected';
 import { generateConnectedStore } from './store/storeConnected';
-import { StoreBuilder } from '@payem/platformer';
+import { StoreBuilder } from './builders/StoreBuilder';
 import { StoreStructure } from 'redux-store-generator';
 import type { IReduxConnectedConfig } from './types';
 
@@ -10,7 +10,7 @@ export const initReduxConnected = <T extends StoreStructure>(
     storeBuilder: StoreBuilder
 ) => {
     storeBuilder.withMiddlewares([connectedMiddleware]);
-    storeBuilder.withPostBuildHook((store) =>
+    storeBuilder.withPostBuildHook((store: any) =>
         initConnectedStore<T>(config, store)
     );
 };
@@ -27,4 +27,3 @@ const initConnectedStore = <T extends StoreStructure>(
         config
     );
 };
-//2

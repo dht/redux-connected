@@ -85,6 +85,8 @@ export class RestAdapter implements Adapter {
                     response.withIsSuccess(true).withAxiosResponse(res);
                     const data = this.parseReturnedData(request, res);
                     response.withData(data);
+
+                    resolve(response.build());
                 })
                 .catch(function (error: any) {
                     if (error.response) {
@@ -109,8 +111,7 @@ export class RestAdapter implements Adapter {
                             .withErrorType('javascript')
                             .withErrorMessage(error.message);
                     }
-                })
-                .finally(() => {
+
                     resolve(response.build());
                 });
         });

@@ -30,7 +30,7 @@ export const getIndex = (path: string, data: Json) => {
     }
 
     const array = data[nodeName];
-    return array.findIndex((item) => item.id === id);
+    return array.findIndex((item: any) => item.id === id);
 };
 
 export const toSingle = (name: string) => {
@@ -57,7 +57,7 @@ export const getSubitems = (path: string, data: Json) => {
 export const getSubitemIndex = (path: string, data: Json) => {
     const { id, nodeName } = parsePath(path);
     const array = data[nodeName];
-    return array.findIndex((item) => item.id === id);
+    return array.findIndex((item: any) => item.id === id);
 };
 
 export type PathType = 'SINGLE' | 'COLLECTION' | 'SUBITEM';

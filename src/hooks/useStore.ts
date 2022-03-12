@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Action } from 'redux-store-generator';
-import globals from '../globals';
+import globals from '../utils/globals';
 
 type StoreReading = {
     state: any;

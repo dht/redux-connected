@@ -1,7 +1,7 @@
 import { ChainablePromiseDriver } from './promise.driver';
 
 describe('ChainablePromise', () => {
-    let driver;
+    let driver: any;
 
     beforeAll(() => {
         driver = new ChainablePromiseDriver();

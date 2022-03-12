@@ -1,4 +1,4 @@
-import { Json } from '../../../../types';
+import { Json } from '../../types';
 
 export const toArray = <T = Json>(objectOrArray: T | T[]): T[] => {
     if (!objectOrArray) {
