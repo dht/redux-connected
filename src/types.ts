@@ -17,6 +17,7 @@ export interface IReduxConnectedConfig {
     adapters: {
         rest?: any;
     };
+    enableReduxDevtools?: boolean;
 }
 
 export interface StoreDefinition {

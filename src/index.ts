@@ -5,3 +5,5 @@ export { StoreBuilder } from './builders/StoreBuilder';
 export { initReduxConnected } from './init';
 export { generateConnectedStoreEmpty } from './store/storeConnected';
 export { connectedSelectors } from './store/selectors';
+export { apiActions } from './store/actions';
+export { ActionLogBuilder } from './utils/ActionLogBuilder';

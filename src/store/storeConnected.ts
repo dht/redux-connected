@@ -1,20 +1,22 @@
+import * as devtools from './devtoolsBridge';
 import globals from '../utils/globals';
+import sagas from '../sagas';
+import { devtoolsMiddleware } from '../middlewares/midDevtools';
 import { gatekeeperMiddleware } from '../middlewares/midGatekeeper';
 import { getConnectStoreDefinition } from './storeDefinitions';
+import { IReduxConnectedConfig, StoreDecorator } from '../types';
 import { lastAction } from '../store/reducers';
 import { Middleware } from 'redux';
 import { StoreBuilder } from '../builders/StoreBuilder';
-import { StoreDecorator, IReduxConnectedConfig } from '../types';
 import { StoreStructure } from 'redux-store-generator';
-import sagas from '../sagas';
 
 export const generateConnectedStore = <T extends StoreStructure>(
     state: T,
-    options: Partial<IReduxConnectedConfig>,
+    config: Partial<IReduxConnectedConfig>,
     middlewares: Middleware | Middleware[] = [],
     storeDecorator?: StoreDecorator
 ): any => {
-    const connectedStoreDefinition = getConnectStoreDefinition(state, options); // prettier-ignore
+    const connectedStoreDefinition = getConnectStoreDefinition(state, config); // prettier-ignore
     const connectedStoreBuilder = new StoreBuilder('connected');
     const initialState = { ...connectedStoreDefinition.initialState };
 
@@ -25,6 +27,7 @@ export const generateConnectedStore = <T extends StoreStructure>(
 
     connectedStoreBuilder
         .withMiddlewares([gatekeeperMiddleware])
+        .withMiddlewares(devtoolsMiddleware)
         .withMiddlewares(middlewares)
         .withSagas(
             sagas.logger.saga,
@@ -34,6 +37,12 @@ export const generateConnectedStore = <T extends StoreStructure>(
             sagas.internet.saga,
             sagas.refresh.saga
         );
+
+    if (config.enableReduxDevtools) {
+        connectedStoreBuilder.withPostBuildHook((_store) => {
+            devtools.sendState(_store.getState());
+        });
+    }
 
     if (storeDecorator) {
         storeDecorator(connectedStoreBuilder);
