@@ -1,17 +1,13 @@
 import * as devtools from '../utils/devtoolsBridge';
 import globals from '../utils/globals';
 import sagas from '../sagas';
+import { cleanInitialState, generateInitialState } from './initialState';
 import { ConnectedStore, IReduxConnectedConfig } from '../types';
 import { devtoolsMiddleware } from '../middlewares/midDevtools';
 import { gatekeeperMiddleware } from '../middlewares/midGatekeeper';
-import { generateInitialState } from './initialState';
 import { Middleware } from 'redux';
 import { StoreBuilder } from '../builders/StoreBuilder';
-import {
-    Action,
-    generateReducersForStore,
-    StoreStructure,
-} from 'redux-store-generator';
+import { Action, generateReducersForStore, StoreStructure } from 'redux-store-generator'; // prettier-ignore
 
 export const generateConnectedStore = <T extends StoreStructure>(
     state: T,
@@ -19,18 +15,15 @@ export const generateConnectedStore = <T extends StoreStructure>(
     middlewares: Middleware | Middleware[] = []
 ): any => {
     const connectedStoreBuilder = new StoreBuilder('connected');
-    const initialState = generateInitialState(state, config);
+    const schema = generateInitialState(state, config);
 
     connectedStoreBuilder
-        .withInitialState(initialState)
         .withReducers({
-            ...generateReducersForStore<ConnectedStore>(initialState),
+            ...generateReducersForStore<ConnectedStore>(schema),
         })
         .withReducers({
             _lastAction,
-        });
-
-    connectedStoreBuilder
+        })
         .withMiddlewares([gatekeeperMiddleware])
         .withMiddlewares(middlewares)
         .withSagas(
@@ -38,6 +31,10 @@ export const generateConnectedStore = <T extends StoreStructure>(
             sagas.incoming.saga,
             sagas.postAction.saga
         );
+
+    const initialState = cleanInitialState(schema);
+
+    connectedStoreBuilder.withInitialState(initialState);
 
     if (config.enableReduxDevtools) {
         connectedStoreBuilder.withMiddlewares(devtoolsMiddleware);

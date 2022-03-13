@@ -34,7 +34,7 @@ export const $requestsNew = createSelector(
     $requests,
     (requests: ApiRequest[]) => {
         return requests.filter((request) => {
-            request.requestStatus === RequestStatus.CREATED;
+            return request.requestStatus === RequestStatus.CREATED;
         });
     }
 );
@@ -43,7 +43,7 @@ export const $requestsQueued = createSelector(
     $requests,
     (requests: ApiRequest[]) => {
         return requests.filter((request) => {
-            request.requestStatus === RequestStatus.IN_QUEUE;
+            return request.requestStatus === RequestStatus.IN_QUEUE;
         });
     }
 );

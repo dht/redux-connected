@@ -95,6 +95,12 @@ export const initialState: ConnectedStore = {
     },
 };
 
+export const cleanInitialState = (state: ConnectedStore) => {
+    const output = { ...state };
+    output.requests = {};
+    return output;
+};
+
 export const generateInitialState = <T extends StoreStructure>(
     storeState: T,
     options: Partial<IReduxConnectedConfig>
@@ -107,7 +113,6 @@ export const generateInitialState = <T extends StoreStructure>(
 
     const keys: Array<keyof T> = Object.keys(storeState);
 
-    output.requests = {};
     output.endpointsState = {};
     output.endpointsConfig = {};
 

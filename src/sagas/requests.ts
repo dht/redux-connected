@@ -124,8 +124,8 @@ function* onError(request: ApiRequest, response: ApiResponse) {
 
 function* shouldRetry(request: ApiRequest) {
     let output = false;
-    const configs = yield* select(selectors.$endpointsConfigRaw);
 
+    const configs = yield* select(selectors.$endpointsConfigRaw);
     const config = configs[request.argsNodeName];
 
     const { retryStrategy = globalSettings.retryStrategy } = config;

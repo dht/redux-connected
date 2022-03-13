@@ -31,9 +31,6 @@ function* incoming(action: ActionWithPromise) {
         const config = configs[nodeName];
         const { connectionType } = config;
 
-        // TODO: why is this useful
-        // action.type = '';
-
         const nodeTypes = yield* select(selectors.$nodeTypesRaw);
 
         const nodeType = nodeTypes[nodeName];
@@ -54,6 +51,7 @@ function* incoming(action: ActionWithPromise) {
             .build();
 
         yield addNewRequest(request);
+
         yield put(
             actions.addRequestJourneyPoint(
                 request,
