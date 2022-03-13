@@ -3,10 +3,6 @@ import * as selectors from '../store/selectors';
 import { ActionWithPromise, ConnectionType } from '../types';
 import { clearActionP } from '../utils/dispatchP';
 
-/*
-    Gatekeeper for the RC store
-*/
-
 export const gatekeeperMiddleware =
     (store: any) => (next: any) => (action: ActionWithPromise) => {
         let skip = false;

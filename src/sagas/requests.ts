@@ -5,17 +5,7 @@ import { Action } from 'redux-store-generator';
 import { apiActions } from '../store/actions';
 import { call, delay, fork, put, select, takeEvery } from './_helpers';
 import { intervalChannel } from './channels/interval';
-import {
-    ApiRequest,
-    ConnectionStatus,
-    ConnectionType,
-    ApiSettings,
-    ApiResponse,
-    RequestStatus,
-    RetryStrategy,
-    SagaEvents,
-    LifecycleStatus,
-} from '../types';
+import { ApiRequest, ConnectionStatus, ConnectionType, ApiSettings, ApiResponse, RequestStatus, RetryStrategy, SagaEvents, LifecycleStatus } from '../types'; // prettier-ignore
 
 const runningRequests: Record<string, ApiRequest> = {};
 
@@ -209,6 +199,7 @@ export function* addNewRequest(request: ApiRequest): any {
 }
 
 function* root() {
+    globalSettings = yield* select(selectors.$apiGlobalSettingsRaw);
     yield fork(listenToRequestQueue);
 }
 
