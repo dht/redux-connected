@@ -4,7 +4,6 @@ import {
     ActionCreatorPayload,
     ApiInfoPerType,
     ApiVerb,
-    CollectionBag,
     Item,
     NodeType,
     SingleBag,
@@ -99,23 +98,22 @@ export interface EndpointConfig {
     nodeType?: NodeType;
 }
 
+export interface ApiRequestStats {
+    startTS?: number;
+    responseTS?: number;
+    completedTS?: number;
+    duration?: number;
+    responseSize?: number;
+    result?: RequestResult;
+}
+
 export interface ApiStatus {
     connectionStatus?: ConnectionStatus;
     lastRequest?: ApiRequestStats;
 }
 
-export interface SagaState {
-    id?: keyof Sagas;
-    description?: string;
-    isRunning?: boolean;
-    startedTS?: number;
-    stoppedTS?: number;
-    errorTS?: number;
-}
-
 export type EndpointsConfig = Record<string, EndpointConfig>;
 export type ApiStatuses = Record<string, ApiStatus>;
-export type SagasStates = Record<string, SagaState>;
 
 export type EndpointsConfigOverrides = Record<string, Partial<EndpointConfig>>;
 
@@ -129,7 +127,6 @@ export interface StoreStructureApi {
         nodeTypes: Record<string, string>;
         requests: ApiRequest[];
     };
-    _sagas: SagasStates;
     _lastAction: Action & {
         isRemote: boolean;
         storeId: string;
@@ -159,7 +156,6 @@ export type StatusActionBag = {
 
 export type SettingsActionBag = SingleBag<ApiSettings>;
 export type StatsActionBag = SingleBag<ApiStats>;
-export type SagasActionBag = CollectionBag<SagaState>;
 
 export type RequestsActionBag = {
     push: (request: ApiRequest) => Action;
@@ -182,30 +178,6 @@ export type ConnectedStoreActions = {
     };
 };
 
-export interface Saga {
-    saga: any;
-    description: string;
-}
-
-export interface Sagas {
-    incoming: Saga;
-    requests: Saga;
-    postAction: Saga;
-    logger: Saga;
-    refresh: Saga;
-    internet: Saga;
-}
-
-export interface StartSagaPayload {
-    sagaId: keyof Sagas;
-}
-
-export interface StopSagaPayload {
-    sagaId: keyof Sagas;
-}
-
-export type RunningSagas = Record<keyof Sagas, any>;
-
 export type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE';
 
 export type ApiErrorType =
@@ -224,80 +196,75 @@ export interface StoreDefinition {
     enableDevtoolsExtension: boolean;
 }
 
+export type Meta = {
+    id: string;
+    shortId: string;
+    createdTS: number;
+    sequence: number;
+};
+
+export type Log = Json & {
+    meta: Meta;
+};
+
+export type Reading = {
+    meta: Meta;
+    state?: any;
+    action: Action;
+};
+
 export enum RequestStatus {
     CREATED = 'CREATED',
-    WAITING = 'WAITING',
+    IN_QUEUE = 'IN_QUEUE',
     FIRING = 'FIRING',
     ERROR = 'ERROR',
-    NO_INTERNET = 'NO_INTERNET',
     RETRYING = 'RETRYING',
     SUCCESS = 'SUCCESS',
-    DONE = 'DONE',
 }
 
-export enum ActionLifecycle {
-    RECEIVED = 'RECEIVED',
-    FILTERED = 'FILTERED',
-    API_REQUEST = 'API_REQUEST',
-    POST_ACTION = 'POST_ACTION',
+export enum LifecycleStatus {
+    RECEIVED = 1,
+    IN_QUEUE = 2,
+    GENERAL_ERROR = 3,
+    PENDING_API_RESPONSE = 4,
+    API_ERROR = 5,
+    POST_ACTION = 6,
 }
 
-export interface ApiRequestStats {
-    startTS?: number;
-    responseTS?: number;
-    completedTS?: number;
-    duration?: number;
-    responseSize?: number;
-    result?: RequestResult;
-}
-
-export type ApiRequestConfig = {
+export type ApiRequest = ApiRequestStats & {
+    meta: Meta;
     method: HttpMethod;
     apiVerb: ApiVerb;
     nodeName: string;
     nodeType: NodeType;
     path: string;
+    resourcePath: string;
     params?: Record<string, any>;
-    isUserGenerated?: boolean;
-    connectionType?: ConnectionType;
-    priority?: RequestPriority;
-};
-
-export type ApiRequestStatus = {
+    status: RequestStatus;
     errorType?: ApiErrorType;
     errorStatus?: number;
     isCompleted?: boolean;
-    retriesCount?: number;
-};
-
-export type ApiRequest = {
-    id: string;
-    shortId: string;
-    createdTS: number;
-    sequence: number;
-    status: RequestStatus;
-    originalAction: Action;
-    journey: Journey;
-    stats?: ApiRequestStats;
-    requestConfig?: ApiRequestConfig;
-    apiStatus?: ApiRequestStatus;
+    isUserGenerated?: boolean;
+    priority?: RequestPriority;
     resolve?: any;
     reject?: any;
+    retriesCount?: number;
+    originalAction?: Action;
+    connectionType?: ConnectionType;
+    journey: Journey;
 };
 
 export type JourneyPoint = {
     timestamp: number;
-    title: string;
+    status: LifecycleStatus;
     data?: Json;
+    delta?: number;
 };
 
 export type Journey = JourneyPoint[];
 
 export type ApiResponse = {
-    id: string;
-    shortId: string;
-    createdTS: number;
-    sequence: number;
+    meta: Meta;
     request: ApiRequest;
     status: number;
     statusText: string;

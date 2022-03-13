@@ -1,18 +1,16 @@
 import {
     apiEndpointsConfig,
     apiStatus,
-    sagas,
     apiRequests,
     lastAction,
-    generateSagasReducersForStore,
     generateApiReducersForStore,
 } from './reducers';
 import { ConnectionStatus, ConnectionType } from '../types';
 import { NodeType } from 'redux-store-generator';
-import { Chance } from 'chance';
+// import { Chance } from 'chance';
 import { RequestBuilder } from '../utils/RequestBuilder';
 
-const chance = new Chance();
+// const chance = new Chance();
 
 describe('apiConfig', () => {
     it('should be able to SET_ALL', () => {
@@ -239,109 +237,6 @@ describe('apiStatus', () => {
                 connectionStatus: ConnectionStatus.IDLE,
             },
         });
-    });
-});
-
-describe('saga', () => {
-    let action, state;
-
-    it('should SET_ALL_SAGAS', () => {
-        const payload = {
-            1: {
-                title: chance.word(),
-            },
-        };
-
-        action = {
-            type: 'SET_ALL_SAGAS',
-            payload,
-        };
-        expect(sagas({} as any, action)).toEqual(payload);
-    });
-
-    it('should SET_SAGA', () => {
-        const payload = {
-            id: 2,
-            title: chance.word(),
-        };
-
-        action = {
-            type: 'SET_SAGA',
-            payload,
-        };
-
-        expect(sagas({} as any, action)).toEqual({
-            [payload.id]: payload,
-        });
-    });
-
-    it('should PATCH_SAGA', () => {
-        const payload = {
-            id: 2,
-            title: chance.word(),
-        };
-
-        action = {
-            type: 'PATCH_SAGA',
-            payload,
-        };
-
-        expect(
-            sagas(
-                {
-                    1: { id: 1 },
-                    2: { id: 2 },
-                } as any,
-                action
-            )
-        ).toEqual({
-            1: { id: 1 },
-            [payload.id]: payload,
-        });
-    });
-
-    it('should ignore PATCH_SAGA with no payload', () => {
-        state = {
-            1: { id: 1 },
-            2: { id: 2 },
-        };
-
-        action = {
-            type: 'PATCH_SAGA',
-        };
-
-        expect(sagas(state as any, action)).toEqual(state);
-    });
-
-    it('should ignore PATCH_SAGA with no id', () => {
-        state = {
-            1: { id: 1 },
-            2: { id: 2 },
-        };
-
-        const payload = {
-            title: chance.word(),
-        };
-
-        action = {
-            type: 'PATCH_SAGA',
-            payload,
-        };
-
-        expect(sagas(state as any, action)).toEqual(state);
-    });
-
-    it('should deal with empty state', () => {
-        action = {
-            type: 'FOREIGN',
-        };
-        expect(sagas(null as any, action)).toEqual({});
-        expect(sagas(undefined as any, action)).toEqual({});
-    });
-
-    it('generate saga reducers', () => {
-        const reducers = generateSagasReducersForStore();
-        expect(Object.keys(reducers)).toEqual(['_sagas']);
     });
 });
 

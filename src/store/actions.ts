@@ -1,12 +1,11 @@
 import { JourneyPoint } from '../types';
-import { collection_all, single_all, Json } from 'redux-store-generator';
+import { single_all, Json } from 'redux-store-generator';
 import {
     EndpointConfig,
     ApiRequest,
     ApiStatus,
     ConnectedStoreActions,
     RequestsActionBag,
-    SagasActionBag,
     withNodeName,
 } from '../types';
 
@@ -83,8 +82,3 @@ export const apiActions: ConnectedStoreActions = {
         requests,
     },
 };
-
-export const sagaActions: SagasActionBag = collection_all(
-    'SAGA',
-    SIGNATURE_SAGA
-);

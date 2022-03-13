@@ -9,6 +9,7 @@ import {
     RequestStatus,
     ApiResponse,
     ConnectionStatus,
+    LifecycleStatus,
 } from '../types';
 
 const patchGlobalSettings = apiActions.api.global.settings.patch;
@@ -119,12 +120,12 @@ export const onGlobalStatsLastSuccessfulRequest = () => {
 
 export const addRequestJourneyPoint = (
     request: ApiRequest,
-    title: string,
+    status: LifecycleStatus,
     data?: Json
 ) => {
     return apiActions.api.requests.addJourneyPoint(request.meta.id, {
         timestamp: timestamp(),
-        title,
+        status,
         data,
     });
 };

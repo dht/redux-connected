@@ -8,6 +8,7 @@ import {
     RequestStatus,
     RequestResponseAction,
     SagaEvents,
+    LifecycleStatus,
 } from '../types';
 
 function* postAction(action: RequestResponseAction) {
@@ -15,12 +16,19 @@ function* postAction(action: RequestResponseAction) {
     const { nodeName } = request;
     yield put(actions.setRequestStatus(request, RequestStatus.SUCCESS));
     yield put(actions.connectionChange(nodeName, ConnectionStatus.IDLE));
-    yield put(actions.addRequestJourneyPoint(request, 'api success'));
 
     const postAction = new PostApiActionBuilder()
         .withRequest(request)
         .withResponse(response)
         .build();
+
+    yield put(
+        actions.addRequestJourneyPoint(
+            request,
+            LifecycleStatus.POST_ACTION,
+            postAction
+        )
+    );
 
     request.resolve({ nextAction: postAction, response });
 }

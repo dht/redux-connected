@@ -1,11 +1,17 @@
 import * as selectors from '../store/selectors';
-import { ActionWithPromise, ApiRequest, ConnectionType } from '../types';
+import {
+    ActionWithPromise,
+    ApiRequest,
+    ConnectionType,
+    LifecycleStatus,
+} from '../types';
 import { addNewRequest } from './requests';
 import { ApiInfo, NodeType } from 'redux-store-generator';
 import { clearActionP } from '../utils/dispatchP';
 import { logm } from './logger';
 import { put, select, takeEvery } from './_helpers';
 import { RequestBuilder } from '../utils/RequestBuilder';
+import * as actions from '../store/quickActions';
 
 function* incoming(action: ActionWithPromise) {
     try {
@@ -53,6 +59,13 @@ function* incoming(action: ActionWithPromise) {
             .build();
 
         yield addNewRequest(request);
+        yield put(
+            actions.addRequestJourneyPoint(
+                request,
+                LifecycleStatus.RECEIVED,
+                clearActionP(action)
+            )
+        );
     } catch (e) {
         console.log('e ->', e);
     }

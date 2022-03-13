@@ -4,9 +4,8 @@ import postAction from './postAction';
 import requests from './requests';
 import { internet } from './internet';
 import { refresh } from './refresh';
-import { Sagas } from '../types';
 
-const sagas: Sagas = {
+const sagas: any = {
     incoming: {
         saga: incoming,
         description:

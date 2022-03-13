@@ -10,8 +10,6 @@ import {
     ApiStatus,
     ApiStats,
     ConnectionStatus,
-    SagaState,
-    Sagas,
     RetryStrategy,
     IReduxConnectedConfig,
 } from '../types';
@@ -31,10 +29,6 @@ const DEFAULT_API_GLOBAL_STATS: ApiStats = {
 
 const DEFAULT_STATE: Partial<ApiStatus> = {
     connectionStatus: ConnectionStatus.IDLE,
-};
-
-const DEFAULT_SAGA_STATE: SagaState = {
-    isRunning: false,
 };
 
 export const generateInitialState = <T extends StoreStructure>(
@@ -74,23 +68,6 @@ export const generateInitialState = <T extends StoreStructure>(
 
     output.actionTypes = generateActionTypesDictionaryForStore(storeState);
     output.nodeTypes = analyzeStructure(storeState);
-
-    return output;
-};
-
-export const generateSagasInitialState = (sagas: Sagas) => {
-    const output = {} as any;
-
-    const keys = Object.keys(sagas);
-
-    for (const key of keys) {
-        const saga = sagas[key as keyof Sagas];
-        output[key] = {
-            id: key,
-            description: saga.description,
-            ...DEFAULT_SAGA_STATE,
-        };
-    }
 
     return output;
 };

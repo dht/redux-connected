@@ -1,8 +1,7 @@
 import { ApiInfo } from 'redux-store-generator';
 import * as selectors from '../store/selectors';
-import { ActionWithPromise, ApiRequest, ConnectionType } from '../types';
+import { ActionWithPromise, ConnectionType } from '../types';
 import { clearActionP } from '../utils/dispatchP';
-import { RequestBuilder } from '../utils/RequestBuilder';
 
 /*
     Gatekeeper for the RC store
@@ -16,13 +15,6 @@ export const gatekeeperMiddleware =
 
         const actionTypes = selectors.$actionTypes(state);
         const apiInfo: ApiInfo = actionTypes[action.type];
-
-        const request: ApiRequest = new RequestBuilder()
-            .withOriginalAction(action)
-            .build();
-
-        yield addNewRequest(request);
-        yield put(actions.addRequestJourneyPoint(request, 'in queue'));
 
         if (apiInfo) {
             const allConfigs = selectors.$endpointsConfig(state);

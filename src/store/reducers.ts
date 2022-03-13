@@ -2,52 +2,9 @@ import {
     generateConfigReducer,
     generateListReducer,
 } from './reducers.generators';
-import {
-    EndpointsConfig,
-    ApiRequest,
-    ApiStatuses,
-    Sagas,
-    SagaState,
-} from '../types';
+import { EndpointsConfig, ApiRequest, ApiStatuses } from '../types';
 import { combineReducers } from 'redux';
 import { Action, generateSingle } from 'redux-store-generator';
-
-const saga = (state: SagaState, action: Action) => {
-    switch (action.type) {
-        case 'SET_SAGA':
-            return action.payload;
-        case 'PATCH_SAGA':
-            return {
-                ...state,
-                ...action.payload,
-            };
-        default:
-            return state;
-    }
-};
-
-export const sagas = (
-    state: Record<keyof Sagas, SagaState>,
-    action: Action
-) => {
-    let newState = {} as any,
-        id;
-
-    switch (action.type) {
-        case 'SET_ALL_SAGAS':
-            return action.payload;
-        case 'SET_SAGA':
-        case 'PATCH_SAGA':
-            newState = { ...state };
-            id = action.payload?.id as keyof Sagas;
-            if (id) {
-                newState[id] = saga(state[id], action);
-            }
-            return newState;
-        default:
-            return state || {};
-    }
-};
 
 // https://github.com/reduxjs/redux/issues/580#issuecomment-133188511
 
@@ -75,11 +32,5 @@ export const generateApiReducersForStore = () => {
             nodeTypes: apiNodeTypes,
             requests: apiRequests,
         }),
-    };
-};
-
-export const generateSagasReducersForStore = () => {
-    return {
-        _sagas: sagas,
     };
 };

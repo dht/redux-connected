@@ -10,7 +10,6 @@ export const $i = (i: StoreStructureApi) => i;
 
 export const $apiRaw = createSelector($i, (state) => state._api);
 export const $requestsRaw = createSelector($apiRaw, (api) => api.requests);
-export const $sagasRaw = createSelector($i, (api) => api._sagas);
 export const $lastActionRaw = createSelector($i, (api) => api._lastAction);
 
 export const $apiGlobalSettings = createSelector(
@@ -40,10 +39,6 @@ export const $requestsByStatus = createSelector($requestsRaw, (requests) => {
     }, {} as Record<RequestStatus, ApiRequest[]>);
 });
 
-export const $sagas = createSelector($sagasRaw, (sagas) =>
-    Object.values(sagas)
-);
-
 export const $lastAction = createSelector(
     $lastActionRaw,
     (lastAction) => lastAction
@@ -55,7 +50,7 @@ export const $idleRequests = createSelector(
         requests.filter(
             (request) =>
                 request.status === RequestStatus.CREATED ||
-                request.status === RequestStatus.WAITING
+                request.status === RequestStatus.IN_QUEUE
         )
 );
 
@@ -68,7 +63,7 @@ export const $successfulRequests = createSelector(
 export const $doneRequests = createSelector(
     $requestsRaw,
     (requests: ApiRequest[]) =>
-        requests.filter((request) => request.status === RequestStatus.DONE)
+        requests.filter((request) => request.status === RequestStatus.SUCCESS)
 );
 
 export const $requests = createSelector($apiRaw, (api) => api.requests);
@@ -85,7 +80,6 @@ export const $settingsAndStats = createSelector(
 export const connectedSelectors = {
     $apiRaw,
     $requestsRaw,
-    $sagasRaw,
     $lastActionRaw,
     $apiGlobalSettings,
     $apiGlobalStats,
@@ -94,7 +88,6 @@ export const connectedSelectors = {
     $actionTypes,
     $nodeTypes,
     $requests,
-    $sagas,
     $lastAction,
     $idleRequests,
     $successfulRequests,

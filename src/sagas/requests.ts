@@ -15,6 +15,7 @@ import {
     RequestStatus,
     RetryStrategy,
     SagaEvents,
+    LifecycleStatus,
 } from '../types';
 
 const runningRequests: Record<string, ApiRequest> = {};
@@ -35,7 +36,6 @@ function* fireRequest(request: ApiRequest): any {
 
         runningRequests[id] = request;
 
-        yield put(actions.addRequestJourneyPoint(request, 'fired'));
         yield put(actions.onRequestStart(request));
         yield put(actions.connectionChange(nodeName, ConnectionStatus.LOADING));
 
@@ -57,18 +57,34 @@ function* fireRequest(request: ApiRequest): any {
 
         if (!adapter) {
             const errorMessage = `no adapter is defined for ${request.connectionType}`;
-            yield put(actions.addRequestJourneyPoint(request, errorMessage));
+            yield put(
+                actions.addRequestJourneyPoint(
+                    request,
+                    LifecycleStatus.GENERAL_ERROR
+                )
+            );
             yield put(actions.setRequestStatus(request, RequestStatus.ERROR)); // prettier-ignore
             throw new Error(errorMessage);
         }
 
         if (typeof adapter.fireRequest !== 'function') {
             const errorMessage = `invalid adapter is defined for ${request.connectionType}, no fireRequest method`;
-            yield put(actions.addRequestJourneyPoint(request, errorMessage));
+            yield put(
+                actions.addRequestJourneyPoint(
+                    request,
+                    LifecycleStatus.GENERAL_ERROR
+                )
+            );
             yield put(actions.setRequestStatus(request, RequestStatus.ERROR)); // prettier-ignore
             throw new Error(errorMessage);
         }
 
+        yield put(
+            actions.addRequestJourneyPoint(
+                request,
+                LifecycleStatus.PENDING_API_RESPONSE
+            )
+        );
         const response: ApiResponse = yield call(adapter.fireRequest, request);
 
         yield put(actions.onRequestResponse(request, response));
@@ -108,7 +124,9 @@ function* onError(request: ApiRequest, response: ApiResponse) {
     const { nodeName } = request;
     yield put(actions.setRequestStatus(request, RequestStatus.RETRYING));
     yield put(actions.connectionChange(nodeName, ConnectionStatus.ERROR));
-    yield put(actions.addRequestJourneyPoint(request, 'api error'));
+    yield put(
+        actions.addRequestJourneyPoint(request, LifecycleStatus.API_ERROR)
+    );
 
     if (retry) {
         yield put(actions.onRequestRetry(request));
@@ -162,8 +180,13 @@ function* handleIncomingRequests() {
         const requests = yield* select(selectors.$idleRequests);
 
         for (let request of requests) {
-            yield put(actions.setRequestStatus(request, RequestStatus.WAITING)); // prettier-ignore
-            yield put(actions.addRequestJourneyPoint(request, 'in queue'));
+            yield put(actions.setRequestStatus(request, RequestStatus.IN_QUEUE)); // prettier-ignore
+            yield put(
+                actions.addRequestJourneyPoint(
+                    request,
+                    LifecycleStatus.IN_QUEUE
+                )
+            );
         }
 
         const runningRequestsCount = Object.keys(runningRequests).length;
@@ -180,24 +203,11 @@ function* handleIncomingRequests() {
     }
 }
 
-function* moveSuccessfulRequestToDone() {
-    const requests = yield* select(selectors.$successfulRequests);
-
-    for (let request of requests) {
-        yield put(actions.addRequestJourneyPoint(request, 'to done'));
-        yield put(actions.setRequestStatus(request, RequestStatus.DONE)); // prettier-ignore
-    }
-}
-
 function* listenToRequestQueue(): any {
     yield takeEvery(
         intervalChannel(globalSettings.beat),
         handleIncomingRequests
     );
-}
-
-function* cleanCompleted(): any {
-    yield takeEvery(intervalChannel(5000), moveSuccessfulRequestToDone);
 }
 
 export function* addNewRequest(request: ApiRequest): any {
@@ -208,7 +218,6 @@ function* root() {
     globalSettings = yield* select(selectors.$apiGlobalSettings);
     yield put(logm('requests saga on'));
     yield fork(listenToRequestQueue);
-    yield fork(cleanCompleted);
 }
 
 export default root;
