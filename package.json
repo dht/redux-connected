@@ -47,6 +47,6 @@
         "@types/lodash": "^4.14.179",
         "@types/socket.io-client": "^3.0.0",
         "chance": "^1.1.8",
-        "redux-store-generator": "^0.9.72"
+        "redux-store-generator": "^0.9.74"
     }
 }

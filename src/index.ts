@@ -3,7 +3,7 @@ export { ConnectionType, RetryStrategy } from './types';
 export { RestAdapter } from './adapters/adapterRest';
 export { StoreBuilder } from './builders/StoreBuilder';
 export { initReduxConnected } from './init';
-export { generateConnectedStoreEmpty } from './store/storeConnected';
+export { generateConnectedStoreEmpty } from './store/store';
 export { connectedSelectors } from './store/selectors';
 export { apiActions } from './store/actions';
 export { getConnectedStore } from './init';

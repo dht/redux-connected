@@ -33,10 +33,3 @@ export const off = (eventName: string, callback: Callback) => {
     }
     socket.off(eventName, callback);
 };
-
-export const emitTimelineEvent = (timelineId: string, data: Json = {}) => {
-    emit('timelineEvent', {
-        timelineId,
-        data,
-    });
-};

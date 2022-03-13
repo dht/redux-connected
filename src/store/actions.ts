@@ -1,84 +1,100 @@
-import { JourneyPoint } from '../types';
-import { single_all, Json } from 'redux-store-generator';
+import { ConnectedStore, JourneyPoint } from '../types';
+import { generateActionsForStore } from 'redux-store-generator';
+import { initialState } from './initialState';
+import { timestamp } from '../utils/date';
 import {
-    EndpointConfig,
+    Json,
     ApiRequest,
-    ApiStatus,
-    ConnectedStoreActions,
-    RequestsActionBag,
-    withNodeName,
+    RequestStatus,
+    ApiResponse,
+    ConnectionStatus,
+    LifecycleStatus,
 } from '../types';
+import { uuidv4 } from '../utils/uuid';
 
-export const SIGNATURE_CONFIG = { '@@redux-connected/CONFIG_ACTION': true }; // prettier-ignore
-export const SIGNATURE_STATUS = { '@@redux-connected/STATUS_ACTION': true }; // prettier-ignore
-export const SIGNATURE_GLOBAL_STATS = { '@@redux-connected/GLOBAL_STATS_ACTION': true }; // prettier-ignore
-export const SIGNATURE_GLOBAL_SETTINGS = { '@@redux-connected/GLOBAL_SETTINGS_ACTION': true }; // prettier-ignore
-export const SIGNATURE_SAGA = { '@@redux-connected/SAGA_ACTION': true }; // prettier-ignore
+export const apiActions = generateActionsForStore<ConnectedStore>(initialState);
 
-// ============== config ==============
-export const config_setAction =
-    <T>(configName: string, extra?: Json) =>
-    (payload: Partial<T> & withNodeName) => {
-        const { nodeName } = payload;
-
-        delete (payload as any)['nodeName'];
-
-        return {
-            type: `SET_${configName.toUpperCase()}`,
-            payload: {
-                [nodeName]: payload,
-            },
-            ...extra,
-        };
-    };
-
-export const config_patchAction =
-    <T>(configName: string, extra?: Json) =>
-    (payload: Partial<T> & withNodeName) => {
-        const { nodeName } = payload;
-
-        delete (payload as any)['nodeName'];
-
-        return {
-            type: `PATCH_${configName.toUpperCase()}`,
-            payload: {
-                [nodeName]: payload,
-            },
-            ...extra,
-        };
-    };
-
-export const config_all = <T>(configName: string, extra?: Json) => {
+export const apiError = (request: ApiRequest, response: ApiResponse) => {
     return {
-        set: config_setAction<T>(configName, extra),
-        patch: config_patchAction<T>(configName, extra),
+        type: 'API_ERROR',
+        request,
+        response,
     };
 };
 
-export const requests: RequestsActionBag = {
-    push: (request: ApiRequest) => ({ type: 'PUSH_REQUEST', payload: request }),
-    patch: (id: string, request: Partial<ApiRequest>) => ({ type: 'PATCH_REQUEST', payload: { id, item: request } }), // prettier-ignore
-    remove: (id: string) => ({ type: 'REMOVE_REQUEST', payload: { id } }),
-    purge: () => ({ type: 'PURGE_COMPLETED' }),
-    clear: () => ({ type: 'CLEAR_REQUESTS' }),
-    addJourneyPoint: (id: string, point: JourneyPoint) => ({ type: 'ADD_REQUEST_JOURNEY_POINT', payload: { id, point }}), // prettier-ignore
+export const onRequestStart = (request: ApiRequest) => {
+    return apiActions.requests.patch(request.id, {
+        apiStartTS: timestamp(),
+        requestStatus: RequestStatus.FIRING,
+    });
 };
 
-// ============== from store structure ==============
-export const apiActions: ConnectedStoreActions = {
-    api: {
-        global: {
-            settings: single_all(
-                'API_GLOBAL_SETTINGS',
-                SIGNATURE_GLOBAL_SETTINGS
-            ),
-            stats: single_all('API_GLOBAL_STATS', SIGNATURE_GLOBAL_STATS),
-        },
-        config: config_all<EndpointConfig>(
-            'API_ENDPOINTS_CONFIG',
-            SIGNATURE_CONFIG
-        ),
-        status: config_all<ApiStatus>('API_STATUS', SIGNATURE_STATUS),
-        requests,
-    },
+export const onRequestResponse = (
+    request: ApiRequest,
+    response: ApiResponse
+) => {
+    const { apiStartTS = 0 } = request;
+    const { data = '' } = response;
+
+    const apiResponseTS = timestamp();
+    const apiDuration = apiResponseTS - apiStartTS;
+    const apiResponseSize = JSON.stringify(data).length;
+
+    const change: Partial<ApiRequest> = {
+        apiResponseTS,
+        apiResponseSize,
+        apiDuration,
+    };
+
+    if (response.isSuccess) {
+        change.requestStatus = RequestStatus.SUCCESS;
+        change.apiCompletedTS = apiResponseTS;
+    } else {
+        change.requestStatus = RequestStatus.ERROR;
+        change.responseErrorType = response.errorType;
+        change.responseErrorStatus = response.status;
+    }
+
+    return apiActions.requests.patch(request.id, change);
+};
+
+export const onRequestRetry = (request: ApiRequest) => {
+    const count = (request.apiRetriesCount || 0) + 1;
+
+    return apiActions.requests.patch(request.id, {
+        apiRetriesCount: count,
+    });
+};
+
+export const connectionChange = (
+    nodeName: string,
+    connectionStatus: ConnectionStatus
+) => {
+    return apiActions.endpointsState.patch(nodeName, {
+        connectionStatus,
+    });
+};
+
+export const addRequestJourneyPoint = (
+    request: ApiRequest,
+    status: LifecycleStatus,
+    data?: Json
+) => {
+    const journeyPoint: JourneyPoint = {
+        id: uuidv4(),
+        timestamp: timestamp(),
+        status,
+        data,
+    };
+
+    return apiActions.requests.pushItem(request.id, journeyPoint);
+};
+
+export const setRequestStatus = (
+    request: ApiRequest,
+    status: RequestStatus
+) => {
+    return apiActions.requests.patch(request.id, {
+        requestStatus: status,
+    });
 };

@@ -1,11 +1,10 @@
-import * as actions from '../store/quickActions';
+import * as actions from '../store/ACTIONS';
 import * as selectors from '../store/selectors';
 import globals from '../utils/globals';
 import { Action } from 'redux-store-generator';
 import { apiActions } from '../store/actions';
 import { call, delay, fork, put, select, takeEvery } from './_helpers';
 import { intervalChannel } from './channels/interval';
-import { logm } from '../sagas/logger';
 import {
     ApiRequest,
     ConnectionStatus,
@@ -31,32 +30,25 @@ export function addRequest(request: ApiRequest): Action {
 
 function* fireRequest(request: ApiRequest): any {
     try {
-        const { meta, nodeName } = request;
-        const { id } = meta;
+        const { id, argsNodeName } = request;
 
         runningRequests[id] = request;
 
         yield put(actions.onRequestStart(request));
-        yield put(actions.connectionChange(nodeName, ConnectionStatus.LOADING));
+        yield put(
+            actions.connectionChange(argsNodeName, ConnectionStatus.LOADING)
+        );
 
         let adapter;
 
-        // emitTimelineEvent('requests', { request });
-
-        switch (request.connectionType) {
+        switch (request.argsConnectionType) {
             case ConnectionType.REST:
                 adapter = globals.adapters?.rest;
-                break;
-            case ConnectionType.FIRESTORE:
-                adapter = globals.adapters?.firestore;
-                break;
-            case ConnectionType.FS:
-                adapter = globals.adapters?.fs;
                 break;
         }
 
         if (!adapter) {
-            const errorMessage = `no adapter is defined for ${request.connectionType}`;
+            const errorMessage = `no adapter is defined for ${request.argsConnectionType}`;
             yield put(
                 actions.addRequestJourneyPoint(
                     request,
@@ -68,7 +60,7 @@ function* fireRequest(request: ApiRequest): any {
         }
 
         if (typeof adapter.fireRequest !== 'function') {
-            const errorMessage = `invalid adapter is defined for ${request.connectionType}, no fireRequest method`;
+            const errorMessage = `invalid adapter is defined for ${request.argsConnectionType}, no fireRequest method`;
             yield put(
                 actions.addRequestJourneyPoint(
                     request,
@@ -88,13 +80,12 @@ function* fireRequest(request: ApiRequest): any {
         const response: ApiResponse = yield call(adapter.fireRequest, request);
 
         yield put(actions.onRequestResponse(request, response));
-        yield put(actions.onApiStatusUpdate(request));
 
         delete runningRequests[id];
 
         // error?
         if (!response.isSuccess) {
-            yield put(actions.connectionChange(nodeName, ConnectionStatus.LOADING)); // prettier-ignore
+            yield put(actions.connectionChange(argsNodeName, ConnectionStatus.LOADING)); // prettier-ignore
             yield call(onError, request, response);
         } else {
             yield put({
@@ -110,10 +101,12 @@ function* fireRequest(request: ApiRequest): any {
 
 function* onRetry(request: ApiRequest) {
     const { delayBetweenRetries } = globalSettings;
-    const { nodeName } = request;
+    const { argsNodeName } = request;
 
     yield put(actions.setRequestStatus(request, RequestStatus.ERROR));
-    yield put(actions.connectionChange(nodeName, ConnectionStatus.RETRYING));
+    yield put(
+        actions.connectionChange(argsNodeName, ConnectionStatus.RETRYING)
+    );
 
     yield delay(delayBetweenRetries);
     yield fork(fireRequest, request);
@@ -121,9 +114,9 @@ function* onRetry(request: ApiRequest) {
 
 function* onError(request: ApiRequest, response: ApiResponse) {
     const retry = yield* call(shouldRetry, request);
-    const { nodeName } = request;
+    const { argsNodeName } = request;
     yield put(actions.setRequestStatus(request, RequestStatus.RETRYING));
-    yield put(actions.connectionChange(nodeName, ConnectionStatus.ERROR));
+    yield put(actions.connectionChange(argsNodeName, ConnectionStatus.ERROR));
     yield put(
         actions.addRequestJourneyPoint(request, LifecycleStatus.API_ERROR)
     );
@@ -141,12 +134,12 @@ function* onError(request: ApiRequest, response: ApiResponse) {
 
 function* shouldRetry(request: ApiRequest) {
     let output = false;
-    const configs = yield* select(selectors.$endpointsConfig);
+    const configs = yield* select(selectors.$endpointsConfigRaw);
 
-    const config = configs[request.nodeName];
+    const config = configs[request.argsNodeName];
 
     const { retryStrategy = globalSettings.retryStrategy } = config;
-    const { retriesCount = 0 } = request;
+    const { apiRetriesCount = 0 } = request;
 
     switch (retryStrategy) {
         case RetryStrategy.INDEFINITELY:
@@ -156,16 +149,16 @@ function* shouldRetry(request: ApiRequest) {
             output = false;
             break;
         case RetryStrategy.X1_TIMES:
-            output = retriesCount + 1 < 1;
+            output = apiRetriesCount + 1 < 1;
             break;
         case RetryStrategy.X2_TIMES:
-            output = retriesCount + 1 < 2;
+            output = apiRetriesCount + 1 < 2;
             break;
         case RetryStrategy.X3_TIMES:
-            output = retriesCount + 1 < 3;
+            output = apiRetriesCount + 1 < 3;
             break;
         case RetryStrategy.X4_TIMES:
-            output = retriesCount + 1 < 4;
+            output = apiRetriesCount + 1 < 4;
             break;
         default:
             output = false;
@@ -177,9 +170,9 @@ function* shouldRetry(request: ApiRequest) {
 function* handleIncomingRequests() {
     try {
         const { maxConcurrentRequests } = globalSettings;
-        const requests = yield* select(selectors.$idleRequests);
+        const newRequests = yield* select(selectors.$requestsNew);
 
-        for (let request of requests) {
+        for (let request of newRequests) {
             yield put(actions.setRequestStatus(request, RequestStatus.IN_QUEUE)); // prettier-ignore
             yield put(
                 actions.addRequestJourneyPoint(
@@ -189,13 +182,14 @@ function* handleIncomingRequests() {
             );
         }
 
+        const queuedRequests = yield* select(selectors.$requestsQueued);
         const runningRequestsCount = Object.keys(runningRequests).length;
         const availableSlots = maxConcurrentRequests - runningRequestsCount;
 
         for (let i = 0; i < availableSlots; i++) {
-            const request = requests[i];
+            const request = queuedRequests[i];
             if (request) {
-                yield fork(fireRequest, requests[i]);
+                yield fork(fireRequest, queuedRequests[i]);
             }
         }
     } catch (err) {
@@ -211,12 +205,10 @@ function* listenToRequestQueue(): any {
 }
 
 export function* addNewRequest(request: ApiRequest): any {
-    yield put(apiActions.api.requests.push(request));
+    yield put(apiActions.requests.set(request.id, request));
 }
 
 function* root() {
-    globalSettings = yield* select(selectors.$apiGlobalSettings);
-    yield put(logm('requests saga on'));
     yield fork(listenToRequestQueue);
 }
 

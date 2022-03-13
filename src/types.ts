@@ -1,14 +1,11 @@
 import { AxiosInstance } from 'axios';
 import {
     Action,
-    ActionCreatorPayload,
     ApiInfoPerType,
     ApiVerb,
     Item,
     NodeType,
-    SingleBag,
 } from 'redux-store-generator';
-import { StoreBuilder } from './builders/StoreBuilder';
 
 export interface IReduxConnectedConfig {
     defaultEndpointsConfig: EndpointConfig;
@@ -19,32 +16,18 @@ export interface IReduxConnectedConfig {
     enableReduxDevtools?: boolean;
 }
 
-export interface StoreDefinition {
-    name: string;
-    initialState: Json;
-    reducers: any;
-    middlewares: any;
-    enhancers: any;
-    sagas: any;
-    enableDevtoolsExtension: boolean;
-}
-
 export type Json = Record<string, any>;
 
 export enum ConnectionType {
     NONE = 'NONE',
     REST = 'REST',
-    SOCKETS = 'SOCKETS',
-    REALTIME_DATABASE = 'REALTIME_DATABASE',
-    FIRESTORE = 'FIRESTORE',
-    FS = 'FS',
 }
 
 export enum ConnectionStatus {
     IDLE = 'IDLE',
     LOADING = 'LOADING',
     RETRYING = 'RETRYING',
-    PAUSED = 'PAUSED', // no internet
+    PAUSED = 'PAUSED',
     ERROR = 'ERROR',
 }
 
@@ -63,25 +46,22 @@ export enum ErrorReportingStrategy {
     ERROR = 'ERROR',
 }
 
-export enum RequestResult {
-    NONE = 'NONE',
-    SUCCESS = 'SUCCESS',
-    ERROR = 'ERROR',
-}
-
-export enum RequestPriority {
-    NORMAL = 0,
-    HIGH = 1,
-    URGENT = 2,
-}
+export type ConnectedStore = {
+    apiGlobalSettings: ApiSettings;
+    apiGlobalStats: ApiStats;
+    endpointsConfig: EndpointsConfig;
+    endpointsState: EndpointsState;
+    actionTypes: ApiInfoPerType;
+    nodeTypes: Record<string, NodeType>;
+    requests: ApiRequests;
+    _lastAction: LastAction;
+};
 
 export interface ApiSettings {
     beat: number;
     maxConcurrentRequests: number;
     retryStrategy: RetryStrategy;
     delayBetweenRetries: number;
-    verifyInternetConnection: boolean;
-    verifyAfterXMillisOfFailures: number;
 }
 
 export interface ApiStats {
@@ -90,128 +70,41 @@ export interface ApiStats {
 }
 
 export interface EndpointConfig {
+    id: string;
     connectionType?: ConnectionType;
     retryStrategy?: RetryStrategy;
     requestsPerMinute?: number;
     pagination?: boolean;
-    priority?: RequestPriority;
     nodeType?: NodeType;
 }
 
-export interface ApiRequestStats {
-    startTS?: number;
-    responseTS?: number;
-    completedTS?: number;
-    duration?: number;
-    responseSize?: number;
-    result?: RequestResult;
-}
-
-export interface ApiStatus {
+export interface EndpointState {
+    id: string;
     connectionStatus?: ConnectionStatus;
-    lastRequest?: ApiRequestStats;
 }
 
 export type EndpointsConfig = Record<string, EndpointConfig>;
-export type ApiStatuses = Record<string, ApiStatus>;
+export type EndpointsState = Record<string, EndpointState>;
 
 export type EndpointsConfigOverrides = Record<string, Partial<EndpointConfig>>;
 
-export interface StoreStructureApi {
-    _api: {
-        apiGlobalSettings: ApiSettings;
-        apiGlobalStats: ApiStats;
-        endpointsConfig: EndpointsConfig;
-        status: ApiStatuses;
-        actionTypes: ApiInfoPerType;
-        nodeTypes: Record<string, string>;
-        requests: ApiRequest[];
-    };
-    _lastAction: Action & {
-        isRemote: boolean;
-        storeId: string;
-    };
-}
+export type LastAction = Action & {
+    isRemote: boolean;
+    storeId: string;
+};
 
 export type withNodeName = {
     nodeName: string;
 };
 
-export type ConfigActionCreator = ActionCreatorPayload<
-    EndpointConfig & withNodeName
->;
-export type StatusActionCreator = ActionCreatorPayload<
-    ApiStatus & withNodeName
->;
-
-export type ConfigActionBag = {
-    set: ConfigActionCreator;
-    patch: ConfigActionCreator;
-};
-
-export type StatusActionBag = {
-    set: StatusActionCreator;
-    patch: StatusActionCreator;
-};
-
-export type SettingsActionBag = SingleBag<ApiSettings>;
-export type StatsActionBag = SingleBag<ApiStats>;
-
-export type RequestsActionBag = {
-    push: (request: ApiRequest) => Action;
-    patch: (id: string, request: Partial<ApiRequest>) => Action;
-    remove: (id: string) => Action;
-    purge: () => Action;
-    clear: () => Action;
-    addJourneyPoint: (id: string, point: JourneyPoint) => Action;
-};
-
-export type ConnectedStoreActions = {
-    api: {
-        global: {
-            settings: SettingsActionBag;
-            stats: StatsActionBag;
-        };
-        config: ConfigActionBag;
-        status: StatusActionBag;
-        requests: RequestsActionBag;
-    };
-};
-
 export type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE';
 
 export type ApiErrorType =
+    | 'none'
     | 'timeout'
     | 'authorization'
     | 'server'
     | 'javascript';
-
-export interface StoreDefinition {
-    name: string;
-    initialState: Json;
-    reducers: any;
-    middlewares: any;
-    enhancers: any;
-    sagas: any;
-    enableDevtoolsExtension: boolean;
-}
-
-export type Meta = {
-    id: string;
-    shortId: string;
-    createdTS: number;
-    sequence: number;
-};
-
-export type Log = Json & {
-    meta: Meta;
-};
-
-export type Reading = {
-    meta: Meta;
-    state?: any;
-    action: Action;
-};
 
 export enum RequestStatus {
     CREATED = 'CREATED',
@@ -220,6 +113,7 @@ export enum RequestStatus {
     ERROR = 'ERROR',
     RETRYING = 'RETRYING',
     SUCCESS = 'SUCCESS',
+    DONE = 'DONE',
 }
 
 export enum LifecycleStatus {
@@ -231,30 +125,38 @@ export enum LifecycleStatus {
     POST_ACTION = 6,
 }
 
-export type ApiRequest = ApiRequestStats & {
-    meta: Meta;
-    method: HttpMethod;
-    apiVerb: ApiVerb;
-    nodeName: string;
-    nodeType: NodeType;
-    path: string;
-    resourcePath: string;
-    params?: Record<string, any>;
-    status: RequestStatus;
-    errorType?: ApiErrorType;
-    errorStatus?: number;
-    isCompleted?: boolean;
+export type ApiRequest = {
+    id: string;
+    shortId: string;
+    createdTS: number;
+    sequence: number;
+    originalAction?: Action;
+    argsMethod: HttpMethod;
+    argsConnectionType?: ConnectionType;
+    argsApiVerb: ApiVerb;
+    argsNodeName: string;
+    argsNodeType: NodeType;
+    argsPath: string;
+    argsParams?: Record<string, any>;
+    requestStatus: RequestStatus;
+    responseErrorType?: ApiErrorType;
+    responseErrorStatus?: number;
     isUserGenerated?: boolean;
-    priority?: RequestPriority;
+    items: Journey;
+    apiRetriesCount?: number;
+    apiStartTS?: number;
+    apiResponseTS?: number;
+    apiCompletedTS?: number;
+    apiDuration?: number;
+    apiResponseSize?: number;
     resolve?: any;
     reject?: any;
-    retriesCount?: number;
-    originalAction?: Action;
-    connectionType?: ConnectionType;
-    journey: Journey;
 };
 
+export type ApiRequests = Record<string, ApiRequest>;
+
 export type JourneyPoint = {
+    id: string;
     timestamp: number;
     status: LifecycleStatus;
     data?: Json;
@@ -264,7 +166,10 @@ export type JourneyPoint = {
 export type Journey = JourneyPoint[];
 
 export type ApiResponse = {
-    meta: Meta;
+    id: string;
+    shortId: string;
+    createdTS: number;
+    sequence: number;
     request: ApiRequest;
     status: number;
     statusText: string;
@@ -296,76 +201,9 @@ export type ApiServerConfiguration = {
     serverConnectionCheckUrl?: string;
 };
 
-export type ConnectionAdapter = {};
-
 export interface Adapter {
     fireRequest: (request: ApiRequest) => Promise<ApiResponse>;
 }
-
-export type StoreDecorator = (storeBuilder: StoreBuilder) => void;
-
-export type MockUser = {
-    firstName: string;
-    lastName: string;
-    username: string;
-    email: string;
-    phone: string;
-    avatar: string;
-};
-
-export type MockLog = {
-    id: string;
-    date: string;
-    priority: number;
-};
-
-export type MockProduct = {
-    id: string;
-    dateAdded: string;
-    price: string;
-    department: string;
-    color: string;
-    name: string;
-    description: string;
-    thumbnail: string;
-    imageUrl: string;
-    shippingDate: string;
-};
-
-export type MockChat = {
-    id: string;
-    title: string;
-    items?: MockChatMessage[];
-};
-
-export type MockChatMessage = {
-    id: string;
-    chatId: string;
-    timestamp: string;
-    content: string;
-    isMe: boolean;
-};
-
-export type Mocks = {
-    user: MockUser;
-    userPartial: Partial<MockUser>;
-    log: MockLog;
-    logPartial: Partial<MockLog>;
-    logSet: MockLog;
-    logs: MockLog[];
-    product: MockProduct;
-    productPartial: Partial<MockProduct>;
-    productSet: MockProduct;
-    products: MockProduct[];
-    chat: MockChat;
-    chatPartial: Partial<MockChat>;
-    chatSet: MockChat;
-    chats: MockChat[];
-    chatMessage: MockChatMessage;
-    chatMessagePartial: Partial<MockChatMessage>;
-    chatMessageSet: MockChatMessage;
-    chatMessages: MockChatMessage[];
-};
 
 export type Order = 'asc' | 'desc';
 

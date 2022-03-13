@@ -13,11 +13,11 @@ export const gatekeeperMiddleware =
 
         const state = store.getState();
 
-        const actionTypes = selectors.$actionTypes(state);
+        const actionTypes = selectors.$actionTypesRaw(state);
         const apiInfo: ApiInfo = actionTypes[action.type];
 
         if (apiInfo) {
-            const allConfigs = selectors.$endpointsConfig(state);
+            const allConfigs = selectors.$endpointsConfigRaw(state);
             const { nodeName, isLocal } = apiInfo;
             const config = allConfigs[nodeName];
             const { connectionType } = config;

@@ -1,6 +1,6 @@
 import { Action, generateActionsForStore } from 'redux-store-generator';
 import { ApiResponse, ApiRequest } from '../types';
-import globals from './globals';
+import globals from '../utils/globals';
 
 export class PostApiActionBuilder {
     private apiRequest = {} as ApiRequest;
@@ -23,14 +23,15 @@ export class PostApiActionBuilder {
 
     build(): Action {
         let action = {} as Action;
-        const { nodeType, apiVerb, nodeName, originalAction } = this.apiRequest;
+        const { argsNodeType, argsApiVerb, argsNodeName, originalAction } =
+            this.apiRequest;
         const { data = {} } = this.apiResponse;
         const { payload } = originalAction || {};
         const { id } = payload || {};
 
-        const actionBag = this.actions[nodeName];
+        const actionBag = this.actions[argsNodeName];
 
-        switch (nodeType + '_' + apiVerb) {
+        switch (argsNodeType + '_' + argsApiVerb) {
             case 'SINGLE_NODE_get':
                 action = actionBag['setAll'](data);
                 break;
@@ -57,7 +58,7 @@ export class PostApiActionBuilder {
             case 'QUEUE_NODE_pop':
             case 'QUEUE_NODE_clear':
             default:
-                action = actionBag[apiVerb]();
+                action = actionBag[argsApiVerb]();
                 break;
         }
 

@@ -1,23 +1,20 @@
+import * as actions from '../store/actions';
 import * as selectors from '../store/selectors';
+import { addNewRequest } from './requests';
+import { ApiInfo, NodeType } from 'redux-store-generator';
+import { clearActionP } from '../utils/dispatchP';
+import { put, select, takeEvery } from './_helpers';
+import { RequestBuilder } from '../builders/RequestBuilder';
 import {
     ActionWithPromise,
     ApiRequest,
     ConnectionType,
     LifecycleStatus,
 } from '../types';
-import { addNewRequest } from './requests';
-import { ApiInfo, NodeType } from 'redux-store-generator';
-import { clearActionP } from '../utils/dispatchP';
-import { logm } from './logger';
-import { put, select, takeEvery } from './_helpers';
-import { RequestBuilder } from '../utils/RequestBuilder';
-import * as actions from '../store/quickActions';
 
 function* incoming(action: ActionWithPromise) {
     try {
-        yield put(logm('incoming action', action));
-
-        const actionTypesRaw = yield* select(selectors.$actionTypes);
+        const actionTypesRaw = yield* select(selectors.$actionTypesRaw);
 
         const apiInfo: ApiInfo = actionTypesRaw[action.type];
 
@@ -28,7 +25,7 @@ function* incoming(action: ActionWithPromise) {
             return;
         }
 
-        const configs = yield* select(selectors.$endpointsConfig);
+        const configs = yield* select(selectors.$endpointsConfigRaw);
 
         const { nodeName, verb } = apiInfo;
         const config = configs[nodeName];
@@ -37,13 +34,11 @@ function* incoming(action: ActionWithPromise) {
         // TODO: why is this useful
         // action.type = '';
 
-        const nodeTypes = yield* select(selectors.$nodeTypes);
+        const nodeTypes = yield* select(selectors.$nodeTypesRaw);
 
         const nodeType = nodeTypes[nodeName];
 
         if (connectionType === ConnectionType.NONE || !connectionType) {
-            yield put(logm(`connection type is ${connectionType}. skipping`));
-
             if (typeof action.resolve === 'function') {
                 action.resolve({ ignored: true });
             }
@@ -73,8 +68,7 @@ function* incoming(action: ActionWithPromise) {
 
 function* root() {
     try {
-        yield put(logm('incoming saga on'));
-        const actionTypesRaw = yield* select(selectors.$actionTypes);
+        const actionTypesRaw = yield* select(selectors.$actionTypesRaw);
         const actionTypes = Object.keys(actionTypesRaw).filter((key) => {
             const apiInfo: ApiInfo = actionTypesRaw[key];
             return !apiInfo.isLocal;

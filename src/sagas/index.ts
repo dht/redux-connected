@@ -1,9 +1,6 @@
 import incoming from './incoming';
-import logger from './logger';
 import postAction from './postAction';
 import requests from './requests';
-import { internet } from './internet';
-import { refresh } from './refresh';
 
 const sagas: any = {
     incoming: {
@@ -20,18 +17,6 @@ const sagas: any = {
         saga: postAction,
         description:
             'Constructs the post action to send back to the main store',
-    },
-    logger: {
-        saga: logger,
-        description: 'Captures logs system-wide',
-    },
-    refresh: {
-        saga: refresh,
-        description: 'Refreshes the state of the connected store',
-    },
-    internet: {
-        saga: internet,
-        description: 'Checks whether an internet connection is available',
     },
 };
 

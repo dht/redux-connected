@@ -1,6 +1,5 @@
 import createSagaMiddleware from 'redux-saga';
 import { Json } from 'redux-store-generator';
-import { StoreDefinition } from '../types';
 import {
     applyMiddleware,
     combineReducers,
@@ -12,6 +11,16 @@ import { merge as _merge } from 'lodash';
 import { composeWithDevTools } from '@redux-devtools/extension';
 
 type Callback = (data: any) => void;
+
+export interface StoreDefinition {
+    name: string;
+    initialState: Json;
+    reducers: any;
+    middlewares: any;
+    enhancers: any;
+    sagas: any;
+    enableDevtoolsExtension: boolean;
+}
 
 export class StoreBuilder {
     private definition: StoreDefinition = {

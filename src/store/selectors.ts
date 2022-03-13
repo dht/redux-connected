@@ -1,97 +1,49 @@
 import { createSelector } from 'reselect';
-import {
-    ApiRequest,
-    RequestStatus,
-    EndpointsConfig,
-    StoreStructureApi,
-} from '../types';
+import { ConnectedStore, RequestStatus } from '../types';
 
-export const $i = (i: StoreStructureApi) => i;
+export const $i = (i: ConnectedStore) => i;
 
-export const $apiRaw = createSelector($i, (state) => state._api);
-export const $requestsRaw = createSelector($apiRaw, (api) => api.requests);
-export const $lastActionRaw = createSelector($i, (api) => api._lastAction);
+export const $actionTypesRaw = createSelector($i, (state) => state.actionTypes); // prettier-ignore
+export const $apiGlobalSettingsRaw = createSelector($i, (state) => state.apiGlobalSettings); // prettier-ignore
+export const $apiGlobalStatsRaw = createSelector($i, (state) => state.apiGlobalStats); // prettier-ignore
+export const $endpointsConfigRaw = createSelector($i, (state) => state.endpointsConfig); // prettier-ignore
+export const $endpointsStateRaw = createSelector($i, (state) => state.endpointsState); // prettier-ignore
+export const $nodeTypesRaw = createSelector($i, (state) => state.nodeTypes); // prettier-ignore
+export const $requestsRaw = createSelector($i, (state) => state.requests); // prettier-ignore
+export const $lastActionRaw = createSelector($i, (state) => state._lastAction); // prettier-ignore
 
-export const $apiGlobalSettings = createSelector(
-    $apiRaw,
-    (api) => api.apiGlobalSettings
-);
+export const $requests = createSelector($requestsRaw, (requests) => {
+    return Object.values(requests).sort((a, b) => {
+        if (a.createdTS === b.createdTS) {
+            return 0;
+        }
 
-export const $apiGlobalStats = createSelector(
-    $apiRaw,
-    (api) => api.apiGlobalStats
-);
-
-export const $endpointsConfig = createSelector(
-    $apiRaw,
-    (api) => api.endpointsConfig as EndpointsConfig
-);
-
-export const $status = createSelector($apiRaw, (api) => api.status);
-export const $actionTypes = createSelector($apiRaw, (api) => api.actionTypes);
-export const $nodeTypes = createSelector($apiRaw, (api) => api.nodeTypes);
-
-export const $requestsByStatus = createSelector($requestsRaw, (requests) => {
-    return requests.reduce((output, request: ApiRequest) => {
-        output[request.status] = output[request.status] || [];
-        output[request.status].push(request);
-        return output;
-    }, {} as Record<RequestStatus, ApiRequest[]>);
+        return a.createdTS > b.createdTS ? 1 : -1;
+    });
 });
 
-export const $lastAction = createSelector(
-    $lastActionRaw,
-    (lastAction) => lastAction
-);
+export const $requestsNew = createSelector($requests, (requests) => {
+    return requests.filter((request) => {
+        request.requestStatus === RequestStatus.CREATED;
+    });
+});
 
-export const $idleRequests = createSelector(
-    $requestsRaw,
-    (requests: ApiRequest[]) =>
-        requests.filter(
-            (request) =>
-                request.status === RequestStatus.CREATED ||
-                request.status === RequestStatus.IN_QUEUE
-        )
-);
-
-export const $successfulRequests = createSelector(
-    $requestsRaw,
-    (requests: ApiRequest[]) =>
-        requests.filter((request) => request.status === RequestStatus.SUCCESS)
-);
-
-export const $doneRequests = createSelector(
-    $requestsRaw,
-    (requests: ApiRequest[]) =>
-        requests.filter((request) => request.status === RequestStatus.SUCCESS)
-);
-
-export const $requests = createSelector($apiRaw, (api) => api.requests);
-
-export const $settingsAndStats = createSelector(
-    $apiGlobalSettings,
-    $apiGlobalStats,
-    (settings: any, stats: any) => ({
-        settings,
-        stats,
-    })
-);
+export const $requestsQueued = createSelector($requests, (requests) => {
+    return requests.filter((request) => {
+        request.requestStatus === RequestStatus.IN_QUEUE;
+    });
+});
 
 export const connectedSelectors = {
-    $apiRaw,
+    $actionTypesRaw,
+    $apiGlobalSettingsRaw,
+    $apiGlobalStatsRaw,
+    $endpointsConfigRaw,
+    $endpointsStateRaw,
+    $nodeTypesRaw,
     $requestsRaw,
     $lastActionRaw,
-    $apiGlobalSettings,
-    $apiGlobalStats,
-    $config: $endpointsConfig,
-    $status,
-    $actionTypes,
-    $nodeTypes,
     $requests,
-    $lastAction,
-    $idleRequests,
-    $successfulRequests,
-    $doneRequests,
-    $settingsAndStats,
-    $requestsByStatus,
+    $requestsNew,
+    $requestsQueued,
 };

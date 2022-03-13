@@ -1,6 +1,5 @@
-import * as actions from '../store/quickActions';
-import { logm } from './logger';
-import { PostApiActionBuilder } from '../utils/PostApiActionBuilder';
+import * as actions from '../store/actions';
+import { PostApiActionBuilder } from '../builders/PostApiActionBuilder';
 import { put } from 'redux-saga/effects';
 import { takeEvery } from './_helpers';
 import {
@@ -13,9 +12,9 @@ import {
 
 function* postAction(action: RequestResponseAction) {
     const { request, response } = action;
-    const { nodeName } = request;
+    const { argsNodeName } = request;
     yield put(actions.setRequestStatus(request, RequestStatus.SUCCESS));
-    yield put(actions.connectionChange(nodeName, ConnectionStatus.IDLE));
+    yield put(actions.connectionChange(argsNodeName, ConnectionStatus.IDLE));
 
     const postAction = new PostApiActionBuilder()
         .withRequest(request)
@@ -35,7 +34,6 @@ function* postAction(action: RequestResponseAction) {
 
 function* root() {
     yield takeEvery(SagaEvents.POST_ACTION, postAction);
-    yield put(logm('postAction saga on', {}));
 }
 
 export default root;

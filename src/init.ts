@@ -1,6 +1,6 @@
 import globals from './utils/globals';
 import { connectedMiddleware } from './middlewares/midConnected';
-import { generateConnectedStore } from './store/storeConnected';
+import { generateConnectedStore } from './store/store';
 import { StoreBuilder } from './builders/StoreBuilder';
 import { StoreStructure } from 'redux-store-generator';
 import type { IReduxConnectedConfig } from './types';

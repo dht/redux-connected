@@ -4,31 +4,95 @@ import {
     StoreStructure,
     analyzeStructure,
     nodeToType,
+    NodeType,
 } from 'redux-store-generator';
 import {
-    ApiSettings,
-    ApiStatus,
-    ApiStats,
     ConnectionStatus,
     RetryStrategy,
     IReduxConnectedConfig,
+    ConnectedStore,
+    ConnectionType,
+    RequestStatus,
+    LifecycleStatus,
 } from '../types';
 
-const DEFAULT_API_GLOBAL_SETTINGS: ApiSettings = {
-    beat: 300,
-    maxConcurrentRequests: 30,
-    retryStrategy: RetryStrategy.X3_TIMES,
-    delayBetweenRetries: 1000,
-    verifyInternetConnection: false,
-    verifyAfterXMillisOfFailures: 10 * 1000,
-};
-
-const DEFAULT_API_GLOBAL_STATS: ApiStats = {
-    internetConnectionAvailable: true,
-};
-
-const DEFAULT_STATE: Partial<ApiStatus> = {
-    connectionStatus: ConnectionStatus.IDLE,
+export const initialState: ConnectedStore = {
+    apiGlobalSettings: {
+        beat: 300,
+        maxConcurrentRequests: 30,
+        retryStrategy: RetryStrategy.X3_TIMES,
+        delayBetweenRetries: 1000,
+    },
+    apiGlobalStats: {
+        internetConnectionAvailable: true,
+    },
+    endpointsConfig: {
+        notifications: {
+            id: 'notifications',
+            connectionType: ConnectionType.REST,
+            retryStrategy: RetryStrategy.X2_TIMES,
+            requestsPerMinute: 20,
+            pagination: true,
+            nodeType: NodeType.COLLECTION_NODE,
+        },
+    },
+    endpointsState: {
+        notifications: {
+            id: 'notifications',
+            connectionStatus: ConnectionStatus.IDLE,
+        },
+    },
+    actionTypes: {
+        GET_APPSTATE: {
+            id: 'GET_APPSTATE',
+            verb: 'get',
+            nodeName: 'appState',
+            isGet: true,
+        },
+    },
+    nodeTypes: {
+        notifications: NodeType.COLLECTION_NODE,
+    },
+    requests: {
+        '1': {
+            id: '1',
+            shortId: 'string',
+            createdTS: 0,
+            sequence: 1,
+            originalAction: { type: '' },
+            argsMethod: 'GET',
+            argsConnectionType: ConnectionType.REST,
+            argsApiVerb: 'get',
+            argsNodeName: 'notifications',
+            argsNodeType: NodeType.COLLECTION_NODE,
+            argsPath: '/notifications',
+            argsParams: {},
+            requestStatus: RequestStatus.CREATED,
+            responseErrorType: 'none',
+            responseErrorStatus: 200,
+            isUserGenerated: true,
+            items: [
+                {
+                    id: '1',
+                    timestamp: 0,
+                    status: LifecycleStatus.RECEIVED,
+                    data: {},
+                    delta: 0,
+                },
+            ],
+            apiRetriesCount: 0,
+            apiStartTS: 0,
+            apiResponseTS: 0,
+            apiCompletedTS: 0,
+            apiDuration: 0,
+            apiResponseSize: 0,
+        },
+    },
+    _lastAction: {
+        type: '',
+        isRemote: true,
+        storeId: '',
+    },
 };
 
 export const generateInitialState = <T extends StoreStructure>(
@@ -38,28 +102,28 @@ export const generateInitialState = <T extends StoreStructure>(
     const { endpointsConfigOverrides = {}, defaultEndpointsConfig } = options;
 
     const output = {
-        apiGlobalSettings: { ...DEFAULT_API_GLOBAL_SETTINGS },
-        apiGlobalStats: { ...DEFAULT_API_GLOBAL_STATS },
-        endpointsConfig: {} as any,
-        status: {} as any,
-        actionTypes: {} as any,
-        nodeTypes: {} as any,
-        requests: [] as any,
+        ...initialState,
     };
 
     const keys: Array<keyof T> = Object.keys(storeState);
+
+    output.requests = {};
+    output.endpointsState = {};
+    output.endpointsConfig = {};
 
     for (const key of keys) {
         const value: StoreNode = storeState[key];
         const type = nodeToType(value);
 
-        output.status[key] = {
-            ...DEFAULT_STATE,
+        output.endpointsState[key as any] = {
+            id: key as string,
+            connectionStatus: ConnectionStatus.IDLE,
         };
 
         const overrides = (endpointsConfigOverrides as any)[key as any];
 
-        output.endpointsConfig[key] = {
+        output.endpointsConfig[key as any] = {
+            id: key,
             nodeType: type,
             connectionType: defaultEndpointsConfig?.connectionType,
             ...overrides,
