@@ -32,3 +32,4 @@ packages/mobile-api/lib
 packages/mobile-api/esm
 packages/mobile-api/scratch
 packages/redux-connected
+types/**

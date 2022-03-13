@@ -1,6 +1,7 @@
-import { partialStore } from '../__fixtures__/store-state';
 import { gatekeeperMiddleware } from './midGatekeeper';
-import globals from '../globals';
+import globals from '../utils/globals';
+
+const partialStore = {};
 
 jest.mock('../globals');
 jest.mock('../utils/dispatchP');
@@ -11,7 +12,13 @@ const mockStore = (state?: any) => ({
 });
 
 describe('midConnected', () => {
-    let store: any, next: any, action: any, resolve: any;
+    let store: any = '',
+        next: any,
+        action: any,
+        resolve: any;
+
+    if (store) {
+    }
 
     beforeEach(() => {
         globals.mainStore = mockStore();

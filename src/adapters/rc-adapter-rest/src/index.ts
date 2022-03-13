@@ -1,1 +1,0 @@
-export { RestAdapter } from './adapterRest';
