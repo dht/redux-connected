@@ -23,6 +23,12 @@ export const apiError = (request: ApiRequest, response: ApiResponse) => {
 };
 
 export const onRequestStart = (request: ApiRequest) => {
+    // MUTABILITY: as the request object is used during context
+    // we can change the value to prevent another fetch
+
+    request.apiStartTS = timestamp();
+    request.requestStatus = RequestStatus.FIRING;
+
     return apiActions.requests.patch(request.id, {
         apiStartTS: timestamp(),
         requestStatus: RequestStatus.FIRING,

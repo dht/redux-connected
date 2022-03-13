@@ -1,4 +1,4 @@
-import * as actions from '../store/ACTIONS';
+import * as actions from '../store/actions';
 import * as selectors from '../store/selectors';
 import globals from '../utils/globals';
 import { Action } from 'redux-store-generator';
@@ -25,6 +25,7 @@ function* fireRequest(request: ApiRequest): any {
         runningRequests[id] = request;
 
         yield put(actions.onRequestStart(request));
+
         yield put(
             actions.connectionChange(argsNodeName, ConnectionStatus.LOADING)
         );
