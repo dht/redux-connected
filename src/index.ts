@@ -7,3 +7,4 @@ export { generateConnectedStoreEmpty } from './store/storeConnected';
 export { connectedSelectors } from './store/selectors';
 export { apiActions } from './store/actions';
 export { ActionLogBuilder } from './utils/ActionLogBuilder';
+export { getConnectedStore } from './init';

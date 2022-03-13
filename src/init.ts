@@ -27,3 +27,7 @@ const initConnectedStore = <T extends StoreStructure>(
         config
     );
 };
+
+export const getConnectedStore = () => {
+    return globals.connectedStore;
+};
