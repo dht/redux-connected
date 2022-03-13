@@ -3,7 +3,6 @@ import {
     generateListReducer,
 } from './reducers.generators';
 import {
-    ActionLog,
     EndpointsConfig,
     ApiRequest,
     ApiStatuses,
@@ -61,7 +60,6 @@ const apiSettings = generateSingle('API_GLOBAL_SETTINGS');
 const apiStats = generateSingle('API_GLOBAL_STATS');
 export const apiEndpointsConfig = generateConfigReducer<EndpointsConfig>('API_ENDPOINTS_CONFIG'); // prettier-ignore
 export const apiRequests = generateListReducer<ApiRequest>('REQUEST');
-const actionLogs = generateListReducer<ActionLog>('ACTION_LOG');
 export const apiStatus = generateConfigReducer<ApiStatuses>('API_STATUS');
 const apiActionTypes = generateSingle('API_ACTION_TYPES');
 const apiNodeTypes = generateSingle('API_NODE_TYPES');
@@ -76,7 +74,6 @@ export const generateApiReducersForStore = () => {
             actionTypes: apiActionTypes,
             nodeTypes: apiNodeTypes,
             requests: apiRequests,
-            actionLogs,
         }),
     };
 };

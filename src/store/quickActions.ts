@@ -2,13 +2,11 @@ import { apiActions } from './actions';
 import { timestamp } from '../utils/date';
 import {
     Json,
-    ActionLifecycle,
-    ActionLog,
     ApiSettings,
     ApiStats,
     RequestResult,
     ApiRequest,
-    ApiRequestStatus,
+    RequestStatus,
     ApiResponse,
     ConnectionStatus,
 } from '../types';
@@ -16,7 +14,6 @@ import {
 const patchGlobalSettings = apiActions.api.global.settings.patch;
 const patchGlobalStats = apiActions.api.global.stats.patch;
 const patchRequest = apiActions.api.requests.patch;
-const patchActionLog = apiActions.api.actionLogs.patch;
 const patchStats = apiActions.api.status.patch;
 
 export const apiError = (request: ApiRequest, response: ApiResponse) => {
@@ -30,7 +27,7 @@ export const apiError = (request: ApiRequest, response: ApiResponse) => {
 export const onRequestStart = (request: ApiRequest) => {
     return patchRequest(request.meta.id, {
         startTS: timestamp(),
-        status: ApiRequestStatus.FIRING,
+        status: RequestStatus.FIRING,
     });
 };
 
@@ -52,12 +49,12 @@ export const onRequestResponse = (
     };
 
     if (response.isSuccess) {
-        change.status = ApiRequestStatus.SUCCESS;
+        change.status = RequestStatus.SUCCESS;
         change.result = RequestResult.SUCCESS;
         change.completedTS = responseTS;
         change.isCompleted = true;
     } else {
-        change.status = ApiRequestStatus.ERROR;
+        change.status = RequestStatus.ERROR;
         change.result = RequestResult.ERROR;
         change.errorType = response.errorType;
         change.errorStatus = response.status;
@@ -134,43 +131,9 @@ export const addRequestJourneyPoint = (
 
 export const setRequestStatus = (
     request: ApiRequest,
-    status: ApiRequestStatus
+    status: RequestStatus
 ) => {
     return patchRequest(request.meta.id, {
         status,
-    });
-};
-
-export const createActionLog = (actionLog: ActionLog) => {
-    return apiActions.api.actionLogs.push(actionLog);
-};
-
-export const addActionLogJourneyPoint = (
-    actionLogId: string,
-    title: string,
-    data?: Json
-) => {
-    return apiActions.api.actionLogs.addJourneyPoint(actionLogId, {
-        timestamp: timestamp(),
-        title,
-        data,
-    });
-};
-
-export const setActionLogLifecycle = (
-    actionLogId: string,
-    lifecyclePhase: ActionLifecycle
-) => {
-    return patchActionLog(actionLogId, {
-        lifecyclePhase,
-    });
-};
-
-export const setActionLogRequestId = (
-    actionLogId: string,
-    requestId: string
-) => {
-    return patchActionLog(actionLogId, {
-        requestId,
     });
 };

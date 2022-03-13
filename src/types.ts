@@ -99,15 +99,6 @@ export interface EndpointConfig {
     nodeType?: NodeType;
 }
 
-export interface ApiRequestStats {
-    startTS?: number;
-    responseTS?: number;
-    completedTS?: number;
-    duration?: number;
-    responseSize?: number;
-    result?: RequestResult;
-}
-
 export interface ApiStatus {
     connectionStatus?: ConnectionStatus;
     lastRequest?: ApiRequestStats;
@@ -137,7 +128,6 @@ export interface StoreStructureApi {
         actionTypes: ApiInfoPerType;
         nodeTypes: Record<string, string>;
         requests: ApiRequest[];
-        actionLogs: ActionLog[];
     };
     _sagas: SagasStates;
     _lastAction: Action & {
@@ -180,15 +170,6 @@ export type RequestsActionBag = {
     addJourneyPoint: (id: string, point: JourneyPoint) => Action;
 };
 
-export type ActionLogsActionBag = {
-    push: (actionLog: ActionLog) => Action;
-    patch: (id: string, actionLog: Partial<ActionLog>) => Action;
-    remove: (id: string) => Action;
-    purge: () => Action;
-    clear: () => Action;
-    addJourneyPoint: (id: string, point: JourneyPoint) => Action;
-};
-
 export type ConnectedStoreActions = {
     api: {
         global: {
@@ -198,7 +179,6 @@ export type ConnectedStoreActions = {
         config: ConfigActionBag;
         status: StatusActionBag;
         requests: RequestsActionBag;
-        actionLogs: ActionLogsActionBag;
     };
 };
 
@@ -244,24 +224,7 @@ export interface StoreDefinition {
     enableDevtoolsExtension: boolean;
 }
 
-export type Meta = {
-    id: string;
-    shortId: string;
-    createdTS: number;
-    sequence: number;
-};
-
-export type Log = Json & {
-    meta: Meta;
-};
-
-export type Reading = {
-    meta: Meta;
-    state?: any;
-    action: Action;
-};
-
-export enum ApiRequestStatus {
+export enum RequestStatus {
     CREATED = 'CREATED',
     WAITING = 'WAITING',
     FIRING = 'FIRING',
@@ -279,36 +242,47 @@ export enum ActionLifecycle {
     POST_ACTION = 'POST_ACTION',
 }
 
-export type ApiRequest = ApiRequestStats & {
-    meta: Meta;
+export interface ApiRequestStats {
+    startTS?: number;
+    responseTS?: number;
+    completedTS?: number;
+    duration?: number;
+    responseSize?: number;
+    result?: RequestResult;
+}
+
+export type ApiRequestConfig = {
     method: HttpMethod;
     apiVerb: ApiVerb;
     nodeName: string;
     nodeType: NodeType;
     path: string;
-    resourcePath: string;
     params?: Record<string, any>;
-    status: ApiRequestStatus;
+    isUserGenerated?: boolean;
+    connectionType?: ConnectionType;
+    priority?: RequestPriority;
+};
+
+export type ApiRequestStatus = {
     errorType?: ApiErrorType;
     errorStatus?: number;
     isCompleted?: boolean;
-    isUserGenerated?: boolean;
-    priority?: RequestPriority;
-    resolve?: any;
-    reject?: any;
     retriesCount?: number;
-    originalAction?: Action;
-    connectionType?: ConnectionType;
-    journey: Journey;
-    actionLogId?: string;
 };
 
-export type ActionLog = {
-    meta: Meta;
+export type ApiRequest = {
+    id: string;
+    shortId: string;
+    createdTS: number;
+    sequence: number;
+    status: RequestStatus;
+    originalAction: Action;
     journey: Journey;
-    action: ActionWithPayload<Json>;
-    lifecyclePhase: ActionLifecycle;
-    requestId?: string;
+    stats?: ApiRequestStats;
+    requestConfig?: ApiRequestConfig;
+    apiStatus?: ApiRequestStatus;
+    resolve?: any;
+    reject?: any;
 };
 
 export type JourneyPoint = {
@@ -320,7 +294,10 @@ export type JourneyPoint = {
 export type Journey = JourneyPoint[];
 
 export type ApiResponse = {
-    meta: Meta;
+    id: string;
+    shortId: string;
+    createdTS: number;
+    sequence: number;
     request: ApiRequest;
     status: number;
     statusText: string;
@@ -339,7 +316,6 @@ export type ActionWithPayload<T> = Action & {
 export type ActionWithPromise = Action & {
     resolve: any;
     reject: any;
-    actionLogId?: string;
 };
 
 export type ConnectionActionResponse = {

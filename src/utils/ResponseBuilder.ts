@@ -1,4 +1,4 @@
-import { generateMeta } from './meta';
+import { generateIds } from './ids';
 import { ApiResponse, ApiRequest, ApiErrorType } from '../types';
 import { AxiosResponse } from 'axios';
 
@@ -12,7 +12,7 @@ export class ResponseBuilder {
     private transformers = [] as Transformer[];
 
     constructor(request: ApiRequest) {
-        this.output.meta = generateMeta(sequence++);
+        this.output.meta = generateIds(sequence++);
         this.output.request = request;
     }
 

@@ -2,24 +2,23 @@ import { ApiVerb, NodeType } from 'redux-store-generator';
 import {
     ActionWithPromise,
     ApiRequest,
-    ApiRequestStatus,
+    RequestStatus,
     ConnectionType,
 } from '../types';
-import { generateMeta } from './meta';
+import { generateIds } from './ids';
 
 let sequence = 1;
 
 export class RequestBuilder {
     private output: Partial<ApiRequest> = {
-        status: ApiRequestStatus.CREATED,
-        retriesCount: 0,
+        status: RequestStatus.CREATED,
         isCompleted: false,
         journey: [],
     };
     private id: string = '';
 
     constructor() {
-        this.output.meta = generateMeta(sequence++);
+        this.output.meta = generateIds(sequence++);
     }
 
     withConnectionType(connectionType: ConnectionType) {
@@ -52,16 +51,11 @@ export class RequestBuilder {
         return this;
     }
 
-    withResourcePath(resourcePath: string) {
-        this.output.resourcePath = resourcePath;
-    }
-
     withOriginalAction(value: ActionWithPromise) {
         this.output.originalAction = value;
         this.output.resolve = value.resolve;
         this.output.reject = value.reject;
         this.output.params = value.payload;
-        this.output.actionLogId = value.actionLogId;
         this.id = value.payload?.id;
         return this;
     }
@@ -100,10 +94,6 @@ export class RequestBuilder {
                 }
                 this.output.method = 'DELETE';
                 break;
-        }
-
-        if (!this.output.resourcePath) {
-            this.output.resourcePath = this.output.path;
         }
 
         return this.output as ApiRequest;

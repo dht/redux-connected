@@ -1,5 +1,8 @@
 export { timestamp } from '../utils/date';
-export { generateMeta, clearMeta } from '../utils/meta';
+export {
+    generateIds as generateMeta,
+    clearIds as clearMeta,
+} from '../utils/ids';
 export { routeToAction } from '../utils/routeToAction';
 export { uuidv4 } from '../utils/uuid';
 export { itemsToObject } from './utils/object';

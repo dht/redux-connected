@@ -6,16 +6,14 @@ import { apiActions } from '../store/actions';
 import { call, delay, fork, put, select, takeEvery } from './_helpers';
 import { intervalChannel } from './channels/interval';
 import { logm } from '../sagas/logger';
-import { setActionLogRequestId } from '../store/quickActions';
 import {
     ApiRequest,
     ConnectionStatus,
     ConnectionType,
     ApiSettings,
     ApiResponse,
-    ApiRequestStatus,
+    RequestStatus,
     RetryStrategy,
-    ActionLifecycle,
     SagaEvents,
 } from '../types';
 
@@ -34,9 +32,6 @@ function* fireRequest(request: ApiRequest): any {
     try {
         const { meta, nodeName } = request;
         const { id } = meta;
-
-        yield put(actions.setActionLogLifecycle(request.actionLogId!, ActionLifecycle.API_REQUEST)); // prettier-ignore
-        yield put(actions.addActionLogJourneyPoint(request.actionLogId!, 'api request')); // prettier-ignore
 
         runningRequests[id] = request;
 
@@ -63,14 +58,14 @@ function* fireRequest(request: ApiRequest): any {
         if (!adapter) {
             const errorMessage = `no adapter is defined for ${request.connectionType}`;
             yield put(actions.addRequestJourneyPoint(request, errorMessage));
-            yield put(actions.setRequestStatus(request, ApiRequestStatus.ERROR)); // prettier-ignore
+            yield put(actions.setRequestStatus(request, RequestStatus.ERROR)); // prettier-ignore
             throw new Error(errorMessage);
         }
 
         if (typeof adapter.fireRequest !== 'function') {
             const errorMessage = `invalid adapter is defined for ${request.connectionType}, no fireRequest method`;
             yield put(actions.addRequestJourneyPoint(request, errorMessage));
-            yield put(actions.setRequestStatus(request, ApiRequestStatus.ERROR)); // prettier-ignore
+            yield put(actions.setRequestStatus(request, RequestStatus.ERROR)); // prettier-ignore
             throw new Error(errorMessage);
         }
 
@@ -101,7 +96,7 @@ function* onRetry(request: ApiRequest) {
     const { delayBetweenRetries } = globalSettings;
     const { nodeName } = request;
 
-    yield put(actions.setRequestStatus(request, ApiRequestStatus.ERROR));
+    yield put(actions.setRequestStatus(request, RequestStatus.ERROR));
     yield put(actions.connectionChange(nodeName, ConnectionStatus.RETRYING));
 
     yield delay(delayBetweenRetries);
@@ -111,7 +106,7 @@ function* onRetry(request: ApiRequest) {
 function* onError(request: ApiRequest, response: ApiResponse) {
     const retry = yield* call(shouldRetry, request);
     const { nodeName } = request;
-    yield put(actions.setRequestStatus(request, ApiRequestStatus.RETRYING));
+    yield put(actions.setRequestStatus(request, RequestStatus.RETRYING));
     yield put(actions.connectionChange(nodeName, ConnectionStatus.ERROR));
     yield put(actions.addRequestJourneyPoint(request, 'api error'));
 
@@ -167,7 +162,7 @@ function* handleIncomingRequests() {
         const requests = yield* select(selectors.$idleRequests);
 
         for (let request of requests) {
-            yield put(actions.setRequestStatus(request, ApiRequestStatus.WAITING)); // prettier-ignore
+            yield put(actions.setRequestStatus(request, RequestStatus.WAITING)); // prettier-ignore
             yield put(actions.addRequestJourneyPoint(request, 'in queue'));
         }
 
@@ -190,7 +185,7 @@ function* moveSuccessfulRequestToDone() {
 
     for (let request of requests) {
         yield put(actions.addRequestJourneyPoint(request, 'to done'));
-        yield put(actions.setRequestStatus(request, ApiRequestStatus.DONE)); // prettier-ignore
+        yield put(actions.setRequestStatus(request, RequestStatus.DONE)); // prettier-ignore
     }
 }
 
@@ -207,9 +202,6 @@ function* cleanCompleted(): any {
 
 export function* addNewRequest(request: ApiRequest): any {
     yield put(apiActions.api.requests.push(request));
-    if (request.actionLogId) {
-        yield put(setActionLogRequestId(request.actionLogId, request.meta.id));
-    }
 }
 
 function* root() {

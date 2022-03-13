@@ -1,9 +1,7 @@
 import { createSelector } from 'reselect';
 import {
-    ActionLifecycle,
-    ActionLog,
     ApiRequest,
-    ApiRequestStatus,
+    RequestStatus,
     EndpointsConfig,
     StoreStructureApi,
 } from '../types';
@@ -39,7 +37,7 @@ export const $requestsByStatus = createSelector($requestsRaw, (requests) => {
         output[request.status] = output[request.status] || [];
         output[request.status].push(request);
         return output;
-    }, {} as Record<ApiRequestStatus, ApiRequest[]>);
+    }, {} as Record<RequestStatus, ApiRequest[]>);
 });
 
 export const $sagas = createSelector($sagasRaw, (sagas) =>
@@ -56,40 +54,24 @@ export const $idleRequests = createSelector(
     (requests: ApiRequest[]) =>
         requests.filter(
             (request) =>
-                request.status === ApiRequestStatus.CREATED ||
-                request.status === ApiRequestStatus.WAITING
+                request.status === RequestStatus.CREATED ||
+                request.status === RequestStatus.WAITING
         )
 );
 
 export const $successfulRequests = createSelector(
     $requestsRaw,
     (requests: ApiRequest[]) =>
-        requests.filter(
-            (request) => request.status === ApiRequestStatus.SUCCESS
-        )
+        requests.filter((request) => request.status === RequestStatus.SUCCESS)
 );
 
 export const $doneRequests = createSelector(
     $requestsRaw,
     (requests: ApiRequest[]) =>
-        requests.filter((request) => request.status === ApiRequestStatus.DONE)
+        requests.filter((request) => request.status === RequestStatus.DONE)
 );
 
 export const $requests = createSelector($apiRaw, (api) => api.requests);
-
-export const $actionLogs = createSelector($apiRaw, (api) => api.actionLogs);
-
-export const $actionLogsByLifecycle = createSelector(
-    $actionLogs,
-    (actionLogs: any) => {
-        return actionLogs.reduce((output: any, actionLog: ActionLog) => {
-            output[actionLog.lifecyclePhase] =
-                output[actionLog.lifecyclePhase] || [];
-            output[actionLog.lifecyclePhase].push(actionLog);
-            return output;
-        }, {} as Record<ActionLifecycle, ActionLog[]>);
-    }
-);
 
 export const $settingsAndStats = createSelector(
     $apiGlobalSettings,
@@ -119,6 +101,4 @@ export const connectedSelectors = {
     $doneRequests,
     $settingsAndStats,
     $requestsByStatus,
-    $actionLogs,
-    $actionLogsByLifecycle,
 };

@@ -1,6 +1,6 @@
 import { ActionWithPayload, Log } from '../types';
 import { delay, put, takeEvery } from './_helpers';
-import { generateMeta } from '../utils/meta';
+import { generateIds } from '../utils/ids';
 import { Json } from 'redux-store-generator';
 
 const DEBUG = true;
@@ -8,7 +8,7 @@ const DEBUG = true;
 let sequence = 1;
 
 export const log = (payload: Json): ActionWithPayload<Log> => {
-    const meta = generateMeta(sequence++);
+    const meta = generateIds(sequence++);
 
     return {
         type: 'LOG',

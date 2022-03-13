@@ -4,7 +4,6 @@ import { put, takeEvery } from './_helpers';
 export function* refresh() {
     try {
         yield put(apiActions.api.requests.clear());
-        yield put(apiActions.api.actionLogs.clear());
     } catch (e) {
         console.log('e ->', e);
     }

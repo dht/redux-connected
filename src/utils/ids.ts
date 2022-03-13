@@ -1,9 +1,8 @@
 import { Json } from 'redux-store-generator';
-import { Meta } from '../types';
 import { timestamp } from './date';
 import { uuidv4 } from './uuid';
 
-export const generateMeta = (sequence: number): Meta => {
+export const generateIds = (sequence: number) => {
     const uuid = uuidv4();
 
     return {
@@ -14,7 +13,7 @@ export const generateMeta = (sequence: number): Meta => {
     };
 };
 
-export const clearMeta = (json: Json): Json => {
+export const clearIds = (json: Json): Json => {
     const output = { ...json };
     delete output['meta'];
     delete output['originalAction'];

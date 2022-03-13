@@ -1,4 +1,4 @@
-import { ActionLog, JourneyPoint, ActionLogsActionBag } from '../types';
+import { JourneyPoint } from '../types';
 import { collection_all, single_all, Json } from 'redux-store-generator';
 import {
     EndpointConfig,
@@ -65,18 +65,6 @@ export const requests: RequestsActionBag = {
     addJourneyPoint: (id: string, point: JourneyPoint) => ({ type: 'ADD_REQUEST_JOURNEY_POINT', payload: { id, point }}), // prettier-ignore
 };
 
-export const actionLogs: ActionLogsActionBag = {
-    push: (actionLog: ActionLog) => ({
-        type: 'PUSH_ACTION_LOG',
-        payload: actionLog,
-    }),
-    patch: (id: string, actionLog: Partial<ActionLog>) => ({ type: 'PATCH_ACTION_LOG', payload: { id, item: actionLog } }), // prettier-ignore
-    remove: (id: string) => ({ type: 'REMOVE_ACTION_LOG', payload: { id } }),
-    purge: () => ({ type: 'PURGE_COMPLETED_ACTION_LOGS' }),
-    clear: () => ({ type: 'CLEAR_ACTION_LOGS' }),
-    addJourneyPoint: (id: string, point: JourneyPoint) => ({ type: 'ADD_ACTION_LOG_JOURNEY_POINT', payload: { id, point }}), // prettier-ignore
-};
-
 // ============== from store structure ==============
 export const apiActions: ConnectedStoreActions = {
     api: {
@@ -93,7 +81,6 @@ export const apiActions: ConnectedStoreActions = {
         ),
         status: config_all<ApiStatus>('API_STATUS', SIGNATURE_STATUS),
         requests,
-        actionLogs,
     },
 };
 
