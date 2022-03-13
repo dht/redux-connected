@@ -32,13 +32,16 @@ export const generateConnectedStore = <T extends StoreStructure>(
 
     connectedStoreBuilder
         .withMiddlewares([gatekeeperMiddleware])
-        // .withMiddlewares(devtoolsMiddleware)
         .withMiddlewares(middlewares)
         .withSagas(
             sagas.requests.saga,
             sagas.incoming.saga,
             sagas.postAction.saga
         );
+
+    if (config.enableReduxDevtools) {
+        connectedStoreBuilder.withMiddlewares(devtoolsMiddleware);
+    }
 
     if (config.enableReduxDevtools) {
         connectedStoreBuilder.withPostBuildHook((_store) => {
