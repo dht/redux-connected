@@ -164,7 +164,8 @@ function* shouldRetry(request: ApiRequest) {
 function* handleIncomingRequests() {
     try {
         const { maxConcurrentRequests } = globalSettings;
-        const newRequests = yield* select(selectors.$requestsIncoming); // REQUESTS
+
+        const newRequests = yield* call(getLiveRequests, selectors.$requestsIncoming); // prettier-ignore
 
         for (let request of newRequests) {
             request.requestStatus = RequestStatus.IN_QUEUE;
@@ -176,10 +177,8 @@ function* handleIncomingRequests() {
             );
         }
 
-        const queuedRequests = yield* call(
-            getLiveRequests,
-            selectors.$requestsQueued
-        );
+        const queuedRequests = yield* call(getLiveRequests, selectors.$requestsQueued); // prettier-ignore
+
         const runningRequestsCount = Object.keys(runningRequests).length;
         const availableSlots = maxConcurrentRequests - runningRequestsCount;
 
