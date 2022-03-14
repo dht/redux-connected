@@ -92,7 +92,7 @@ function* fireRequest(request: ApiRequest): any {
 
 function* onRetry(requestId: string) {
     const requests = yield* select(selectors.$requestsRaw);
-    const request = requests[requestId]
+    const request = requests[requestId];
     const { delayBetweenRetries } = globalSettings;
     const { argsNodeName } = request;
 
@@ -163,7 +163,7 @@ function* shouldRetry(request: ApiRequest) {
 function* handleIncomingRequests() {
     try {
         const { maxConcurrentRequests } = globalSettings;
-        const newRequests = yield* select(selectors.$requestsIncoming);
+        const newRequests = yield* select(selectors.$requestsIncoming); // REQUESTS
 
         for (let request of newRequests) {
             yield put(actions.setRequestStatus(request, RequestStatus.IN_QUEUE)); // prettier-ignore
