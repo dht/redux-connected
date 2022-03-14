@@ -15,9 +15,9 @@ export const isEmpty = (object: Json | any[]) => {
     return Object.keys(object || {}).length === 0;
 };
 
-export const itemsToObject = (items: any[]) => {
-    return items.reduce((output, item) => {
-        output[item.id] = item;
+export const itemsToObject = (arr: Json[] = [], key = 'id') => {
+    return arr.reduce((output, item, index) => {
+        output[item[key]] = { ...item, index: index };
         return output;
-    }, {} as any);
+    }, {} as Json);
 };
