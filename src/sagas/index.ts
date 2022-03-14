@@ -1,6 +1,7 @@
 import incoming from './incoming';
 import postAction from './postAction';
 import requests from './requests';
+import houseKeeping from './houseKeeping';
 
 const sagas: any = {
     incoming: {
@@ -17,6 +18,10 @@ const sagas: any = {
         saga: postAction,
         description:
             'Constructs the post action to send back to the main store',
+    },
+    houseKeeping: {
+        saga: houseKeeping,
+        description: 'Cleans completed requests to keep the store slim',
     },
 };
 

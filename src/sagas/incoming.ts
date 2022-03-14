@@ -1,5 +1,5 @@
-import * as actions from '../store/actions';
-import * as selectors from '../store/selectors';
+import { actions } from '../store/actions';
+import { selectors } from '../store/selectors';
 import { ApiInfo, NodeType } from 'redux-store-generator';
 import { clearActionP } from '../utils/dispatchP';
 import { put, select, takeEvery } from './_helpers';
@@ -49,7 +49,7 @@ function* incoming(action: ActionWithPromise) {
             .withOriginalAction(action)
             .build();
 
-        yield put(actions.apiActions.requests.set(request.id, request));
+        yield put(actions.requests.set(request.id, request));
 
         yield put(
             actions.addRequestJourneyPoint(

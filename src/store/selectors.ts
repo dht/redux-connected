@@ -34,7 +34,10 @@ export const $requestsIncoming = createSelector(
     $requests,
     (requests: ApiRequest[]) => {
         return requests.filter((request) => {
-            return request.requestStatus === RequestStatus.CREATED || request.requestStatus === RequestStatus.RETRYING;
+            return (
+                request.requestStatus === RequestStatus.CREATED ||
+                request.requestStatus === RequestStatus.RETRYING
+            );
         });
     }
 );
@@ -48,7 +51,24 @@ export const $requestsQueued = createSelector(
     }
 );
 
-export const connectedSelectors = {
+export const $requestsSuccess = createSelector(
+    $requests,
+    (requests: ApiRequest[]) => {
+        return requests.filter((request) => {
+            return request.requestStatus === RequestStatus.SUCCESS;
+        });
+    }
+);
+export const $requestsDone = createSelector(
+    $requests,
+    (requests: ApiRequest[]) => {
+        return requests.filter((request) => {
+            return request.requestStatus === RequestStatus.DONE;
+        });
+    }
+);
+
+export const selectors = {
     $actionTypesRaw,
     $apiGlobalSettingsRaw,
     $apiGlobalStatsRaw,
@@ -60,4 +80,6 @@ export const connectedSelectors = {
     $requests,
     $requestsIncoming,
     $requestsQueued,
+    $requestsSuccess,
+    $requestsDone,
 };

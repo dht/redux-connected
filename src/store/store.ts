@@ -29,7 +29,8 @@ export const generateConnectedStore = <T extends StoreStructure>(
         .withSagas(
             sagas.requests.saga,
             sagas.incoming.saga,
-            sagas.postAction.saga
+            sagas.postAction.saga,
+            sagas.houseKeeping.saga
         );
 
     const initialState = cleanInitialState(schema);

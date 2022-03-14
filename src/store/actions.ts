@@ -1,4 +1,4 @@
-import { ConnectedStore, JourneyPoint } from '../types';
+import { ConnectedStore, JourneyPoint, SagaEvents } from '../types';
 import { generateActionsForStore } from 'redux-store-generator';
 import { initialState } from './initialState';
 import { timestamp } from '../utils/date';
@@ -43,4 +43,18 @@ export const addRequestJourneyPoint = (
     };
 
     return apiActions.requests.pushItem(request.id, journeyPoint);
+};
+
+export const clearCompletedRequests = () => {
+    return {
+        type: SagaEvents.CLEAR_COMPLETED_REQUESTS,
+    };
+};
+
+export const actions = {
+    ...apiActions,
+    apiError,
+    connectionChange,
+    addRequestJourneyPoint,
+    clearCompletedRequests,
 };

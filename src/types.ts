@@ -247,6 +247,7 @@ export type RequestResponseAction = Action & {
 
 export enum SagaEvents {
     POST_ACTION = 'POST_ACTION',
+    CLEAR_COMPLETED_REQUESTS = 'CLEAR_COMPLETED_REQUESTS',
 }
 
 export type FieldValue = {
