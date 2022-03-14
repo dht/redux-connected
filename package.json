@@ -2,7 +2,7 @@
     "name": "redux-connected",
     "main": "dist/index.js",
     "license": "MIT",
-    "version": "0.0.90",
+    "version": "0.0.91",
     "description": "Javascript Version",
     "scripts": {
         "build": "tsc",
