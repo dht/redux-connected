@@ -2,10 +2,11 @@ import * as actions from '../store/actions';
 import * as selectors from '../store/selectors';
 import globals from '../utils/globals';
 import { Action } from 'redux-store-generator';
-import { apiActions } from '../store/actions';
 import { call, delay, fork, put, select, takeEvery } from './_helpers';
 import { intervalChannel } from './channels/interval';
 import { ApiRequest, ConnectionStatus, ConnectionType, ApiSettings, ApiResponse, RequestStatus, RetryStrategy, SagaEvents, LifecycleStatus } from '../types'; // prettier-ignore
+import { getLiveRequests } from '../utils/liveRequest';
+import { timestamp } from '../utils/date';
 
 const runningRequests: Record<string, ApiRequest> = {};
 
@@ -24,7 +25,9 @@ function* fireRequest(request: ApiRequest): any {
 
         runningRequests[id] = request;
 
-        yield put(actions.onRequestStart(request));
+        // on start
+        request.apiStartTS = timestamp();
+        request.requestStatus = RequestStatus.FIRING;
 
         yield put(
             actions.connectionChange(argsNodeName, ConnectionStatus.LOADING)
@@ -46,7 +49,7 @@ function* fireRequest(request: ApiRequest): any {
                     LifecycleStatus.GENERAL_ERROR
                 )
             );
-            yield put(actions.setRequestStatus(request, RequestStatus.ERROR)); // prettier-ignore
+            request.requestStatus = RequestStatus.ERROR;
             throw new Error(errorMessage);
         }
 
@@ -58,7 +61,7 @@ function* fireRequest(request: ApiRequest): any {
                     LifecycleStatus.GENERAL_ERROR
                 )
             );
-            yield put(actions.setRequestStatus(request, RequestStatus.ERROR)); // prettier-ignore
+            request.requestStatus = RequestStatus.ERROR;
             throw new Error(errorMessage);
         }
 
@@ -69,9 +72,7 @@ function* fireRequest(request: ApiRequest): any {
             )
         );
         const response: ApiResponse = yield call(adapter.fireRequest, request);
-
-        yield put(actions.onRequestResponse(request, response));
-
+        onRequestResponse(request, response);
         delete runningRequests[id];
 
         // error?
@@ -96,7 +97,7 @@ function* onRetry(requestId: string) {
     const { delayBetweenRetries } = globalSettings;
     const { argsNodeName } = request;
 
-    yield put(actions.setRequestStatus(request, RequestStatus.RETRYING));
+    request.requestStatus = RequestStatus.RETRYING;
     yield put(
         actions.connectionChange(argsNodeName, ConnectionStatus.RETRYING)
     );
@@ -108,14 +109,14 @@ function* onRetry(requestId: string) {
 function* onError(request: ApiRequest, response: ApiResponse) {
     const retry = yield* call(shouldRetry, request);
     const { argsNodeName } = request;
-    yield put(actions.setRequestStatus(request, RequestStatus.ERROR));
+    request.requestStatus = RequestStatus.ERROR;
     yield put(actions.connectionChange(argsNodeName, ConnectionStatus.ERROR));
     yield put(
         actions.addRequestJourneyPoint(request, LifecycleStatus.API_ERROR)
     );
 
     if (retry) {
-        yield put(actions.onRequestRetry(request));
+        request.apiRetriesCount = (request.apiRetriesCount || 0) + 1;
         yield call(onRetry, request.id);
         return;
     }
@@ -166,7 +167,7 @@ function* handleIncomingRequests() {
         const newRequests = yield* select(selectors.$requestsIncoming); // REQUESTS
 
         for (let request of newRequests) {
-            yield put(actions.setRequestStatus(request, RequestStatus.IN_QUEUE)); // prettier-ignore
+            request.requestStatus = RequestStatus.IN_QUEUE;
             yield put(
                 actions.addRequestJourneyPoint(
                     request,
@@ -175,7 +176,10 @@ function* handleIncomingRequests() {
             );
         }
 
-        const queuedRequests = yield* select(selectors.$requestsQueued);
+        const queuedRequests = yield* call(
+            getLiveRequests,
+            selectors.$requestsQueued
+        );
         const runningRequestsCount = Object.keys(runningRequests).length;
         const availableSlots = maxConcurrentRequests - runningRequestsCount;
 
@@ -197,9 +201,30 @@ function* listenToRequestQueue(): any {
     );
 }
 
-export function* addNewRequest(request: ApiRequest): any {
-    yield put(apiActions.requests.set(request.id, request));
-}
+export const onRequestResponse = (
+    request: ApiRequest,
+    response: ApiResponse
+) => {
+    const { apiStartTS = 0 } = request;
+    const { data = '' } = response;
+
+    const apiResponseTS = timestamp();
+    const apiDuration = apiResponseTS - apiStartTS;
+    const apiResponseSize = JSON.stringify(data).length;
+
+    request.apiResponseTS = apiResponseTS;
+    request.apiResponseSize = apiResponseSize;
+    request.apiDuration = apiDuration;
+
+    if (response.isSuccess) {
+        request.requestStatus = RequestStatus.SUCCESS;
+        request.apiCompletedTS = apiResponseTS;
+    } else {
+        request.requestStatus = RequestStatus.ERROR;
+        request.responseErrorType = response.errorType;
+        request.responseErrorStatus = response.status;
+    }
+};
 
 function* root() {
     globalSettings = yield* select(selectors.$apiGlobalSettingsRaw);

@@ -13,7 +13,7 @@ import {
 function* postAction(action: RequestResponseAction) {
     const { request, response } = action;
     const { argsNodeName } = request;
-    yield put(actions.setRequestStatus(request, RequestStatus.SUCCESS));
+    request.requestStatus = RequestStatus.SUCCESS;
     yield put(actions.connectionChange(argsNodeName, ConnectionStatus.IDLE));
 
     const postAction = new PostApiActionBuilder()
