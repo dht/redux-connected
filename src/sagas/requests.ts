@@ -90,11 +90,13 @@ function* fireRequest(request: ApiRequest): any {
     }
 }
 
-function* onRetry(request: ApiRequest) {
+function* onRetry(requestId: string) {
+    const requests = yield* select(selectors.$requestsRaw);
+    const request = requests[requestId]
     const { delayBetweenRetries } = globalSettings;
     const { argsNodeName } = request;
 
-    yield put(actions.setRequestStatus(request, RequestStatus.ERROR));
+    yield put(actions.setRequestStatus(request, RequestStatus.RETRYING));
     yield put(
         actions.connectionChange(argsNodeName, ConnectionStatus.RETRYING)
     );
@@ -106,7 +108,7 @@ function* onRetry(request: ApiRequest) {
 function* onError(request: ApiRequest, response: ApiResponse) {
     const retry = yield* call(shouldRetry, request);
     const { argsNodeName } = request;
-    yield put(actions.setRequestStatus(request, RequestStatus.RETRYING));
+    yield put(actions.setRequestStatus(request, RequestStatus.ERROR));
     yield put(actions.connectionChange(argsNodeName, ConnectionStatus.ERROR));
     yield put(
         actions.addRequestJourneyPoint(request, LifecycleStatus.API_ERROR)
@@ -114,7 +116,7 @@ function* onError(request: ApiRequest, response: ApiResponse) {
 
     if (retry) {
         yield put(actions.onRequestRetry(request));
-        yield call(onRetry, request);
+        yield call(onRetry, request.id);
         return;
     }
 
@@ -161,7 +163,7 @@ function* shouldRetry(request: ApiRequest) {
 function* handleIncomingRequests() {
     try {
         const { maxConcurrentRequests } = globalSettings;
-        const newRequests = yield* select(selectors.$requestsNew);
+        const newRequests = yield* select(selectors.$requestsIncoming);
 
         for (let request of newRequests) {
             yield put(actions.setRequestStatus(request, RequestStatus.IN_QUEUE)); // prettier-ignore
@@ -180,7 +182,7 @@ function* handleIncomingRequests() {
         for (let i = 0; i < availableSlots; i++) {
             const request = queuedRequests[i];
             if (request) {
-                yield fork(fireRequest, queuedRequests[i]);
+                yield fork(fireRequest, request);
             }
         }
     } catch (err) {

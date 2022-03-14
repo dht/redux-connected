@@ -30,11 +30,11 @@ export const $requests = createSelector(
     }
 );
 
-export const $requestsNew = createSelector(
+export const $requestsIncoming = createSelector(
     $requests,
     (requests: ApiRequest[]) => {
         return requests.filter((request) => {
-            return request.requestStatus === RequestStatus.CREATED;
+            return request.requestStatus === RequestStatus.CREATED || request.requestStatus === RequestStatus.RETRYING;
         });
     }
 );
@@ -58,6 +58,6 @@ export const connectedSelectors = {
     $requestsRaw,
     $lastActionRaw,
     $requests,
-    $requestsNew,
+    $requestsIncoming,
     $requestsQueued,
 };
