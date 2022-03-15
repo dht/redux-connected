@@ -1,5 +1,5 @@
 import faker from '@faker-js/faker';
-import { LiveObject } from './liveObject';
+import { createLiveObject } from './liveObject';
 import { jest } from '@jest/globals';
 
 describe.only('liveObject', () => {
@@ -12,7 +12,7 @@ describe.only('liveObject', () => {
         };
 
         callback = jest.fn();
-        liveObject = new LiveObject<Person>(person, callback) as any;
+        liveObject = createLiveObject<Person>(person, callback) as any;
     });
 
     it('get', () => {
