@@ -97,13 +97,12 @@ function* onRetry(requestId: string) {
     const { delayBetweenRetries } = globalSettings;
     const { argsNodeName } = request;
 
+    yield delay(delayBetweenRetries);
     request.requestStatus = RequestStatus.RETRYING;
     yield put(
         actions.connectionChange(argsNodeName, ConnectionStatus.RETRYING)
     );
 
-    yield delay(delayBetweenRetries);
-    yield fork(fireRequest, request);
 }
 
 function* onError(request: ApiRequest, response: ApiResponse) {
