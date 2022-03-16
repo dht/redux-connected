@@ -147,16 +147,16 @@ function* shouldRetry(request: ApiRequest) {
             output = false;
             break;
         case RetryStrategy.X1_TIMES:
-            output = apiRetriesCount + 1 < 1;
+            output = apiRetriesCount < 1;
             break;
         case RetryStrategy.X2_TIMES:
-            output = apiRetriesCount + 1 < 2;
+            output = apiRetriesCount < 2;
             break;
         case RetryStrategy.X3_TIMES:
-            output = apiRetriesCount + 1 < 3;
+            output = apiRetriesCount < 3;
             break;
         case RetryStrategy.X4_TIMES:
-            output = apiRetriesCount + 1 < 4;
+            output = apiRetriesCount < 4;
             break;
         default:
             output = false;
