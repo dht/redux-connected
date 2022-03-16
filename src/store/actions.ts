@@ -51,10 +51,17 @@ export const clearCompletedRequests = () => {
     };
 };
 
+export const clearFailedRequests = () => {
+    return {
+        type: SagaEvents.CLEAR_FAILED_REQUESTS,
+    };
+};
+
 export const actions = {
     ...apiActions,
     apiError,
     connectionChange,
     addRequestJourneyPoint,
     clearCompletedRequests,
+    clearFailedRequests,
 };

@@ -120,6 +120,11 @@ function* onError(request: ApiRequest, response: ApiResponse) {
         return;
     }
 
+    request.requestStatus = RequestStatus.FAILED;
+    yield put(
+        actions.addRequestJourneyPoint(request, LifecycleStatus.FAILED)
+    );
+
     const nextAction = actions.apiError(request, response);
 
     request.resolve({ nextAction, response });

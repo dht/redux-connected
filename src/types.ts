@@ -114,6 +114,7 @@ export enum RequestStatus {
     RETRYING = 'RETRYING',
     SUCCESS = 'SUCCESS',
     DONE = 'DONE',
+    FAILED = 'FAILED',
 }
 
 export enum LifecycleStatus {
@@ -123,6 +124,7 @@ export enum LifecycleStatus {
     PENDING_API_RESPONSE = 4,
     API_ERROR = 5,
     POST_ACTION = 6,
+    FAILED = 7,
 }
 
 export type ApiRequest = {
@@ -248,6 +250,7 @@ export type RequestResponseAction = Action & {
 export enum SagaEvents {
     POST_ACTION = 'POST_ACTION',
     CLEAR_COMPLETED_REQUESTS = 'CLEAR_COMPLETED_REQUESTS',
+    CLEAR_FAILED_REQUESTS = 'CLEAR_FAILED_REQUESTS',
 }
 
 export type FieldValue = {

@@ -18,10 +18,23 @@ export function* clearCompletedRequests() {
     }
 }
 
+export function* clearFailedRequests() {
+    const failedRequests = yield* select(selectors.$requestsFailed);
+
+    for (let request of failedRequests) {
+        yield put(actions.requests.delete(request.id));
+    }
+}
+
 function* root() {
     yield takeEvery(
         SagaEvents.CLEAR_COMPLETED_REQUESTS,
         clearCompletedRequests
+    );
+
+    yield takeEvery(
+        SagaEvents.CLEAR_FAILED_REQUESTS,
+        clearFailedRequests
     );
 }
 

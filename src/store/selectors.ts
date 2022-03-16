@@ -68,6 +68,15 @@ export const $requestsDone = createSelector(
     }
 );
 
+export const $requestsFailed = createSelector(
+    $requests,
+    (requests: ApiRequest[]) => {
+        return requests.filter((request) => {
+            return request.requestStatus === RequestStatus.FAILED;
+        });
+    }
+);
+
 export const selectors = {
     $actionTypesRaw,
     $apiGlobalSettingsRaw,
@@ -82,4 +91,5 @@ export const selectors = {
     $requestsQueued,
     $requestsSuccess,
     $requestsDone,
+    $requestsFailed,
 };
