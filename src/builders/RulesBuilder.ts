@@ -67,9 +67,15 @@ export const rules: GetRequestBuilderRules = {
 
         if (q && q.value) {
             request.params.push({
-                field: q?.fields?.join(',') || 'q',
+                field: 'q',
                 value: q?.value,
             });
+            if (q.fields) {
+                request.params.push({
+                    field: 'fields',
+                    value: q.fields.join(','),
+                });
+            }
         }
 
         return request;
