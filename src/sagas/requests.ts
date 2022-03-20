@@ -91,9 +91,7 @@ function* fireRequest(request: ApiRequest): any {
     }
 }
 
-function* onRetry(requestId: string) {
-    const requests = yield* select(selectors.$requestsRaw);
-    const request = requests[requestId];
+function* onRetry(request: ApiRequest) {
     const { delayBetweenRetries } = globalSettings;
     const { argsNodeName } = request;
 
@@ -116,7 +114,7 @@ function* onError(request: ApiRequest, response: ApiResponse) {
 
     if (retry) {
         request.apiRetriesCount = (request.apiRetriesCount || 0) + 1;
-        yield call(onRetry, request.id);
+        yield call(onRetry, request);
         return;
     }
 
