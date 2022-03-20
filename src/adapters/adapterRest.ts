@@ -1,4 +1,4 @@
-import { itemsToObject } from './adapterBase';
+import { GetRequestBuilder, itemsToObject } from './adapterBase';
 import {
     ApiRequest,
     ApiServerConfiguration,
@@ -19,14 +19,14 @@ export class RestAdapter implements Adapter {
     GET = (request: ApiRequest, response: ResponseBuilder) => {
         const { argsPath, argsParams: inParams = {} } = request;
 
-        const params = { ...inParams };
+        const queryParams = { ...inParams };
         if (
             inParams.deep &&
             request.argsNodeType === NodeType.GROUPED_LIST_NODE
         ) {
             const itemsKey = request.argsNodeName + 'Items';
-            params['_embed'] = itemsKey;
-            delete params['deep'];
+            queryParams['_embed'] = itemsKey;
+            delete queryParams['deep'];
             response.withTransformer((item: any) => {
                 const newItem = { ...item };
                 newItem['items'] = newItem[itemsKey];
@@ -35,7 +35,13 @@ export class RestAdapter implements Adapter {
             });
         }
 
-        return this.instance.get(argsPath, { params });
+        const gerRequest = new GetRequestBuilder()
+            .withGetParams(queryParams)
+            .withPath(argsPath)
+            .build();
+        const { path } = gerRequest;
+
+        return this.instance.get(path);
     };
 
     POST = (request: ApiRequest, _response: ResponseBuilder) => {

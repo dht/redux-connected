@@ -36,8 +36,10 @@ export const rules: GetRequestBuilderRules = {
 
         const output = orderByArray.reduce(
             (output: any, order) => {
-                output._sort.push(order.field);
-                output._order.push(order.order || 'asc');
+                if (order.field) {
+                    output._sort.push(order.field);
+                    output._order.push(order.order || 'asc');
+                }
                 return output;
             },
             {
@@ -45,26 +47,30 @@ export const rules: GetRequestBuilderRules = {
                 _order: [],
             }
         );
-
-        request.params.push({
-            field: '_sort',
-            value: output._sort.join(','),
-        });
-
-        request.params.push({
-            field: '_order',
-            value: output._order.join(','),
-        });
+        if (output._sort.length) {
+            request.params.push({
+                field: '_sort',
+                value: output._sort.join(','),
+            });
+        }
+        if (output._order.length) {
+            request.params.push({
+                field: '_order',
+                value: output._order.join(','),
+            });
+        }
 
         return request;
     },
     fullTextSearch: (request: GetRequest, getParams: GetParams) => {
         const { q } = getParams;
 
-        request.params.push({
-            field: 'q',
-            value: q?.value,
-        });
+        if (q && q.value) {
+            request.params.push({
+                field: q?.fields?.join(',') || 'q',
+                value: q?.value,
+            });
+        }
 
         return request;
     },
