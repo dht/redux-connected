@@ -70,7 +70,7 @@ export class RestAdapter implements Adapter {
         if (request.argsMethod === 'GET') {
             switch (request.argsNodeType) {
                 case NodeType.COLLECTION_NODE:
-                    return itemsToObject(data);
+                    return itemsToObject(data, request.argsParams?.page || 1, request.argsParams?.limit);
                 default:
                     return data;
             }
