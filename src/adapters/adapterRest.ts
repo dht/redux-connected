@@ -41,7 +41,7 @@ export class RestAdapter implements Adapter {
             .build();
         const { path } = gerRequest;
 
-        return this.instance.get(path);
+        return this.instance.get(path, { params: queryParams });
     };
 
     POST = (request: ApiRequest, _response: ResponseBuilder) => {
@@ -70,7 +70,11 @@ export class RestAdapter implements Adapter {
         if (request.argsMethod === 'GET') {
             switch (request.argsNodeType) {
                 case NodeType.COLLECTION_NODE:
-                    return itemsToObject(data, request.argsParams?.page || 1, request.argsParams?.limit);
+                    return itemsToObject(
+                        data,
+                        request.argsParams?.page || 1,
+                        request.argsParams?.limit
+                    );
                 default:
                     return data;
             }
