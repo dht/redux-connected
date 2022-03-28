@@ -68,24 +68,30 @@ export class GetRequestBuilder {
 
         output = this.rules.base(output, this.getParams);
 
-        if (this.getParams.q) {
+        const {q, orderBy, filter, page, limit, slice, ...rest} = this.getParams
+
+        if (q) {
             output = this.rules.fullTextSearch(output, this.getParams);
         }
 
-        if (this.getParams.orderBy) {
+        if (orderBy) {
             output = this.rules.sort(output, this.getParams);
         }
 
-        if (this.getParams.filter) {
+        if (filter) {
             output = this.rules.filter(output, this.getParams);
         }
 
-        if (this.getParams.page || this.getParams.limit) {
+        if (page || limit) {
             output = this.rules.paginate(output, this.getParams);
         }
 
-        if (this.getParams.slice) {
+        if (slice) {
             output = this.rules.slice(output, this.getParams);
+        }
+
+        if (rest) {
+            output = this.rules.rest(output, rest);
         }
 
         const { params } = output;

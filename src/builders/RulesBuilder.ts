@@ -1,6 +1,6 @@
-import { Filter, GetParams, OrderBy } from '../types';
 import { getSubitemsNodeName } from '../adapters/adapterBase';
 import { toArray } from '../adapters/utils/object';
+import { Filter, GetParams, Json, OrderBy } from '../types';
 import { GetRequest } from './getRequestBuilder';
 
 export type RequestDecorator = (
@@ -10,6 +10,7 @@ export type RequestDecorator = (
 
 export type GetRequestBuilderRules = {
     base: RequestDecorator;
+    rest: RequestDecorator;
     sort: RequestDecorator;
     fullTextSearch: RequestDecorator;
     filter: RequestDecorator;
@@ -27,6 +28,16 @@ export const rules: GetRequestBuilderRules = {
                 value: getSubitemsNodeName(request.path),
             });
         }
+
+        return request;
+    },
+    rest: (request: GetRequest, getParams: Json) => {
+        Object.entries(getParams).forEach(([key, value]) => {
+            request.params.push({
+                field: key,
+                value: value,
+            });
+        }) 
 
         return request;
     },

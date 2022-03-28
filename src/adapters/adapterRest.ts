@@ -41,7 +41,7 @@ export class RestAdapter implements Adapter {
             .build();
         const { path } = gerRequest;
 
-        return this.instance.get(path, { params: queryParams });
+        return this.instance.get(path);
     };
 
     POST = (request: ApiRequest, _response: ResponseBuilder) => {
