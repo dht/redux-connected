@@ -16,6 +16,7 @@ export class RequestBuilder {
         optimistic: false,
     };
     private id: string = '';
+    private itemId: string = '';
 
     constructor() {
         this.output = {
@@ -58,7 +59,8 @@ export class RequestBuilder {
         this.output.originalAction = value;
         this.output.resolve = value.resolve;
         this.output.reject = value.reject;
-        this.id = value.id || '';
+        this.id = value.payload?.id || '';
+        this.itemId = value.payload?.itemId || '';
 
         if (value.payload) {
             // delete value.payload['id'];
@@ -74,9 +76,12 @@ export class RequestBuilder {
         }
 
         const isCollection =
-            this.output.argsNodeType === NodeType.COLLECTION_NODE;
+            this.output.argsNodeType === NodeType.COLLECTION_NODE ||
+            this.output.argsNodeType === NodeType.GROUPED_LIST_NODE;
 
         const { argsNodeName, argsApiVerb } = this.output;
+
+        console.log('argsApiVerb ->', argsApiVerb, this.output.originalAction);
 
         switch (argsApiVerb) {
             case 'get':
@@ -106,6 +111,22 @@ export class RequestBuilder {
                     this.output.argsPath += `/${this.id}`;
                 }
                 this.output.argsMethod = 'DELETE';
+                break;
+            case 'pushItem':
+                this.output.argsPath = `/${argsNodeName}/${this.id}`;
+                this.output.argsMethod = 'POST';
+                break;
+            case 'deleteItem':
+                this.output.argsPath = `/${argsNodeName}/${this.id}/items/${this.itemId}`;
+                this.output.argsMethod = 'DELETE';
+                break;
+            case 'patchItem':
+                this.output.argsPath = `/${argsNodeName}/${this.id}/items/${this.itemId}`;
+                this.output.argsMethod = 'PATCH';
+                break;
+            case 'getItems':
+                this.output.argsPath = `/${argsNodeName}/${this.id}/items`;
+                this.output.argsMethod = 'GET';
                 break;
         }
 

@@ -15,6 +15,7 @@ export const gatekeeperMiddleware =
 
         if (apiInfo) {
             const allConfigs = selectors.$endpointsConfigRaw(state);
+
             const { nodeName, isLocal } = apiInfo;
             const config = allConfigs[nodeName];
             const { connectionType } = config;

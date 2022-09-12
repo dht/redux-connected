@@ -50,6 +50,8 @@ function* incoming(action: ActionWithPromise) {
             .withOptimistic(optimistic)
             .build();
 
+        console.log('request ->', JSON.stringify(request, null, 4));
+
         yield put(actions.requests.set(request.id, request));
 
         yield put(

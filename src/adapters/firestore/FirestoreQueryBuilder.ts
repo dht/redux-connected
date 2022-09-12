@@ -6,6 +6,7 @@ import {
     where,
     QueryConstraint,
     Firestore,
+    doc,
 } from 'firebase/firestore/lite';
 
 export type QueryConfig = {
@@ -32,17 +33,44 @@ export class FirestoreQueryBuilder {
     }
 
     build(): Query<any> {
-        const { argsNodeName, argsNodeType } = this.apiRequest!;
-        let collectionName;
+        const { argsNodeName, argsApiVerb, argsNodeType, argsParams } =
+            this.apiRequest!;
+        let ref;
 
-        if (argsNodeType === 'SINGLE_NODE') {
-            collectionName = 'singles';
-            this.queryConfig.constrains.push(where('id', '==', argsNodeName));
-        } else {
-            collectionName = argsNodeName;
+        switch (argsNodeType) {
+            case 'SINGLE_NODE':
+                this.queryConfig.constrains.push(
+                    where('id', '==', argsNodeName)
+                );
+                ref = collection(this.db!, 'singles');
+                return query.apply(this, [ref, ...this.queryConfig.constrains]);
+
+            case 'GROUPED_LIST_NODE':
+                console.log('argsNodeName ->', argsNodeName);
+
+                if (argsApiVerb === 'getItems') {
+                    ref = collection(
+                        this.db!,
+                        argsNodeName,
+                        argsParams?.id,
+                        'items'
+                    );
+                } else {
+                    ref = collection(this.db!, argsNodeName);
+                }
+                console.log(
+                    'this.apiRequest ->',
+                    JSON.stringify(this.apiRequest, null, 4)
+                );
+
+                console.log('ref. ->', ref.path.toString());
+
+                return query.apply(this, [ref, ...this.queryConfig.constrains]);
+
+            case 'COLLECTION_NODE':
+            default:
+                ref = collection(this.db!, argsNodeName);
+                return query.apply(this, [ref, ...this.queryConfig.constrains]);
         }
-
-        const ref = collection(this.db!, collectionName);
-        return query.apply(this, [ref, ...this.queryConfig.constrains]);
     }
 }

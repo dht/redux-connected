@@ -110,6 +110,12 @@ export class FirestoreAdapter implements Adapter {
                         request.argsParams?.page || 1,
                         request.argsParams?.limit
                     );
+                case NodeType.GROUPED_LIST_NODE:
+                    return itemsToObject(
+                        data,
+                        request.argsParams?.page || 1,
+                        request.argsParams?.limit
+                    );
                 default:
                     return data;
             }
@@ -130,7 +136,7 @@ export class FirestoreAdapter implements Adapter {
         return new Promise((resolve) => {
             apiMethod(request, response)
                 .then((_res: any) => {
-                    const res = _res as FirestoreResponse;  
+                    const res = _res as FirestoreResponse;
                     response.withIsSuccess(true).withFirestoreResponse(res);
                     const data = this.parseReturnedData(request, res);
                     response.withData(data);
