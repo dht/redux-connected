@@ -28,7 +28,7 @@ function* incoming(action: ActionWithPromise) {
 
         const { nodeName, verb } = apiInfo;
         const config = configs[nodeName];
-        const { connectionType, optimistic } = config;
+        const { connectionType, optimistic, optimisticPosts } = config;
 
         const nodeTypes = yield* select(selectors.$nodeTypesRaw);
 
@@ -48,9 +48,8 @@ function* incoming(action: ActionWithPromise) {
             .withNodeType(nodeType as NodeType)
             .withOriginalAction(action)
             .withOptimistic(optimistic)
+            .withOptimisticPosts(optimisticPosts)
             .build();
-
-        console.log('request ->', JSON.stringify(request, null, 4));
 
         yield put(actions.requests.set(request.id, request));
 
@@ -62,7 +61,7 @@ function* incoming(action: ActionWithPromise) {
             )
         );
 
-        if (optimistic && verb === 'patch') {
+        if (isOptimistic(action, request, optimistic, optimisticPosts)) {
             request.resolve({
                 nextAction: action,
             });
@@ -70,6 +69,27 @@ function* incoming(action: ActionWithPromise) {
     } catch (e) {
         console.log('e ->', e);
     }
+}
+
+function isOptimistic(
+    action: ActionWithPromise,
+    request: ApiRequest,
+    optimistic?: boolean,
+    optimisticPosts?: boolean
+) {
+    const isGroupedListAddActionWithItems =
+        request.argsApiVerb === 'add' &&
+        request.argsNodeType === 'GROUPED_LIST_NODE' &&
+        action.payload?.items?.length > 0;
+
+    const isDelete = request.argsMethod === 'DELETE';
+    const isPatch = request.argsMethod === 'PATCH';
+    const isPost = request.argsMethod === 'POST';
+
+    return (
+        (optimistic && (isDelete || isPatch)) ||
+        (optimisticPosts && isPost && !isGroupedListAddActionWithItems)
+    );
 }
 
 function* root() {

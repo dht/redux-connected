@@ -26,7 +26,8 @@ export class PostApiActionBuilder {
         const { argsNodeType, argsApiVerb, argsNodeName, originalAction } =
             this.apiRequest;
         const { data = {} } = this.apiResponse;
-        const { id, payload } = originalAction || {};
+        const { payload } = originalAction || {};
+        const { id, itemId } = payload || {};
 
         const actionBag = this.actions[argsNodeName];
 
@@ -42,19 +43,34 @@ export class PostApiActionBuilder {
                 action = actionBag['setMany'](data);
                 break;
             case 'COLLECTION_NODE_add':
+            case 'GROUPED_LIST_NODE_add':
                 action = actionBag['set'](data.id, data);
                 break;
             case 'COLLECTION_NODE_delete':
+            case 'GROUPED_LIST_NODE_delete':
                 action = actionBag['delete'](id);
                 break;
             case 'SINGLE_NODE_patch':
                 action = actionBag['patch'](payload);
                 break;
             case 'COLLECTION_NODE_patch':
+            case 'GROUPED_LIST_NODE_patch':
                 action = actionBag['patch'](id, payload);
                 break;
             case 'QUEUE_NODE_push':
                 action = actionBag['push'](payload);
+                break;
+            case 'GROUPED_LIST_NODE_getItems':
+                action = actionBag['pushManyItems'](id, data);
+                break;
+            case 'GROUPED_LIST_NODE_patchItem':
+                action = actionBag['patchItem'](id, itemId, payload);
+                break;
+            case 'GROUPED_LIST_NODE_pushItem':
+                action = actionBag['pushItem'](id, data);
+                break;
+            case 'GROUPED_LIST_NODE_deleteItem':
+                action = actionBag['deleteItem'](id, itemId);
                 break;
             case 'QUEUE_NODE_pop':
             case 'QUEUE_NODE_clear':

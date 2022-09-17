@@ -1,9 +1,10 @@
+import { Adapter, ApiRequest, ApiResponse } from '../../types';
+import { FirebaseApp } from 'firebase/app';
 import { FirestoreQueryBuilder } from './FirestoreQueryBuilder';
+import { guid, guid4 } from 'shared-base';
 import { itemsToObject, ts } from 'shared-base';
-import { ApiRequest, Adapter, ApiResponse } from '../../types';
 import { NodeType } from 'redux-store-generator';
 import { ResponseBuilder } from '../_base/ResponseBuilder';
-import { FirebaseApp } from 'firebase/app';
 import {
     getFirestore,
     collection,
@@ -46,15 +47,19 @@ export class FirestoreAdapter implements Adapter {
         };
     };
 
-    POST = async (request: ApiRequest, response: ResponseBuilder) => {
-        const { argsNodeName, argsParams = {} } = request;
+    POST_main = async (request: ApiRequest, response: ResponseBuilder) => {
+        const { argsNodeName, argsParams: data = {} } = request;
 
-        let snapshotGet, ref;
+        this._logRequest(request);
 
-        const itemToAdd = this.withDates(argsParams, true, true);
+        let snapshotGet, ref, itemToAdd;
 
-        if (argsParams.id) {
-            ref = doc(this.db, argsNodeName, argsParams.id);
+        const { id } = data;
+
+        itemToAdd = this.withDates(data, true, true);
+
+        if (id) {
+            ref = doc(this.db, argsNodeName, id);
             await setDoc(ref, itemToAdd);
             snapshotGet = await getDoc(ref);
         } else {
@@ -64,38 +69,193 @@ export class FirestoreAdapter implements Adapter {
             snapshotGet = await getDoc(ref);
         }
 
-        const data = snapshotGet.data();
-        response.withData(data);
+        const getData = snapshotGet.data();
+        response.withData(getData);
 
         return {
-            data,
+            data: getData,
         };
     };
 
-    PATCH = (request: ApiRequest, _response: ResponseBuilder) => {
-        const { argsPath, argsNodeName, argsParams: data = {} } = request;
-        const id = argsPath.split('/').pop();
+    POST_sub = async (request: ApiRequest, response: ResponseBuilder) => {
+        const { argsNodeName, argsParams: data = {} } = request;
+
+        let snapshotGet, ref, itemToAdd;
+
+        const { id } = data;
+        const { id: itemId = guid4() } = data.items[0];
+
+        itemToAdd = this.withDates(data.items[0], true, true);
+
+        if (itemId) {
+            ref = doc(this.db, argsNodeName, id, 'items', itemId);
+            await setDoc(ref, itemToAdd);
+            snapshotGet = await getDoc(ref);
+        } else {
+            ref = collection(this.db, argsNodeName, id, 'items');
+            const snapshotAdd = await addDoc(ref, itemToAdd);
+            ref = doc(this.db, argsNodeName, id, 'items', snapshotAdd.id);
+            snapshotGet = await getDoc(ref);
+        }
+
+        const getData = snapshotGet.data();
+
+        response.withData(getData);
+
+        return {
+            data: getData,
+        };
+    };
+
+    POST_withItems = async (request: ApiRequest, response: ResponseBuilder) => {
+        const { argsNodeName, argsParams: data = {} } = request;
+
+        let snapshotGet, ref, itemToAdd, listItemToAdd;
+
+        const { id = guid4(), items = [] } = data;
+
+        itemToAdd = this.withDates(data, true, true);
+        delete itemToAdd['items'];
+        ref = doc(this.db, argsNodeName, id);
+        await setDoc(ref, itemToAdd);
+
+        const batch = writeBatch(this.db);
+
+        items.forEach((item: any) => {
+            const { id: itemId = guid4() } = item;
+            listItemToAdd = this.withDates(item, true, true);
+            const ref = doc(this.db, argsNodeName, id, 'items', itemId);
+            batch.set(ref, listItemToAdd);
+        });
+
+        await batch.commit();
+
+        snapshotGet = await getDoc(ref);
+
+        const getData = snapshotGet.data();
+        response.withData(getData);
+
+        return {
+            data: getData,
+        };
+    };
+
+    POST = async (request: ApiRequest, response: ResponseBuilder) => {
+        const { argsApiVerb, argsParams: data = {} } = request;
+
+        if (argsApiVerb === 'pushItem') {
+            return this.POST_sub(request, response);
+        } else if (data.items) {
+            return this.POST_withItems(request, response);
+        } else {
+            return this.POST_main(request, response);
+        }
+    };
+
+    PATCH = async (request: ApiRequest, response: ResponseBuilder) => {
+        const { argsNodeName, argsApiVerb, argsParams } = request;
+
+        const data = { ...argsParams };
+
+        const { id, itemId } = data;
+
+        let snapshotGet;
+
+        if (!id) {
+            return Promise.resolve(false);
+        }
+
         const nodeName =
             request.argsNodeType === NodeType.SINGLE_NODE
                 ? 'singles'
                 : argsNodeName;
 
-        const ref = doc(this.db, nodeName, id || '');
-        return setDoc(ref, this.withDates(data, false, true), { merge: true });
+        let ref;
+
+        if (argsApiVerb === 'patchItem') {
+            data['id'] = data['itemId'];
+            delete data['itemId'];
+            ref = doc(this.db, argsNodeName, id, 'items', itemId);
+        } else {
+            ref = doc(this.db, nodeName, id);
+        }
+
+        await setDoc(ref, this.withDates(data, false, true), { merge: true });
+
+        snapshotGet = await getDoc(ref);
+
+        const getData = snapshotGet.data();
+        response.withData(getData);
+
+        return {
+            data: getData,
+        };
     };
 
     PUT = (request: ApiRequest, _response: ResponseBuilder) => {
-        const { argsPath, argsParams: data } = request;
+        const { argsParams: data } = request;
         return Promise.resolve();
     };
 
-    DELETE = async (request: ApiRequest, _response: ResponseBuilder) => {
-        const { argsPath, argsNodeName } = request;
-        const id = argsPath.split('/').pop();
+    DELETE_withItems = async (
+        request: ApiRequest,
+        _response: ResponseBuilder
+    ) => {
+        const { argsNodeName, argsParams: data = {} } = request;
+        const { id = '' } = data;
 
-        const ref = doc(this.db, argsNodeName, id || '');
+        let ref;
+
+        if (!id) {
+            return Promise.resolve(false);
+        }
+        ref = collection(this.db, argsNodeName, id, 'items');
+
+        const snapshot = await getDocs(ref);
+        const items = snapshot.docs.map((doc) => doc.data());
+
+        const itemIds = items.map((i) => i.id);
+
+        const batch = writeBatch(this.db);
+        ref = doc(this.db, argsNodeName, id);
+        batch.delete(ref);
+
+        itemIds.forEach((itemId) => {
+            ref = doc(this.db, argsNodeName, id, 'items', itemId);
+            batch.delete(ref);
+        });
+
+        await batch.commit();
+
+        return {};
+    };
+
+    DELETE = async (request: ApiRequest, _response: ResponseBuilder) => {
+        const { argsApiVerb, argsNodeType } = request;
+
+        const { argsNodeName, argsParams } = request;
+        const { id = '', itemId = '' } = argsParams || {};
+
+        if (!id) {
+            return Promise.resolve(false);
+        }
+
+        let ref = doc(this.db, argsNodeName, id);
+
+        if (argsNodeType === 'GROUPED_LIST_NODE') {
+            if (argsApiVerb === 'deleteItem') {
+                ref = doc(this.db, argsNodeName, id, 'items', itemId);
+            } else {
+                return this.DELETE_withItems(request, _response);
+            }
+        }
+
         await deleteDoc(ref);
     };
+
+    _logRequest(request: ApiRequest) {
+        console.log(JSON.stringify(request, null, 4));
+    }
 
     parseReturnedData(request: ApiRequest, res: FirestoreResponse) {
         const { data } = res;
@@ -111,6 +271,10 @@ export class FirestoreAdapter implements Adapter {
                         request.argsParams?.limit
                     );
                 case NodeType.GROUPED_LIST_NODE:
+                    if (request.argsApiVerb === 'getItems') {
+                        return data;
+                    }
+
                     return itemsToObject(
                         data,
                         request.argsParams?.page || 1,

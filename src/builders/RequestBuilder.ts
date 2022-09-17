@@ -14,6 +14,7 @@ export class RequestBuilder {
         requestStatus: RequestStatus.CREATED,
         items: [],
         optimistic: false,
+        optimisticPosts: false,
     };
     private id: string = '';
     private itemId: string = '';
@@ -55,6 +56,11 @@ export class RequestBuilder {
         return this;
     }
 
+    withOptimisticPosts(optimisticPosts?: boolean) {
+        this.output.optimisticPosts = optimisticPosts;
+        return this;
+    }
+
     withOriginalAction(value: ActionWithPromise) {
         this.output.originalAction = value;
         this.output.resolve = value.resolve;
@@ -80,8 +86,6 @@ export class RequestBuilder {
             this.output.argsNodeType === NodeType.GROUPED_LIST_NODE;
 
         const { argsNodeName, argsApiVerb } = this.output;
-
-        console.log('argsApiVerb ->', argsApiVerb, this.output.originalAction);
 
         switch (argsApiVerb) {
             case 'get':

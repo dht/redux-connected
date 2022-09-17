@@ -79,6 +79,7 @@ export interface EndpointConfig {
     pagination?: boolean;
     nodeType?: NodeType;
     optimistic?: boolean;
+    optimisticPosts?: boolean;
 }
 
 export interface EndpointState {
@@ -157,6 +158,7 @@ export type ApiRequest = {
     resolve?: any;
     reject?: any;
     optimistic?: boolean;
+    optimisticPosts?: boolean;
 };
 
 export type ApiRequests = Record<string, ApiRequest>;

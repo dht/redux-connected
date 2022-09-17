@@ -46,8 +46,6 @@ export class FirestoreQueryBuilder {
                 return query.apply(this, [ref, ...this.queryConfig.constrains]);
 
             case 'GROUPED_LIST_NODE':
-                console.log('argsNodeName ->', argsNodeName);
-
                 if (argsApiVerb === 'getItems') {
                     ref = collection(
                         this.db!,
@@ -58,12 +56,6 @@ export class FirestoreQueryBuilder {
                 } else {
                     ref = collection(this.db!, argsNodeName);
                 }
-                console.log(
-                    'this.apiRequest ->',
-                    JSON.stringify(this.apiRequest, null, 4)
-                );
-
-                console.log('ref. ->', ref.path.toString());
 
                 return query.apply(this, [ref, ...this.queryConfig.constrains]);
 
