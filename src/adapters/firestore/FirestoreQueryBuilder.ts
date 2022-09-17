@@ -1,13 +1,5 @@
 import { ApiRequest } from '../../types';
-import {
-    query,
-    collection,
-    Query,
-    where,
-    QueryConstraint,
-    Firestore,
-    doc,
-} from 'firebase/firestore/lite';
+import { firebase, Firestore, Query, QueryConstraint } from 'firestore-local';
 
 export type QueryConfig = {
     constrains: QueryConstraint[];
@@ -40,29 +32,38 @@ export class FirestoreQueryBuilder {
         switch (argsNodeType) {
             case 'SINGLE_NODE':
                 this.queryConfig.constrains.push(
-                    where('id', '==', argsNodeName)
+                    firebase.where('id', '==', argsNodeName)
                 );
-                ref = collection(this.db!, 'singles');
-                return query.apply(this, [ref, ...this.queryConfig.constrains]);
+                ref = firebase.collection(this.db!, 'singles');
+                return firebase.query.apply(this, [
+                    ref,
+                    ...this.queryConfig.constrains,
+                ]);
 
             case 'GROUPED_LIST_NODE':
                 if (argsApiVerb === 'getItems') {
-                    ref = collection(
+                    ref = firebase.collection(
                         this.db!,
                         argsNodeName,
                         argsParams?.id,
                         'items'
                     );
                 } else {
-                    ref = collection(this.db!, argsNodeName);
+                    ref = firebase.collection(this.db!, argsNodeName);
                 }
 
-                return query.apply(this, [ref, ...this.queryConfig.constrains]);
+                return firebase.query.apply(this, [
+                    ref,
+                    ...this.queryConfig.constrains,
+                ]);
 
             case 'COLLECTION_NODE':
             default:
-                ref = collection(this.db!, argsNodeName);
-                return query.apply(this, [ref, ...this.queryConfig.constrains]);
+                ref = firebase.collection(this.db!, argsNodeName);
+                return firebase.query.apply(this, [
+                    ref,
+                    ...this.queryConfig.constrains,
+                ]);
         }
     }
 }

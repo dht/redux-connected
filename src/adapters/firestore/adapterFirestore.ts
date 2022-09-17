@@ -1,30 +1,16 @@
 import { Adapter, ApiRequest, ApiResponse } from '../../types';
-import { FirebaseApp } from 'firebase/app';
 import { FirestoreQueryBuilder } from './FirestoreQueryBuilder';
 import { guid, guid4 } from 'shared-base';
 import { itemsToObject, ts } from 'shared-base';
 import { NodeType } from 'redux-store-generator';
 import { ResponseBuilder } from '../_base/ResponseBuilder';
-import {
-    getFirestore,
-    collection,
-    getDocs,
-    setDoc,
-    getDoc,
-    deleteDoc,
-    doc,
-    addDoc,
-    writeBatch,
-    Firestore,
-    query,
-    where,
-} from 'firebase/firestore/lite';
+import { firebase, FirebaseApp, Firestore } from 'firestore-local';
 
 export class FirestoreAdapter implements Adapter {
     private db: Firestore;
 
     constructor(app: FirebaseApp) {
-        this.db = getFirestore(app);
+        this.db = firebase.getFirestore(app);
     }
 
     GET = async (
@@ -36,7 +22,7 @@ export class FirestoreAdapter implements Adapter {
             .withDb(this.db)
             .build();
 
-        const snapshot = await getDocs(firebaseQuery);
+        const snapshot = await firebase.getDocs<Json>(firebaseQuery);
 
         const data = snapshot.docs.map((doc) => doc.data());
 
@@ -59,14 +45,14 @@ export class FirestoreAdapter implements Adapter {
         itemToAdd = this.withDates(data, true, true);
 
         if (id) {
-            ref = doc(this.db, argsNodeName, id);
-            await setDoc(ref, itemToAdd);
-            snapshotGet = await getDoc(ref);
+            ref = firebase.doc(this.db, argsNodeName, id);
+            await firebase.setDoc(ref, itemToAdd);
+            snapshotGet = await firebase.getDoc(ref);
         } else {
-            ref = collection(this.db, argsNodeName);
-            const snapshotAdd = await addDoc(ref, itemToAdd);
-            ref = doc(this.db, argsNodeName, snapshotAdd.id);
-            snapshotGet = await getDoc(ref);
+            ref = firebase.collection(this.db, argsNodeName);
+            const snapshotAdd = await firebase.addDoc(ref, itemToAdd);
+            ref = firebase.doc(this.db, argsNodeName, snapshotAdd.id);
+            snapshotGet = await firebase.getDoc(ref);
         }
 
         const getData = snapshotGet.data();
@@ -88,14 +74,20 @@ export class FirestoreAdapter implements Adapter {
         itemToAdd = this.withDates(data.items[0], true, true);
 
         if (itemId) {
-            ref = doc(this.db, argsNodeName, id, 'items', itemId);
-            await setDoc(ref, itemToAdd);
-            snapshotGet = await getDoc(ref);
+            ref = firebase.doc(this.db, argsNodeName, id, 'items', itemId);
+            await firebase.setDoc(ref, itemToAdd);
+            snapshotGet = await firebase.getDoc(ref);
         } else {
-            ref = collection(this.db, argsNodeName, id, 'items');
-            const snapshotAdd = await addDoc(ref, itemToAdd);
-            ref = doc(this.db, argsNodeName, id, 'items', snapshotAdd.id);
-            snapshotGet = await getDoc(ref);
+            ref = firebase.collection(this.db, argsNodeName, id, 'items');
+            const snapshotAdd = await firebase.addDoc(ref, itemToAdd);
+            ref = firebase.doc(
+                this.db,
+                argsNodeName,
+                id,
+                'items',
+                snapshotAdd.id
+            );
+            snapshotGet = await firebase.getDoc(ref);
         }
 
         const getData = snapshotGet.data();
@@ -116,21 +108,27 @@ export class FirestoreAdapter implements Adapter {
 
         itemToAdd = this.withDates(data, true, true);
         delete itemToAdd['items'];
-        ref = doc(this.db, argsNodeName, id);
-        await setDoc(ref, itemToAdd);
+        ref = firebase.doc(this.db, argsNodeName, id);
+        await firebase.setDoc(ref, itemToAdd);
 
-        const batch = writeBatch(this.db);
+        const batch = firebase.writeBatch(this.db);
 
         items.forEach((item: any) => {
             const { id: itemId = guid4() } = item;
             listItemToAdd = this.withDates(item, true, true);
-            const ref = doc(this.db, argsNodeName, id, 'items', itemId);
+            const ref = firebase.doc(
+                this.db,
+                argsNodeName,
+                id,
+                'items',
+                itemId
+            );
             batch.set(ref, listItemToAdd);
         });
 
         await batch.commit();
 
-        snapshotGet = await getDoc(ref);
+        snapshotGet = await firebase.getDoc(ref);
 
         const getData = snapshotGet.data();
         response.withData(getData);
@@ -175,14 +173,16 @@ export class FirestoreAdapter implements Adapter {
         if (argsApiVerb === 'patchItem') {
             data['id'] = data['itemId'];
             delete data['itemId'];
-            ref = doc(this.db, argsNodeName, id, 'items', itemId);
+            ref = firebase.doc(this.db, argsNodeName, id, 'items', itemId);
         } else {
-            ref = doc(this.db, nodeName, id);
+            ref = firebase.doc(this.db, nodeName, id);
         }
 
-        await setDoc(ref, this.withDates(data, false, true), { merge: true });
+        await firebase.setDoc(ref, this.withDates(data, false, true), {
+            merge: true,
+        });
 
-        snapshotGet = await getDoc(ref);
+        snapshotGet = await firebase.getDoc(ref);
 
         const getData = snapshotGet.data();
         response.withData(getData);
@@ -209,19 +209,19 @@ export class FirestoreAdapter implements Adapter {
         if (!id) {
             return Promise.resolve(false);
         }
-        ref = collection(this.db, argsNodeName, id, 'items');
+        ref = firebase.collection(this.db, argsNodeName, id, 'items');
 
-        const snapshot = await getDocs(ref);
+        const snapshot = await firebase.getDocs(ref);
         const items = snapshot.docs.map((doc) => doc.data());
 
         const itemIds = items.map((i) => i.id);
 
-        const batch = writeBatch(this.db);
-        ref = doc(this.db, argsNodeName, id);
+        const batch = firebase.writeBatch(this.db);
+        ref = firebase.doc(this.db, argsNodeName, id);
         batch.delete(ref);
 
         itemIds.forEach((itemId) => {
-            ref = doc(this.db, argsNodeName, id, 'items', itemId);
+            ref = firebase.doc(this.db, argsNodeName, id, 'items', itemId);
             batch.delete(ref);
         });
 
@@ -240,17 +240,17 @@ export class FirestoreAdapter implements Adapter {
             return Promise.resolve(false);
         }
 
-        let ref = doc(this.db, argsNodeName, id);
+        let ref = firebase.doc(this.db, argsNodeName, id);
 
         if (argsNodeType === 'GROUPED_LIST_NODE') {
             if (argsApiVerb === 'deleteItem') {
-                ref = doc(this.db, argsNodeName, id, 'items', itemId);
+                ref = firebase.doc(this.db, argsNodeName, id, 'items', itemId);
             } else {
                 return this.DELETE_withItems(request, _response);
             }
         }
 
-        await deleteDoc(ref);
+        await firebase.deleteDoc(ref);
     };
 
     _logRequest(request: ApiRequest) {
