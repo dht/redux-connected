@@ -1,5 +1,11 @@
 import { ApiRequest } from '../../types';
-import { firebase, Firestore, Query, QueryConstraint } from 'firestore-local';
+import {
+    firebase,
+    Firestore,
+    Query,
+    QueryConstraint,
+} from './firebase.methods';
+// import { firebase, Firestore, Query, QueryConstraint } from 'firestore-local';
 
 export type QueryConfig = {
     constrains: QueryConstraint[];

@@ -4,7 +4,8 @@ import { guid, guid4 } from 'shared-base';
 import { itemsToObject, ts } from 'shared-base';
 import { NodeType } from 'redux-store-generator';
 import { ResponseBuilder } from '../_base/ResponseBuilder';
-import { firebase, FirebaseApp, Firestore } from 'firestore-local';
+import { firebase, FirebaseApp, Firestore } from './firebase.methods';
+// import { firebase, FirebaseApp, Firestore } from 'firestore-local';
 
 export class FirestoreAdapter implements Adapter {
     private db: Firestore;
