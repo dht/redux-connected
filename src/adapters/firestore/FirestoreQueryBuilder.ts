@@ -54,7 +54,6 @@ export class FirestoreQueryBuilder {
                         resourceId,
                         'items'
                     );
-                    console.log('ref.path.toString() ->', ref.path.toString());
                 } else {
                     ref = firebase.collection(this.db!, argsNodeName);
                 }
