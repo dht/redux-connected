@@ -37,8 +37,6 @@ export class FirestoreAdapter implements Adapter {
     POST_main = async (request: ApiRequest, response: ResponseBuilder) => {
         const { argsNodeName, argsParams: data = {} } = request;
 
-        this._logRequest(request);
-
         let snapshotGet, ref, itemToAdd;
 
         itemToAdd = this.withDates(data, true, true);
