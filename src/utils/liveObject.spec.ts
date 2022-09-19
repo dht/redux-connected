@@ -2,7 +2,7 @@ import faker from '@faker-js/faker';
 import { createLiveObject } from './liveObject';
 import { jest } from '@jest/globals';
 
-describe.only('liveObject', () => {
+describe('liveObject', () => {
     let person: Person, liveObject: Person, callback: any;
 
     beforeEach(() => {

@@ -61,6 +61,8 @@ export const initialState: ConnectedStore = {
             sequence: 1,
             originalAction: { type: '' },
             argsMethod: 'GET',
+            resourceId: '',
+            resourceItemId: '',
             argsConnectionType: ConnectionType.REST,
             argsApiVerb: 'get',
             argsNodeName: 'notifications',

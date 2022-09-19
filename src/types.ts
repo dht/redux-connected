@@ -136,6 +136,8 @@ export type ApiRequest = {
     shortId: string;
     createdTS: number;
     sequence: number;
+    resourceId: string;
+    resourceItemId: string;
     originalAction?: Action;
     argsMethod: HttpMethod;
     argsConnectionType?: ConnectionType;

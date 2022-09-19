@@ -16,8 +16,6 @@ export class RequestBuilder {
         optimistic: false,
         optimisticPosts: false,
     };
-    private id: string = '';
-    private itemId: string = '';
 
     constructor() {
         this.output = {
@@ -65,12 +63,8 @@ export class RequestBuilder {
         this.output.originalAction = value;
         this.output.resolve = value.resolve;
         this.output.reject = value.reject;
-        this.id = value.payload?.id || '';
-        this.itemId = value.payload?.itemId || '';
-
-        if (value.payload) {
-            // delete value.payload['id'];
-        }
+        this.output.resourceId = value.id;
+        this.output.resourceItemId = value.itemId;
 
         this.output.argsParams = value.payload;
         return this;
@@ -85,7 +79,8 @@ export class RequestBuilder {
             this.output.argsNodeType === NodeType.COLLECTION_NODE ||
             this.output.argsNodeType === NodeType.GROUPED_LIST_NODE;
 
-        const { argsNodeName, argsApiVerb } = this.output;
+        const { argsNodeName, resourceId, resourceItemId, argsApiVerb } =
+            this.output;
 
         switch (argsApiVerb) {
             case 'get':
@@ -96,7 +91,7 @@ export class RequestBuilder {
                 this.output.argsPath = `/${argsNodeName}`;
 
                 if (isCollection) {
-                    this.output.argsPath += `/${this.id}`;
+                    this.output.argsPath += `/${resourceId}`;
                 }
 
                 this.output.argsMethod = 'PATCH';
@@ -112,24 +107,24 @@ export class RequestBuilder {
             case 'delete':
                 this.output.argsPath = `/${argsNodeName}`;
                 if (isCollection) {
-                    this.output.argsPath += `/${this.id}`;
+                    this.output.argsPath += `/${resourceId}`;
                 }
                 this.output.argsMethod = 'DELETE';
                 break;
             case 'pushItem':
-                this.output.argsPath = `/${argsNodeName}/${this.id}`;
+                this.output.argsPath = `/${argsNodeName}/${resourceId}`;
                 this.output.argsMethod = 'POST';
                 break;
             case 'deleteItem':
-                this.output.argsPath = `/${argsNodeName}/${this.id}/items/${this.itemId}`;
+                this.output.argsPath = `/${argsNodeName}/${resourceId}/items/${resourceItemId}`;
                 this.output.argsMethod = 'DELETE';
                 break;
             case 'patchItem':
-                this.output.argsPath = `/${argsNodeName}/${this.id}/items/${this.itemId}`;
+                this.output.argsPath = `/${argsNodeName}/${resourceId}/items/${resourceItemId}`;
                 this.output.argsMethod = 'PATCH';
                 break;
             case 'getItems':
-                this.output.argsPath = `/${argsNodeName}/${this.id}/items`;
+                this.output.argsPath = `/${argsNodeName}/${resourceId}/items`;
                 this.output.argsMethod = 'GET';
                 break;
         }

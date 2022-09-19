@@ -26,8 +26,7 @@ export class PostApiActionBuilder {
         const { argsNodeType, argsApiVerb, argsNodeName, originalAction } =
             this.apiRequest;
         const { data = {} } = this.apiResponse;
-        const { payload } = originalAction || {};
-        const { id, itemId } = payload || {};
+        const { id, itemId, payload } = originalAction || {};
 
         const actionBag = this.actions[argsNodeName];
 

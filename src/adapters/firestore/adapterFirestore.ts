@@ -41,9 +41,9 @@ export class FirestoreAdapter implements Adapter {
 
         let snapshotGet, ref, itemToAdd;
 
-        const { id } = data;
-
         itemToAdd = this.withDates(data, true, true);
+
+        const { id } = data;
 
         if (id) {
             ref = firebase.doc(this.db, argsNodeName, id);
@@ -65,11 +65,10 @@ export class FirestoreAdapter implements Adapter {
     };
 
     POST_sub = async (request: ApiRequest, response: ResponseBuilder) => {
-        const { argsNodeName, argsParams: data = {} } = request;
+        const { argsNodeName, argsParams: data = {}, resourceId: id } = request;
 
         let snapshotGet, ref, itemToAdd;
 
-        const { id } = data;
         const { id: itemId = guid4() } = data.items[0];
 
         itemToAdd = this.withDates(data.items[0], true, true);
@@ -101,11 +100,13 @@ export class FirestoreAdapter implements Adapter {
     };
 
     POST_withItems = async (request: ApiRequest, response: ResponseBuilder) => {
-        const { argsNodeName, argsParams: data = {} } = request;
+        const { argsNodeName, argsParams: data = {}, resourceId } = request;
 
         let snapshotGet, ref, itemToAdd, listItemToAdd;
 
-        const { id = guid4(), items = [] } = data;
+        const id = resourceId || data.id || guid4();
+
+        const { items = [] } = data;
 
         itemToAdd = this.withDates(data, true, true);
         delete itemToAdd['items'];
@@ -152,11 +153,15 @@ export class FirestoreAdapter implements Adapter {
     };
 
     PATCH = async (request: ApiRequest, response: ResponseBuilder) => {
-        const { argsNodeName, argsApiVerb, argsParams } = request;
+        const {
+            argsNodeName,
+            argsApiVerb,
+            argsParams,
+            resourceId: id,
+            resourceItemId: itemId,
+        } = request;
 
         const data = { ...argsParams };
-
-        const { id, itemId } = data;
 
         let snapshotGet;
 
@@ -172,8 +177,6 @@ export class FirestoreAdapter implements Adapter {
         let ref;
 
         if (argsApiVerb === 'patchItem') {
-            data['id'] = data['itemId'];
-            delete data['itemId'];
             ref = firebase.doc(this.db, argsNodeName, id, 'items', itemId);
         } else {
             ref = firebase.doc(this.db, nodeName, id);
@@ -186,6 +189,7 @@ export class FirestoreAdapter implements Adapter {
         snapshotGet = await firebase.getDoc(ref);
 
         const getData = snapshotGet.data();
+
         response.withData(getData);
 
         return {
@@ -202,8 +206,7 @@ export class FirestoreAdapter implements Adapter {
         request: ApiRequest,
         _response: ResponseBuilder
     ) => {
-        const { argsNodeName, argsParams: data = {} } = request;
-        const { id = '' } = data;
+        const { argsNodeName, argsParams: data = {}, resourceId: id } = request;
 
         let ref;
 
@@ -232,10 +235,13 @@ export class FirestoreAdapter implements Adapter {
     };
 
     DELETE = async (request: ApiRequest, _response: ResponseBuilder) => {
-        const { argsApiVerb, argsNodeType } = request;
-
-        const { argsNodeName, argsParams } = request;
-        const { id = '', itemId = '' } = argsParams || {};
+        const {
+            argsApiVerb,
+            argsNodeType,
+            argsNodeName,
+            resourceId: id,
+            resourceItemId: itemId,
+        } = request;
 
         if (!id) {
             return Promise.resolve(false);

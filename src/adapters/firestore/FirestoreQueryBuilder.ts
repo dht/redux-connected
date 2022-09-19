@@ -31,8 +31,8 @@ export class FirestoreQueryBuilder {
     }
 
     build(): Query<any> {
-        const { argsNodeName, argsApiVerb, argsNodeType, argsParams } =
-            this.apiRequest!;
+        const { argsNodeName, argsApiVerb, argsNodeType, resourceId } = this.apiRequest!; // prettier-ignore
+
         let ref;
 
         switch (argsNodeType) {
@@ -51,9 +51,10 @@ export class FirestoreQueryBuilder {
                     ref = firebase.collection(
                         this.db!,
                         argsNodeName,
-                        argsParams?.id,
+                        resourceId,
                         'items'
                     );
+                    console.log('ref.path.toString() ->', ref.path.toString());
                 } else {
                     ref = firebase.collection(this.db!, argsNodeName);
                 }
