@@ -126,7 +126,7 @@ function* onError(request: ApiRequest, response: ApiResponse) {
 
     const nextAction = actions.apiError(request, response);
 
-    request.resolve({ nextAction, response });
+    request.resolve({ isError: true, nextAction, response });
 }
 
 function* shouldRetry(request: ApiRequest) {

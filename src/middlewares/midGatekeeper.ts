@@ -42,7 +42,7 @@ export const gatekeeperMiddleware =
                 console.log('no action resolve');
                 return;
             }
-            action.resolve({ nextAction });
+            action.resolve({ didSkip: true, nextAction });
             return;
         }
 

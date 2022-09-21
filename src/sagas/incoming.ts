@@ -9,6 +9,7 @@ import {
     ApiRequest,
     ConnectionType,
     LifecycleStatus,
+    SagaEvents,
 } from '../types';
 
 function* incoming(action: ActionWithPromise) {
@@ -62,8 +63,11 @@ function* incoming(action: ActionWithPromise) {
         );
 
         if (isOptimistic(action, request, optimistic, optimisticPosts)) {
-            request.resolve({
-                nextAction: action,
+            yield put({
+                type: SagaEvents.POST_ACTION,
+                request,
+                response: request.argsParams,
+                isOptimistic: true,
             });
         }
     } catch (e) {

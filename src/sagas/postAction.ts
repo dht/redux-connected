@@ -11,12 +11,15 @@ import {
 } from '../types';
 
 function* postAction(action: RequestResponseAction) {
-    const { request, response } = action;
+    const { request, response, isOptimistic } = action;
     const { argsNodeName } = request;
+
     request.requestStatus = RequestStatus.SUCCESS;
+
     yield put(actions.connectionChange(argsNodeName, ConnectionStatus.IDLE));
 
     const postAction = new PostApiActionBuilder()
+        .withOptimistic(isOptimistic)
         .withRequest(request)
         .withResponse(response)
         .build();
@@ -24,12 +27,16 @@ function* postAction(action: RequestResponseAction) {
     yield put(
         actions.addRequestJourneyPoint(
             request,
-            LifecycleStatus.POST_ACTION,
+            isOptimistic
+                ? LifecycleStatus.POST_ACTION_OPTIMISTIC
+                : LifecycleStatus.POST_ACTION,
             postAction
         )
     );
 
-    request.resolve({ nextAction: postAction, response });
+    request.resolve({
+        nextAction: postAction,
+    });
 }
 
 function* root() {

@@ -50,7 +50,19 @@ export class FirestoreAdapter implements Adapter {
         } else {
             ref = firebase.collection(this.db, argsNodeName);
             const snapshotAdd = await firebase.addDoc(ref, itemToAdd);
+
             ref = firebase.doc(this.db, argsNodeName, snapshotAdd.id);
+
+            await firebase.setDoc(
+                ref,
+                {
+                    id: snapshotAdd.id,
+                },
+                {
+                    merge: true,
+                }
+            );
+
             snapshotGet = await firebase.getDoc(ref);
         }
 

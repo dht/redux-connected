@@ -6,6 +6,7 @@ export class PostApiActionBuilder {
     private apiRequest = {} as ApiRequest;
     private apiResponse = {} as ApiResponse;
     private actions = {} as any;
+    private isOptimistic? = false;
 
     constructor() {
         this.actions = generateActionsForStore(globals.structure);
@@ -21,12 +22,21 @@ export class PostApiActionBuilder {
         return this;
     }
 
+    withOptimistic(isOptimistic?: boolean) {
+        this.isOptimistic = isOptimistic;
+        return this;
+    }
+
     build(): Action {
         let action = {} as Action;
         const { argsNodeType, argsApiVerb, argsNodeName, originalAction } =
             this.apiRequest;
         const { data = {} } = this.apiResponse;
-        const { id, itemId, payload } = originalAction || {};
+        let { id, itemId, payload = {} } = originalAction || {};
+
+        let change: Json;
+
+        id = id || payload?.id;
 
         const actionBag = this.actions[argsNodeName];
 
@@ -41,32 +51,38 @@ export class PostApiActionBuilder {
             case 'GROUPED_LIST_NODE_get':
                 action = actionBag['setMany'](data);
                 break;
+            case 'GROUPED_LIST_NODE_getItems':
+                action = actionBag['pushManyItems'](id, data);
+                break;
             case 'COLLECTION_NODE_add':
             case 'GROUPED_LIST_NODE_add':
-                action = actionBag['set'](data.id, data);
+                change = this.isOptimistic ? payload : data;
+                action = actionBag['set'](id, change);
                 break;
             case 'COLLECTION_NODE_delete':
             case 'GROUPED_LIST_NODE_delete':
                 action = actionBag['delete'](id);
                 break;
             case 'SINGLE_NODE_patch':
-                action = actionBag['patch'](payload);
+                change = this.isOptimistic ? payload : data;
+                action = actionBag['patch'](change);
                 break;
             case 'COLLECTION_NODE_patch':
             case 'GROUPED_LIST_NODE_patch':
-                action = actionBag['patch'](id, payload);
+                change = this.isOptimistic ? payload : data;
+                action = actionBag['patch'](id, change);
                 break;
             case 'QUEUE_NODE_push':
-                action = actionBag['push'](payload);
-                break;
-            case 'GROUPED_LIST_NODE_getItems':
-                action = actionBag['pushManyItems'](id, data);
+                change = this.isOptimistic ? payload : data;
+                action = actionBag['push'](change);
                 break;
             case 'GROUPED_LIST_NODE_patchItem':
-                action = actionBag['patchItem'](id, itemId, payload);
+                change = this.isOptimistic ? payload : data;
+                action = actionBag['patchItem'](id, itemId, change);
                 break;
             case 'GROUPED_LIST_NODE_pushItem':
-                action = actionBag['pushItem'](id, data);
+                change = this.isOptimistic ? payload : data;
+                action = actionBag['pushItem'](id, change);
                 break;
             case 'GROUPED_LIST_NODE_deleteItem':
                 action = actionBag['deleteItem'](id, itemId);

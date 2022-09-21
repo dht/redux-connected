@@ -123,6 +123,7 @@ export enum RequestStatus {
 
 export enum LifecycleStatus {
     RECEIVED = 1,
+    POST_ACTION_OPTIMISTIC = 1.5,
     IN_QUEUE = 2,
     GENERAL_ERROR = 3,
     PENDING_API_RESPONSE = 4,
@@ -202,7 +203,10 @@ export type ActionWithPromise = Action & {
 
 export type ConnectionActionResponse = {
     nextAction: Action;
+    request?: ApiRequest;
     response: ApiResponse;
+    didSkip?: boolean;
+    isError?: boolean;
 };
 
 export type ApiServerConfiguration = {
@@ -253,6 +257,7 @@ export type GetParams = Partial<{
 export type RequestResponseAction = Action & {
     request: ApiRequest;
     response: ApiResponse;
+    isOptimistic?: boolean;
 };
 
 export enum SagaEvents {
