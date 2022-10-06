@@ -81,7 +81,7 @@ export class PostApiActionBuilder {
                 action = actionBag['patchItem'](id, itemId, change);
                 break;
             case 'GROUPED_LIST_NODE_pushItem':
-                change = this.isOptimistic ? payload : data;
+                change = this.isOptimistic ? payload.items[0] : data;
                 action = actionBag['pushItem'](id, change);
                 break;
             case 'GROUPED_LIST_NODE_deleteItem':
