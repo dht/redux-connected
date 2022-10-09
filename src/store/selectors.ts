@@ -6,7 +6,7 @@ import {
     RequestStatus,
 } from '../types';
 
-export const $i = (i: ConnectedStore) => i;
+export const $i = (i: { connected: ConnectedStore }) => i.connected;
 
 export const $actionTypesRaw = createSelector($i, (state: ConnectedStore) => state.actionTypes); // prettier-ignore
 export const $apiGlobalSettingsRaw = createSelector($i, (state: ConnectedStore) => state.apiGlobalSettings); // prettier-ignore

@@ -31,13 +31,13 @@ const initConnectedStore = <T extends StoreStructure>(
 
     logger('redux-connected: initConnectedStore');
 
+    const state = flatten<T>(store.getState());
+
     globals.mainStore = store;
     globals.adapters = config.adapters;
-    globals.structure = store.getState();
-    globals.connectedStore = generateConnectedStore<T>(
-        store.getState(),
-        config
-    );
+    globals.structure = state;
+
+    globals.connectedStore = generateConnectedStore<T>(state, config);
 
     logger('redux-connected: store is ready', globals.connectedStore);
 };
@@ -51,4 +51,17 @@ const defaultLogger = (message: string, data?: Json) => {
         return;
     }
     console.log(message, data);
+};
+
+const flatten = <T>(storeState: any): T => {
+    const output: any = {};
+
+    Object.keys(storeState).forEach((appId) => {
+        const value = storeState[appId];
+        Object.keys(value).forEach((nodeName) => {
+            output[nodeName] = value[nodeName];
+        });
+    });
+
+    return output as T;
 };

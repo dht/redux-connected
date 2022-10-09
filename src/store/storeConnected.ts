@@ -20,10 +20,12 @@ export const generateConnectedStore = <T extends StoreStructure>(
     const connectedStoreBuilder = new StoreBuilder('connected');
     const initialState = { ...connectedStoreDefinition.initialState };
 
-    connectedStoreBuilder.withInitialState(initialState).withReducers({
-        ...connectedStoreDefinition.reducers,
-        _lastAction: lastAction,
-    });
+    connectedStoreBuilder
+        .withInitialState('connected', initialState)
+        .withReducers('connected', {
+            ...connectedStoreDefinition.reducers,
+            _lastAction: lastAction,
+        });
 
     connectedStoreBuilder
         .withMiddlewares([gatekeeperMiddleware])
@@ -61,10 +63,12 @@ export const generateConnectedStoreEmpty = <T extends StoreStructure>(
     const connectedStoreBuilder = new StoreBuilder('connected');
     const initialState = { ...connectedStoreDefinition.initialState };
 
-    connectedStoreBuilder.withInitialState(initialState).withReducers({
-        ...connectedStoreDefinition.reducers,
-        _lastAction: lastAction,
-    });
+    connectedStoreBuilder
+        .withInitialState('connected', initialState)
+        .withReducers('connected', {
+            ...connectedStoreDefinition.reducers,
+            _lastAction: lastAction,
+        });
 
     return connectedStoreBuilder.build();
 };

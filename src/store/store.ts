@@ -18,10 +18,10 @@ export const generateConnectedStore = <T extends StoreStructure>(
     const schema = generateInitialState(state, config);
 
     connectedStoreBuilder
-        .withReducers({
+        .withReducers('connected', {
             ...generateReducersForStore<ConnectedStore>(schema),
         })
-        .withReducers({
+        .withReducers('connected', {
             _lastAction,
         })
         .withMiddlewares([gatekeeperMiddleware])
@@ -35,7 +35,7 @@ export const generateConnectedStore = <T extends StoreStructure>(
 
     const initialState = cleanInitialState(schema);
 
-    connectedStoreBuilder.withInitialState(initialState);
+    connectedStoreBuilder.withInitialState('connected', initialState);
 
     if (config.enableReduxDevtools) {
         connectedStoreBuilder.withMiddlewares(devtoolsMiddleware);
@@ -60,11 +60,11 @@ export const generateConnectedStoreEmpty = <T extends StoreStructure>(
     const initialState = generateInitialState(state, config);
 
     connectedStoreBuilder
-        .withInitialState(initialState)
-        .withReducers({
+        .withInitialState('connected', initialState)
+        .withReducers('connected', {
             ...generateReducersForStore<ConnectedStore>(initialState),
         })
-        .withReducers({
+        .withReducers('connected', {
             _lastAction,
         });
 

@@ -34,9 +34,11 @@ export class StoreBuilder implements IStoreBuilder {
         this.definition.name = name;
     }
 
-    withInitialState(initialState?: Json) {
-        this.definition.initialState = _merge(
-            this.definition.initialState,
+    withInitialState(appId: string, initialState?: Json) {
+        this.definition.reducers[appId] = this.definition.reducers[appId] || {};
+
+        this.definition.initialState[appId] = _merge(
+            this.definition.initialState[appId],
             initialState
         );
         return this;
@@ -52,9 +54,10 @@ export class StoreBuilder implements IStoreBuilder {
         return this;
     }
 
-    withReducers(reducers: any) {
-        this.definition.reducers = {
-            ...this.definition.reducers,
+    withReducers(appId: string, reducers: any) {
+        this.definition.reducers[appId] = this.definition.reducers[appId] || {};
+        this.definition.reducers[appId] = {
+            ...this.definition.reducers[appId],
             ...reducers,
         };
         return this;
@@ -140,9 +143,14 @@ export class StoreBuilder implements IStoreBuilder {
             this.withMiddlewares(this.sagaMiddleware);
         }
 
-        const rootReducer = combineReducers({
-            ...this.definition.reducers,
+        const appReducers: any = {};
+
+        Object.keys(this.definition.reducers).forEach((appId) => {
+            const value = this.definition.reducers[appId];
+            appReducers[appId] = combineReducers(value);
         });
+
+        const rootReducer = combineReducers(appReducers);
 
         const middlewareEnhancer = applyMiddleware(
             ...this.preMiddlewares,
@@ -179,10 +187,10 @@ export class StoreBuilder implements IStoreBuilder {
 }
 
 export interface IStoreBuilder {
-    withInitialState: (initialState?: Json) => IStoreBuilder;
+    withInitialState: (appId: string, initialState?: Json) => IStoreBuilder;
     withPreBuildHook: (callback: HookCallback) => IStoreBuilder;
     withPostBuildHook: (callback: HookCallback) => IStoreBuilder;
-    withReducers: (reducers: any) => IStoreBuilder;
+    withReducers: (appId: string, reducers: any) => IStoreBuilder;
     withMiddlewares: (middlewares: Middleware | Middleware[]) => IStoreBuilder;
     withEnhancers: (enhancers: any | any[]) => IStoreBuilder;
     withPreMiddlewares: (...middlewares: any) => IStoreBuilder;
