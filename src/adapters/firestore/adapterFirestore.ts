@@ -163,7 +163,7 @@ export class FirestoreAdapter implements Adapter {
     };
 
     PATCH = async (request: ApiRequest, response: ResponseBuilder) => {
-        const {
+        let {
             argsNodeName,
             argsApiVerb,
             argsParams,
@@ -175,14 +175,16 @@ export class FirestoreAdapter implements Adapter {
 
         let snapshotGet;
 
+        let nodeName = argsNodeName;
+
+        if (request.argsNodeType === NodeType.SINGLE_NODE) {
+            nodeName = 'singles';
+            id = argsNodeName;
+        }
+
         if (!id) {
             return Promise.resolve(false);
         }
-
-        const nodeName =
-            request.argsNodeType === NodeType.SINGLE_NODE
-                ? 'singles'
-                : argsNodeName;
 
         let ref;
 
