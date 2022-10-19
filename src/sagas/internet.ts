@@ -1,5 +1,5 @@
 import { logm } from './logger';
-import { put, takeEvery } from './_helpers';
+import { put, takeEvery } from 'saga-ts';
 
 export function* internet() {
     // checkConnection('https://www.google.com/');

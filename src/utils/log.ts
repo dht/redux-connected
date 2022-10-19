@@ -13,3 +13,19 @@ export const captureLog = (store: any) => {
         store.dispatch(action);
     };
 };
+
+const ts = () => new Date().getTime();
+const now = ts();
+export const timeDelta = () => ((ts() - now) / 1000).toFixed(3);
+
+export const logRequests = (requests: any[], id: string) => {
+    if (requests.length === 0) {
+        return;
+    }
+
+    console.log(
+        timeDelta(),
+        id,
+        requests.map((r) => r.id.substring(0, 4) + '_' + r.requestStatus)
+    );
+};

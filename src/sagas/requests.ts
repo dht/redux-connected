@@ -2,7 +2,7 @@ import * as actions from '../store/actions';
 import * as selectors from '../store/selectors';
 import globals from '../utils/globals';
 import { Action } from 'redux-store-generator';
-import { call, delay, fork, put, select, takeEvery } from './_helpers';
+import { call, delay, put, select, takeEvery, fork } from 'saga-ts';
 import { intervalChannel } from './channels/interval';
 import { ApiRequest, ConnectionStatus, ConnectionType, ApiSettings, ApiResponse, RequestStatus, RetryStrategy, SagaEvents, LifecycleStatus } from '../types'; // prettier-ignore
 import { getLiveRequests } from '../utils/liveRequest';
@@ -77,6 +77,7 @@ function* fireRequest(request: ApiRequest): any {
 
         const response: ApiResponse = yield call(adapter.fireRequest, request);
         onRequestResponse(request, response);
+
         delete runningRequests[id];
 
         // error?
@@ -181,13 +182,14 @@ function* handleIncomingRequests() {
         }
 
         const queuedRequests = yield* call(getLiveRequests, selectors.$requestsQueued); // prettier-ignore
+
         const runningRequestsCount = Object.keys(runningRequests).length;
         const availableSlots = maxConcurrentRequests - runningRequestsCount;
 
         for (let i = 0; i < availableSlots; i++) {
             const request = queuedRequests[i];
             if (request) {
-                yield fork(fireRequest, request);
+                yield* fork(fireRequest, request);
             }
         }
     } catch (err) {
@@ -229,7 +231,7 @@ export const onRequestResponse = (
 
 function* root() {
     globalSettings = yield* select(selectors.$apiGlobalSettingsRaw);
-    yield fork(listenToRequestQueue);
+    yield* fork(listenToRequestQueue);
 }
 
 export default root;

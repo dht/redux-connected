@@ -1,4 +1,4 @@
-import { select, takeEvery } from './_helpers';
+import { select, takeEvery } from 'saga-ts';
 import {  SagaEvents,  } from '../types'; // prettier-ignore
 import { selectors } from '../store/selectors';
 import { put } from 'redux-saga/effects';
@@ -32,10 +32,7 @@ function* root() {
         clearCompletedRequests
     );
 
-    yield takeEvery(
-        SagaEvents.CLEAR_FAILED_REQUESTS,
-        clearFailedRequests
-    );
+    yield takeEvery(SagaEvents.CLEAR_FAILED_REQUESTS, clearFailedRequests);
 }
 
 export default root;
