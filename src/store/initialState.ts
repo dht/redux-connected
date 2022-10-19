@@ -19,7 +19,7 @@ import {
 export const initialState: ConnectedStore = {
     apiGlobalSettings: {
         beat: 300,
-        maxConcurrentRequests: 30,
+        maxConcurrentRequests: 60,
         retryStrategy: RetryStrategy.X3_TIMES,
         delayBetweenRetries: 1000,
     },
