@@ -34,13 +34,13 @@ export class GetRequestBuilder {
     }
 
     withGetParams(getParams: GetParams) {
-        this.getParams = getParams || {};
+        this.getParams = getParams ?? {};
         return this;
     }
 
     withMergedGetParamsFilters(filterOrFilters: Filter | Filter[]) {
         this.getParams.filter = [
-            ...toArray<Filter>(this.getParams.filter || []),
+            ...toArray<Filter>(this.getParams.filter ?? []),
             ...toArray<Filter>(filterOrFilters),
         ].filter((i) => i);
 

@@ -117,7 +117,7 @@ function* onError(request: ApiRequest, response: ApiResponse) {
     );
 
     if (retry) {
-        request.apiRetriesCount = (request.apiRetriesCount || 0) + 1;
+        request.apiRetriesCount = (request.apiRetriesCount ?? 0) + 1;
         yield call(onRetry, request);
         return;
     }

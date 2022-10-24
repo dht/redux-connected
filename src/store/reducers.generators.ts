@@ -45,14 +45,14 @@ export const generateConfigReducer = <T extends Single>(configName: string) => {
             case `SET_${configName}`:
             case `PATCH_${configName}`:
                 newState = { ...state };
-                payload = action.payload || {};
+                payload = action.payload ?? {};
                 Object.keys(payload).forEach((key) => {
                     newAction = { ...action, payload: payload[key] };
                     newState[key] = config(newState[key], newAction);
                 });
                 return newState;
             default:
-                return state || {};
+                return state ?? {};
         }
     };
 
@@ -110,7 +110,7 @@ export const generateListReducer = <T extends Json>(nodeName: string) => {
             case `CLEAR_${nodeName}S`:
                 return [];
             default:
-                return state || [];
+                return state ?? [];
         }
     };
 

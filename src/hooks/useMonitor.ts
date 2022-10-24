@@ -17,7 +17,7 @@ export function useMonitor(
 ) {
     const [sequence, { inc }] = useCounter(1);
     const [readings, { push, clear }] = useList<Reading>([]);
-    const { onlyLast } = options || {};
+    const { onlyLast } = options ?? {};
 
     useStore(({ state, action }) => {
         inc();

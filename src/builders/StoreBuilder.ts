@@ -35,7 +35,7 @@ export class StoreBuilder implements IStoreBuilder {
     }
 
     withInitialState(appId: string, initialState?: Json) {
-        this.definition.reducers[appId] = this.definition.reducers[appId] || {};
+        this.definition.reducers[appId] = this.definition.reducers[appId] ?? {};
 
         this.definition.initialState[appId] = _merge(
             this.definition.initialState[appId],
@@ -55,7 +55,7 @@ export class StoreBuilder implements IStoreBuilder {
     }
 
     withReducers(appId: string, reducers: any) {
-        this.definition.reducers[appId] = this.definition.reducers[appId] || {};
+        this.definition.reducers[appId] = this.definition.reducers[appId] ?? {};
         this.definition.reducers[appId] = {
             ...this.definition.reducers[appId],
             ...reducers,

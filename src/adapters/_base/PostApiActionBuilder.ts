@@ -32,11 +32,11 @@ export class PostApiActionBuilder {
         const { argsNodeType, argsApiVerb, argsNodeName, originalAction } =
             this.apiRequest;
         const { data = {} } = this.apiResponse;
-        let { id, itemId, payload = {} } = originalAction || {};
+        let { id, itemId, payload = {} } = originalAction ?? {};
 
         let change: Json;
 
-        id = id || payload?.id;
+        id = id ?? payload?.id;
 
         const actionBag = this.actions[argsNodeName];
 

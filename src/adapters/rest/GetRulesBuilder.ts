@@ -49,7 +49,7 @@ export const rules: GetRequestBuilderRules = {
             (output: any, order) => {
                 if (order.field) {
                     output._sort.push(order.field);
-                    output._order.push(order.order || 'asc');
+                    output._order.push(order.order ?? 'asc');
                 }
                 return output;
             },

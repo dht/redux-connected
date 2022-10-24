@@ -286,7 +286,7 @@ export class FirestoreAdapter implements Adapter {
                 case NodeType.COLLECTION_NODE:
                     return itemsToObject(
                         data,
-                        request.argsParams?.page || 1,
+                        request.argsParams?.page ?? 1,
                         request.argsParams?.limit
                     );
                 case NodeType.GROUPED_LIST_NODE:
@@ -296,7 +296,7 @@ export class FirestoreAdapter implements Adapter {
 
                     return itemsToObject(
                         data,
-                        request.argsParams?.page || 1,
+                        request.argsParams?.page ?? 1,
                         request.argsParams?.limit
                     );
                 default:
