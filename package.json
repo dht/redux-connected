@@ -19,7 +19,7 @@
         "redux-store-generator": "^0.9.87",
         "reselect": "^4.1.6",
         "saga-ts": "^0.0.3",
-        "shared-base": "^0.0.18",
+        "shared-base": "^0.0.20",
         "socket.io-client": "^4.5.1"
     },
     "devDependencies": {
