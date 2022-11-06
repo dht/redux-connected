@@ -22,7 +22,7 @@ export interface IReduxConnectedConfig {
 export enum ConnectionType {
     NONE = 'NONE',
     REST = 'REST',
-    FIRESTORE = 'FIRESTORE',
+    FIRESTORE = 'REST',
 }
 
 export enum ConnectionStatus {
