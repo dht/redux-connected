@@ -1,6 +1,6 @@
 import createSagaMiddleware from 'redux-saga';
 import { composeWithDevTools } from '@redux-devtools/extension';
-import { merge as _merge } from 'lodash';
+import _merge from 'lodash/merge';
 import {
     applyMiddleware,
     combineReducers,
