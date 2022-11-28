@@ -39,7 +39,7 @@ export class StoreBuilder implements IStoreBuilder {
 
         this.definition.initialState[appId] = _merge(
             this.definition.initialState[appId],
-            initialState
+            initialState ?? {}
         );
         return this;
     }
