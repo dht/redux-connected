@@ -5,6 +5,8 @@ import { externals } from 'shared-base';
 import analyze from 'rollup-plugin-analyzer';
 import p from './package.json';
 
+const ANALYZE_BUNDLE = false;
+
 export default defineConfig({
     plugins: [dts({})],
     build: {
@@ -16,7 +18,7 @@ export default defineConfig({
             fileName: (format) => `redux-connected.${format}.js`,
         },
         rollupOptions: {
-            plugins: [analyze()],
+            plugins: [ANALYZE_BUNDLE ? analyze() : null],
             ...externals({
                 react: '',
                 ...p.dependencies,
