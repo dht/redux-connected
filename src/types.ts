@@ -14,6 +14,7 @@ export interface IReduxConnectedConfig {
     adapters: {
         rest?: any;
         firestore?: any;
+        localStorage?: any;
     };
     enableReduxDevtools?: boolean;
     logger?: (message: string, data?: Json) => void;
@@ -23,6 +24,7 @@ export enum ConnectionType {
     NONE = 'NONE',
     REST = 'REST',
     FIRESTORE = 'FIRESTORE',
+    LOCAL_STORAGE = 'LOCAL_STORAGE',
 }
 
 export enum ConnectionStatus {
@@ -286,3 +288,5 @@ export interface StoreDefinition {
 }
 
 export type Log = any;
+
+export type Json = Record<string, any>;

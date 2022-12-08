@@ -42,6 +42,9 @@ function* fireRequest(request: ApiRequest): any {
             case ConnectionType.FIRESTORE:
                 adapter = globals.adapters?.firestore;
                 break;
+            case ConnectionType.LOCAL_STORAGE:
+                adapter = globals.adapters?.localStorage;
+                break;
         }
 
         if (!adapter) {

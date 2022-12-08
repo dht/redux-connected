@@ -6,6 +6,7 @@ export type {
 export { ConnectionType, RetryStrategy } from './types';
 export { RestAdapter } from './adapters/rest/adapterRest';
 export { FirestoreAdapter } from './adapters/firestore/adapterFirestore';
+export { LocalStorageAdapter } from './adapters/localStorage/adapterLocalStorage';
 export { StoreBuilder } from './builders/StoreBuilder';
 export { initReduxConnected } from './init';
 export { generateConnectedStoreEmpty } from './store/store';
