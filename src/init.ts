@@ -4,6 +4,7 @@ import { generateConnectedStore } from './store/store';
 import { StoreBuilder } from './builders/StoreBuilder';
 import { StoreStructure } from 'redux-store-generator';
 import type { IReduxConnectedConfig } from './types';
+import { RestAdapter } from './adapters/rest/adapterRest';
 
 let DEBUG = false;
 
@@ -21,6 +22,13 @@ export const initReduxConnected = <T extends StoreStructure>(
         logger('redux-connected: postBuildHook');
         return initConnectedStore<T>(config, store);
     });
+};
+
+export const registerRestAdapter = (
+    adapterId: string,
+    adapter: RestAdapter
+) => {
+    globals.adapters[`REST_${adapterId}`] = adapter;
 };
 
 const initConnectedStore = <T extends StoreStructure>(

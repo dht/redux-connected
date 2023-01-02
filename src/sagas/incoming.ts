@@ -29,7 +29,9 @@ function* incoming(action: ActionWithPromise) {
 
         const { nodeName, verb } = apiInfo;
         const config = configs[nodeName];
-        const { connectionType, optimistic, optimisticPosts } = config;
+
+        const { connectionType, optimistic, optimisticPosts, adapterId } =
+            config;
 
         const nodeTypes = yield* select(selectors.$nodeTypesRaw);
 
@@ -50,6 +52,7 @@ function* incoming(action: ActionWithPromise) {
             .withOriginalAction(action)
             .withOptimistic(optimistic)
             .withOptimisticPosts(optimisticPosts)
+            .withAdapterId(adapterId)
             .build();
 
         yield put(actions.requests.set(request.id, request));

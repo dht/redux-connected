@@ -82,6 +82,7 @@ export interface EndpointConfig {
     nodeType?: NodeType;
     optimistic?: boolean;
     optimisticPosts?: boolean;
+    adapterId?: string;
 }
 
 export interface EndpointState {
@@ -164,6 +165,7 @@ export type ApiRequest = {
     reject?: any;
     optimistic?: boolean;
     optimisticPosts?: boolean;
+    adapterId?: string;
 };
 
 export type ApiRequests = Record<string, ApiRequest>;

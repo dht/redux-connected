@@ -37,7 +37,12 @@ function* fireRequest(request: ApiRequest): any {
 
         switch (request.argsConnectionType) {
             case ConnectionType.REST:
-                adapter = globals.adapters?.rest;
+                const { adapterId } = request;
+
+                adapter = adapterId
+                    ? globals.adapters[`REST_${adapterId}`]
+                    : globals.adapters?.rest;
+
                 break;
             case ConnectionType.FIRESTORE:
                 adapter = globals.adapters?.firestore;

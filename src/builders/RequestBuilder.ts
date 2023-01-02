@@ -29,6 +29,11 @@ export class RequestBuilder {
         return this;
     }
 
+    withAdapterId(adapterId?: string) {
+        this.output.adapterId = adapterId;
+        return this;
+    }
+
     withNodeName(value: string) {
         this.output.argsNodeName = value;
         return this;

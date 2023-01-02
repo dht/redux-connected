@@ -12,7 +12,7 @@ export { initReduxConnected } from './init';
 export { generateConnectedStoreEmpty } from './store/store';
 export { selectors as connectedSelectors } from './store/selectors';
 export { actions as connectedActions } from './store/actions';
-export { getConnectedStore } from './init';
+export { getConnectedStore, registerRestAdapter } from './init';
 export type { ApiRequest, JourneyPoint } from './types';
 export { LifecycleStatus } from './types';
 export { clearCompletedRequests, clearFailedRequests } from './store/actions';
