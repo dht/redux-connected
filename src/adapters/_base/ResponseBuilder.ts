@@ -67,6 +67,11 @@ export class ResponseBuilder {
         return this;
     }
 
+    withStopPropagation(value: boolean) {
+        this.output.stopPropagation = value;
+        return this;
+    }
+
     build(): ApiResponse {
         this.transformers.forEach((transformer) => {
             if (Array.isArray(this.output.data)) {

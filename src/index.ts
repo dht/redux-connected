@@ -7,6 +7,7 @@ export { ConnectionType, RetryStrategy } from './types';
 export { RestAdapter } from './adapters/rest/adapterRest';
 export { FirestoreAdapter } from './adapters/firestore/adapterFirestore';
 export { LocalStorageAdapter } from './adapters/localStorage/adapterLocalStorage';
+export { IndexedDbAdapter } from './adapters/indexedDb/adapterIndexedDb';
 export { StoreBuilder } from './builders/StoreBuilder';
 export { initReduxConnected } from './init';
 export { generateConnectedStoreEmpty } from './store/store';

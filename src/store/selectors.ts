@@ -6,6 +6,7 @@ import {
     RequestStatus,
 } from '../types';
 
+export const $all = (i: any) => i as { connected: ConnectedStore };
 export const $i = (i: { connected: ConnectedStore }) => i.connected;
 
 export const $actionTypesRaw = createSelector($i, (state: ConnectedStore) => state.actionTypes); // prettier-ignore
@@ -78,6 +79,7 @@ export const $requestsFailed = createSelector(
 );
 
 export const selectors = {
+    $all,
     $actionTypesRaw,
     $apiGlobalSettingsRaw,
     $apiGlobalStatsRaw,

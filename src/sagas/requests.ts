@@ -21,6 +21,9 @@ export function addRequest(request: ApiRequest): Action {
 
 function* fireRequest(request: ApiRequest): any {
     try {
+        const { config, adapters = {} } = globals;
+        const { clientCaching = {} } = config;
+
         const { id, argsNodeName } = request;
 
         runningRequests[id] = request;
@@ -40,15 +43,15 @@ function* fireRequest(request: ApiRequest): any {
                 const { adapterId } = request;
 
                 adapter = adapterId
-                    ? globals.adapters[`REST_${adapterId}`]
-                    : globals.adapters?.rest;
+                    ? adapters[`REST_${adapterId}`]
+                    : adapters.rest;
 
                 break;
             case ConnectionType.FIRESTORE:
-                adapter = globals.adapters?.firestore;
+                adapter = adapters.firestore;
                 break;
             case ConnectionType.LOCAL_STORAGE:
-                adapter = globals.adapters?.localStorage;
+                adapter = adapters.localStorage;
                 break;
         }
 
@@ -83,7 +86,18 @@ function* fireRequest(request: ApiRequest): any {
             )
         );
 
-        const response: ApiResponse = yield call(adapter.fireRequest, request);
+        // =========== FIRE REQUEST ===========
+        let response: ApiResponse;
+
+        if (clientCaching.enabled) {
+            const indexedDbAdapter = adapters.indexedDb;
+            yield call(indexedDbAdapter.fireRequest, request);
+        }
+
+        response = yield call(adapter.fireRequest, request);
+
+        // =========== HANDLE RESPONSE ===========
+
         onRequestResponse(request, response);
 
         delete runningRequests[id];
@@ -141,10 +155,10 @@ function* onError(request: ApiRequest, response: ApiResponse) {
 function* shouldRetry(request: ApiRequest) {
     let output = false;
 
-    const configs = yield* select(selectors.$endpointsConfigRaw);
-    const config = configs[request.argsNodeName];
+    const endpointsConfigs = yield* select(selectors.$endpointsConfigRaw);
+    const endpointConfig = endpointsConfigs[request.argsNodeName];
 
-    const { retryStrategy = globalSettings.retryStrategy } = config;
+    const { retryStrategy = globalSettings.retryStrategy } = endpointConfig;
     const { apiRetriesCount = 0 } = request;
 
     switch (retryStrategy) {

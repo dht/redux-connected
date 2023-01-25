@@ -9,6 +9,7 @@ import {
     Middleware,
 } from 'redux';
 import { StoreDefinition } from '../types';
+import { analyzeStructure } from 'redux-store-generator';
 
 type HookCallback = (store: any) => void;
 
@@ -184,6 +185,20 @@ export class StoreBuilder implements IStoreBuilder {
 
         return store;
     }
+
+    getStructure() {
+        let output = {};
+
+        Object.values(this.definition.initialState).forEach((group: any) => {
+            const nodeTypes = analyzeStructure(group);
+            output = {
+                ...output,
+                ...nodeTypes,
+            };
+        });
+
+        return output;
+    }
 }
 
 export interface IStoreBuilder {
@@ -201,4 +216,5 @@ export interface IStoreBuilder {
     clearSagas: () => IStoreBuilder;
     withDevtoolsExtensions: (enable?: boolean) => IStoreBuilder;
     build<T = any>(): T;
+    getStructure: () => Json;
 }

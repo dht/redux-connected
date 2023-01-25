@@ -1,13 +1,17 @@
+import { IReduxConnectedConfig } from '../types';
+
 const globals: any = {
     mainStore: null,
     connectedStore: null,
     structure: null,
     adapters: null,
+    config: null,
 } as {
     mainStore: any;
     connectedStore: any;
     structure: any;
     adapters: any;
+    config: IReduxConnectedConfig | null;
 };
 
 const accessors = {
@@ -34,6 +38,12 @@ const accessors = {
     },
     get adapters() {
         return globals.adapters;
+    },
+    set config(value: any) {
+        globals.config = value;
+    },
+    get config() {
+        return globals.config;
     },
 };
 

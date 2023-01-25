@@ -15,6 +15,9 @@ export class RequestBuilder {
         items: [],
         optimistic: false,
         optimisticPosts: false,
+        optimisticCurrent: false,
+        isSilent: false,
+        isLocalSet: false,
     };
 
     constructor() {
@@ -70,9 +73,17 @@ export class RequestBuilder {
         this.output.reject = value.reject;
         this.output.resourceId = value.id;
         this.output.resourceItemId = value.itemId;
-
+        this.output.isSilent = value.silent;
         this.output.argsParams = value.payload;
+        this.output.echo = value.echo;
         return this;
+    }
+
+    isLocalSet() {
+        const { originalAction } = this.output;
+        const { type = '' } = originalAction || {};
+
+        return type.includes('SET_MANY');
     }
 
     build(): ApiRequest {
@@ -86,6 +97,8 @@ export class RequestBuilder {
 
         const { argsNodeName, resourceId, resourceItemId, argsApiVerb } =
             this.output;
+
+        this.output.isLocalSet = this.isLocalSet();
 
         switch (argsApiVerb) {
             case 'get':

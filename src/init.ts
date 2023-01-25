@@ -1,5 +1,6 @@
 import globals from './utils/globals';
 import { connectedMiddleware } from './middlewares/midConnected';
+import { cacheMiddleware } from './middlewares/midCache';
 import { generateConnectedStore } from './store/store';
 import { StoreBuilder } from './builders/StoreBuilder';
 import { StoreStructure } from 'redux-store-generator';
@@ -17,6 +18,10 @@ export const initReduxConnected = <T extends StoreStructure>(
     logger('redux-connected: init');
 
     storeBuilder.withMiddlewares([connectedMiddleware]);
+
+    if (config.clientCaching?.enabled) {
+        storeBuilder.withMiddlewares([cacheMiddleware]);
+    }
 
     storeBuilder.withPostBuildHook((store: any) => {
         logger('redux-connected: postBuildHook');
@@ -44,6 +49,7 @@ const initConnectedStore = <T extends StoreStructure>(
     globals.mainStore = store;
     globals.adapters = config.adapters;
     globals.structure = state;
+    globals.config = config;
 
     globals.connectedStore = generateConnectedStore<T>(state, config);
 

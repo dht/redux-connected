@@ -15,6 +15,11 @@ export interface IReduxConnectedConfig {
         rest?: any;
         firestore?: any;
         localStorage?: any;
+        indexedDb?: any;
+    };
+    clientCaching?: {
+        enabled: boolean;
+        flavour: 'indexedDb';
     };
     enableReduxDevtools?: boolean;
     logger?: (message: string, data?: Json) => void;
@@ -165,7 +170,11 @@ export type ApiRequest = {
     reject?: any;
     optimistic?: boolean;
     optimisticPosts?: boolean;
+    optimisticCurrent?: boolean;
     adapterId?: string;
+    isSilent?: boolean;
+    isLocalSet?: boolean;
+    echo?: boolean;
 };
 
 export type ApiRequests = Record<string, ApiRequest>;
@@ -194,6 +203,7 @@ export type ApiResponse = {
     headers: Json;
     errorType?: ApiErrorType;
     errorMessage?: string;
+    stopPropagation?: boolean;
 };
 
 export type ActionWithPayload<T> = Action & {
@@ -292,3 +302,18 @@ export interface StoreDefinition {
 export type Log = any;
 
 export type Json = Record<string, any>;
+
+export interface ILocalDb {
+    dispatch: any;
+    run: () => Promise<void>;
+    actionTypeToNodeName: (actionType: string) => string;
+    structureToStoreDefinitions: (structure: any) => Json;
+    structureToActionTypes: (structure: any) => Json;
+    dispatchSetMany: (nodeName: string, data: Json) => void;
+    get: (key: string, id: string) => Promise<Json>;
+    set: (key: string, id: string, change: Json) => Promise<void>;
+    getMany: (key: string) => Promise<Json[]>;
+    setMany: (key: string, data: Json[]) => Promise<void>;
+    delete: (key: string, id: string) => Promise<void>;
+    bulkDelete: (key: string, ids: string[]) => Promise<void>;
+}
